@@ -1,9 +1,11 @@
-import React, { useState,useEffect,  } from "react";
-   
+import React, { useState, useEffect, useContext } from "react";
+import { LoginContext } from "../../context/loginContext";
+
 
 function Navbar() {
   const [toggle, setToggle] = useState(false);
   const [show, handleShow] = useState(false);
+  const { showLog, setShowlog } = useContext(LoginContext);
   const transitionNavBar = () => {
     if (window.scrollY > 100) {
       handleShow(true);
@@ -19,8 +21,12 @@ function Navbar() {
     };
   }, []);
   return (
-    <div >
-      <nav className={`fixed  w-full  ${show ?   "bg-secondory/70" : "bg-transparent"} `}>
+    <div>
+      <nav
+        className={`fixed  w-full  ${
+          show ? "bg-secondory/70" : "bg-transparent"
+        } `}
+      >
         <div className="flex items-center justify-between">
           <img
             className="w-14 md:w-24 ml-5 hover:cursor-pointer"
@@ -35,12 +41,14 @@ function Navbar() {
               <h3 className="mr-3 font-sans font-semibold text-base  text-gray-500 hover:cursor-pointer  hover:text-gray-800 ">
                 Community
               </h3>
-              <h3 className="mr-3 font-sans font-semibold  text-gray-500 hover:cursor-pointer  hover:text-gray-800   " >
+              <h3
+                className="mr-3 font-sans font-semibold  text-gray-500 hover:cursor-pointer  hover:text-gray-800   "
+                onClick={() => setShowlog(!showLog)}
+              >
                 Login
               </h3>
             </div>
             <div className="flex">
-             
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -117,7 +125,7 @@ function Navbar() {
             </svg>
           </button>
         </div>
-        <div className={`md:hidden flex-col  ${toggle ? "flex" : "hidden"}`}>
+        <div className={` md:hidden flex-col  ${toggle ? "flex " : "hidden"}`}>
           <ul className="text-start ml-10 pt-5">
             <li className="flex pb-3 font-sans font-semibold text-base  text-gray-500 hover:cursor-pointer hover:text-gray-800">
               <svg
@@ -153,7 +161,7 @@ function Navbar() {
               </svg>
               Community
             </li>
-            <li className="flex pb-3 font-sans font-semibold text-base  text-gray-500 hover:cursor-pointer hover:text-gray-800">
+            <li className="flex pb-3 font-sans font-semibold text-base  text-gray-500 hover:cursor-pointer hover:text-gray-800"  onClick={() => {setShowlog(!showLog ) ;setToggle(!toggle);}}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -170,7 +178,7 @@ function Navbar() {
               </svg>
               Login
             </li>
-            
+
             <li className="flex pb-3 font-sans font-semibold text-base  text-gray-500 hover:cursor-pointer hover:text-gray-800">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
