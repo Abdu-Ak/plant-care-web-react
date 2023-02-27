@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 function Sidebar() {
-  const [showbar, setShowbar] = useState(true);
+  const [showbar, setShowbar] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -21,7 +21,7 @@ function Sidebar() {
                   setShowbar(!showbar);
                 }}
                 type="button"
-                className="inline-flex items-center p-3 text-sm text-gray-500 rounded-lg  hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                className="inline-flex md:hidden items-center p-3 text-sm text-gray-500 rounded-lg  hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
               >
                 <span className="sr-only">Open sidebar</span>
                 <svg
@@ -59,7 +59,7 @@ function Sidebar() {
         id="logo-sidebar"
         className={` ${
           showbar ? "flex" : "hidden"
-        } fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform  bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-third dark:border-gray-700`}
+        }    fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform md:flex bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-third dark:border-gray-700`}
         aria-label="Sidebar"
       >
         <div className="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-third">
@@ -124,7 +124,10 @@ function Sidebar() {
               </a>
             </li>
             <li>
-              <Link to={'/admin/usermanage'} className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+              <Link
+                to={"/admin/usermanage"}
+                className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
                 <svg
                   aria-hidden="true"
                   className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"

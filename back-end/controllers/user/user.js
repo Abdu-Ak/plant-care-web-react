@@ -37,31 +37,42 @@ module.exports={
        
         userdetails.findOne({email : email}).then((user)=>{
             if (user) {
-               bcrypt.compare(password , user.password).then((match)=>{
-                if (match) {
-                    let payload = {
-                        id : user._id,
-                        email : user.email
-                    }
-                    jwt.sign (
-                        payload,
-                        process.env.JWT_SECRET,
-                        {
-                            expiresIn : 3600
-                        },
-                        (err,token)=>{
-                            if (err) {
-                                console.log(err);
-                            } else {
-                               res.send({logged:true,token : `Bearer ${token}`,})  
+                 if (user.isBlock) {
+                    res.send({err:"You were Blocked by Admin..!"})
+                 } else {
+                   
+                    bcrypt.compare(password , user.password).then((match)=>{
+                        if (match) {
+                           userdetails.findByIdAndUpdate({_id : user.id},{status : "online" }).then((result)=>{
+                            if (result) {
+                                
+                                let payload = {
+                                    id : user._id,
+                                    email : user.email
+                                }
+                                jwt.sign (
+                                    payload,
+                                    process.env.JWT_SECRET,
+                                    {
+                                        expiresIn : 3600
+                                    },
+                                    (err,token)=>{
+                                        if (err) {
+                                            console.log(err);
+                                        } else {
+                                           
+                                           res.send({logged:true,token:`Bearer ${token}`})  
+                                           
+                                        }
+                                    }
+                                )
                             }
+                           })
+                        } else {
+                            res.send({err:"Invalid password ...!"}) 
                         }
-                    )
-
-                } else {
-                    res.send({err:"Invalid password ...!"}) 
-                }
-               }) 
+                       }) 
+                 }
             } else {
                 res.send({err:"Invalid email ...!"}) 
             }
@@ -72,29 +83,39 @@ module.exports={
         const {username,email,image}=req.body
         userdetails.findOne({email:email}).then((user)=>{
             if (user) {
-                let payload = {
-                    id : user._id,
-                    email : user.email
-                }
-                jwt.sign (
-                    payload,
-                    process.env.JWT_SECRET,
-                    {
-                        expiresIn : 3600
-                    },
-                    (err,token)=>{
-                        if (err) {
-                            console.log(err);
-                        } else {
-                           res.send({logged:true,token : `Bearer ${token}`,})  
+                if (user.isBlock) {
+                    res.send({err:"You were Blocked by Admin..!"}) 
+                } else {
+                    userdetails.findByIdAndUpdate({_id : user.id},{status : "online"}).then((result)=>{
+                        if (result) {
+                            let payload = {
+                                id : user._id,
+                                email : user.email
+                            }
+                            jwt.sign (
+                                payload,
+                                process.env.JWT_SECRET,
+                                {
+                                    expiresIn : 3600
+                                },
+                                (err,token)=>{
+                                    if (err) {
+                                        console.log(err);
+                                    } else {
+                                       res.send({logged:true,token : `Bearer ${token}`,})  
+                                    }
+                                }
+                            )
                         }
-                    }
-                )
+                    })
+                }
+        
             } else {
                 userdetails.create({
                     username : username,
                     email:email,
-                    image:image
+                    image:image,
+                    status: "online"
                 }).then((user)=>{
                     if (user) {
                         let payload = {
@@ -118,6 +139,16 @@ module.exports={
                     }
                 })
             }
+        })
+    },
+
+    logOut : (req,res)=>{
+        const id = req.id
+        
+        userdetails.updateOne({_id: id},{$set :{status:"offline"}}).then((user)=>{
+           if(user){
+             res.send({logout:true})
+           }
         })
     }
 

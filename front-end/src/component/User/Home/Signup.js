@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../../axios"
 import React, { useState } from "react";
 
 function Signup(props) {
@@ -31,7 +31,7 @@ function Signup(props) {
     validate();
 
     if (errors === "") {
-      axios.post("http://localhost:8000/signup", {
+      axios.post("/signup", {
         email: email,
         password: password,
       }).then((response)=>{

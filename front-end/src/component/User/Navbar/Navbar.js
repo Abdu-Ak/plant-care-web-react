@@ -1,3 +1,4 @@
+import axios from "../../../axios"
 import React, { useState, useEffect, useContext } from "react";
 import { LoginContext } from "../../../context/loginContext";
 
@@ -16,8 +17,15 @@ function Navbar() {
   };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const logOut = () =>{
-    localStorage.removeItem("token")
-    window.location= "/";
+    axios.get("/logout").then((res)=>{
+   if(res.data.logout){
+  
+      localStorage.removeItem("token")
+      window.location= "/";
+   }
+     
+    })
+  
   }
   
   useEffect(() => {

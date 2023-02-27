@@ -1,16 +1,22 @@
 import React from 'react'
 import Sidebar from '../../component/Admin/sidebar/Sidebar'
-import UserManage from '../../component/Admin/usermanage.js/UserManage'
+import UserManage from '../../component/Admin/usermanage/UserManage'
 
 function AdminUser() {
   return (
     <div>
     
-        <Sidebar/>
-       
-        <div className='sm:p-3  p-32'>
+     <div >
+      
+     <Sidebar/>
+        <div className='py-24 p-5  md:p-32 md:ml-40 '>
         <UserManage/>
+ 
         </div>
+         
+      
+     </div>
+
         
     </div>
   )

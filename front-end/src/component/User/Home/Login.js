@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState, } from "react";
 import jwt_decode from "jwt-decode";
-import axios from "axios";
+import axios from "../../../axios";
 import { LoginContext } from "../../../context/loginContext"; 
 
 import Signup from "./Signup";
@@ -27,15 +27,13 @@ function Login() {
     e.preventDefault();
     validate();
     if (!errors) {
-      axios.post("http://localhost:8000/login",{
+      axios.post("/login",{
         email : email,
         password: password
       }).then((res)=>{
-      
         if (res.data.err) {
           setErrors(res.data.err)
         } else if(res.data.logged) {
-
           localStorage.setItem("token",res.data.token)
           setShowlog(false)
         
@@ -62,6 +60,8 @@ const handleGoogle = async (response) => {
         localStorage.setItem("token",res.data.token)
         setShowlog(false)
       
+      }else if (res.data.err) {
+        setErrors(res.data.err)
       }
     });
 };

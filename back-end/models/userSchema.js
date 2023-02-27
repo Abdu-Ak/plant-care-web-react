@@ -17,15 +17,20 @@ const UserSchema = new Schema({
         type:String,
       
     },
-    phone:{
-        type:Number,
-        
-    },
     image: 
     {
       type:String
       
-    }
+    },
+    status:
+    {
+        type:String
+     },
+     isBlock :
+     {
+        type:Boolean,
+        default:false
+     }
 });
 
 const userdetails = mongoose.model('userdetails',UserSchema);

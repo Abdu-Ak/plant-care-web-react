@@ -1,12 +1,12 @@
-import axios from "axios";
-import React, { useState } from "react";
-import {  useNavigate } from "react-router-dom";
+/* eslint-disable react-hooks/exhaustive-deps */
+import axios from "../../../axios";
+import React, {  useState } from "react";
+
 
 function AdminLogin() {
 const [username,setUsername]= useState("")
 const [password,setPassword]= useState("")
 const [errors, setErrors] = useState("");
-const Navigate = useNavigate()
 
 const handleSubmit = (e)=>{
   e.preventDefault();
@@ -19,11 +19,13 @@ const handleSubmit = (e)=>{
       setErrors(res.data.err)
     }else if(res.data.logged){
       localStorage.setItem("token" ,res.data.token )
-      Navigate('/admin/dashboard')
+      window.location="/admin/dashboard"
     }
   })
 
 }
+
+
 
   return (
     <div>
