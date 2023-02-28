@@ -1,7 +1,8 @@
 import React from "react";
-import CarouselBackground from "./carousel";
+import Carousel from "./Carousel";
 
 import Login from "./Login";
+import Posts from "./Posts";
 function Home() {
 
   return (
@@ -10,7 +11,10 @@ function Home() {
        <div className="fixed  top-28 left-10 md:left-80 lg:left-2/4 w-full  ">
         <Login />
         </div>
-        <CarouselBackground/>
+        <Carousel/>
+      </div>
+      <div>
+        <Posts/>
       </div>
         
     </div>

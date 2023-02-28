@@ -10,7 +10,9 @@ module.exports = {
       secondory: "#F8F4EB", 
       third :"#0E2326"   
     },
-    
+    fontFamily :{
+      philosephor : ['Philosopher', 'sans-serif']
+    }
   },
   },
   plugins: [],

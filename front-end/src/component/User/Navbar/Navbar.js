@@ -35,8 +35,8 @@ function Navbar() {
   return (
     <div>
       <nav
-        className={`fixed  w-full  ${
-          show ? "bg-secondory/70" : "bg-transparent"
+        className={`fixed  z-50 w-full  ${
+          show ? "bg-third/40" : "bg-transparent"
         } `}
       >
         <div className="flex items-center justify-between ">
