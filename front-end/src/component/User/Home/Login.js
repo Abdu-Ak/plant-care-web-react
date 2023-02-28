@@ -91,7 +91,7 @@ const handleGoogle = async (response) => {
   return (
     <div>
       {showLog ? (
-        <div className=" bottom-0 lg:left-0 p-3 rounded-md  overflow-y-auto text-center  bg-primary/50 w-10/12 md:w-2/4 lg:w-1/4 top-0">
+        <div className=" bottom-0 lg:left-0 p-3 rounded-md  overflow-y-auto text-center  bg-primary w-10/12 md:w-2/4 lg:w-1/4 top-0">
           <div className="bg-secondory/50 rounded-lg flex flex-col items-center justify-center pt-5 pb-5">
             <div className="flex justify-end w-full pr-3">
               <svg
@@ -175,8 +175,8 @@ const handleGoogle = async (response) => {
                     </button>
                   </div>
                 </form>
-                <div className="p-5 border-t-2 w-full border-primary">
-        <button ref={signBtn}>Sigup with Google</button>
+                <div className="p-5 flex justify-center border-t-2 w-full border-primary">
+        <button  ref={signBtn}>Sigup with Google</button>
       </div>
               </div>
             ) : (

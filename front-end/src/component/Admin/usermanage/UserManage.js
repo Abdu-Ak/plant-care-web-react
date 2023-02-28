@@ -16,8 +16,8 @@ function UserManage() {
       if (res.data.userdata) {
         setUsers(res.data.userdata);
       }
-    });
-  });
+    })
+  })
 
   return (
     <div>

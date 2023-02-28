@@ -1,7 +1,6 @@
-import axios from "../../../axios"
+import axios from "../../../axios";
 import React, { useState, useEffect, useContext } from "react";
 import { LoginContext } from "../../../context/loginContext";
-
 
 function Navbar() {
   const [toggle, setToggle] = useState(false);
@@ -16,18 +15,16 @@ function Navbar() {
     }
   };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const logOut = () =>{
-    axios.get("/logout").then((res)=>{
-   if(res.data.logout){
-  
-      localStorage.removeItem("token")
-      window.location= "/";
-   }
-     
-    })
-  
-  }
-  
+  const handleLogout = () => {
+    console.log("dfzdfsd");
+    axios.get("http://localhost:8000/logout").then((res) => {
+      if (res.data.logout) {
+        localStorage.removeItem("token");
+        window.location = "/";
+      }
+    });
+  };
+
   useEffect(() => {
     window.addEventListener("scroll", transitionNavBar);
 
@@ -42,76 +39,79 @@ function Navbar() {
           show ? "bg-secondory/70" : "bg-transparent"
         } `}
       >
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between ">
           <img
-            className="w-14 md:w-24 ml-5 hover:cursor-pointer"
-            src="/images/nav-logo.png"
+            className="w-14 md:w-24 ml-5 p-2  hover:cursor-pointer"
+            src="/images/logo.png"
             alt="nav_logo"
           />
           <div className="hidden md:flex  ">
             <div className="flex items-center mr-14 ">
-              <h3 className="mr-3 font-sans font-semibold text-base text-gray-500 hover:cursor-pointer hover:text-gray-800 ">
+              <h3 className="mr-3 font-sans font-semibold text-base text-primary hover:cursor-pointer hover:text-gray-500 ">
                 About Us
               </h3>
-              <h3 className="mr-3 font-sans font-semibold text-base  text-gray-500 hover:cursor-pointer  hover:text-gray-800 ">
+              <h3 className="mr-3 font-sans font-semibold text-base  text-primary hover:cursor-pointer  hover:text-gray-500 ">
                 Community
               </h3>
               {token ? (
-                <h3 className="mr-3 font-sans font-semibold  text-gray-500 hover:cursor-pointer  hover:text-gray-800   "
-                onClick={logOut}
+                <h3
+                  className="mr-3 font-sans font-semibold  text-primary hover:cursor-pointer  hover:text-gray-500   "
+                  onClick={handleLogout}
                 >
                   Logout
                 </h3>
               ) : (
                 <h3
-                  className="mr-3 font-sans font-semibold  text-gray-500 hover:cursor-pointer  hover:text-gray-800   "
+                  className="mr-3 font-sans font-semibold  text-primary hover:cursor-pointer  hover:text-gray-500   "
                   onClick={() => setShowlog(!showLog)}
                 >
                   Login
                 </h3>
               )}
             </div>
-            {token && (<div className="flex">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6   text-gray-500 hover:cursor-pointer hover:text-gray-700"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
-                />
-              </svg>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6 ml-3  text-gray-500 hover:cursor-pointer hover:text-gray-700"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-              </svg>
-            </div>)}
+            {token && (
+              <div className="flex">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6   text-primary hover:cursor-pointer hover:text-gray-500"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
+                  />
+                </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6 ml-3  text-primary hover:cursor-pointer hover:text-gray-500"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                </svg>
+              </div>
+            )}
           </div>
 
           <div className="hidden md:flex pr-10">
             <form action="" className="relative mx-auto w-max ">
               <input
                 type="search"
-                className="peer  cursor-pointer relative z-10 h-8 w-8 rounded-full border bg-transparent pl-12 outline-none focus:w-full focus:cursor-text focus:border-gray-500 focus:pl-16 focus:pr-4"
+                className="peer  cursor-pointer relative z-10 h-8 w-8 rounded-full border text-primary bg-transparent pl-12 outline-none focus:w-full focus:cursor-text focus:border-primary focus:pl-16 focus:pr-4"
               />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="absolute  inset-y-0 my-auto h-8 w-12 border-r border-transparent stroke-gray-500 px-3.5 peer-focus:border-gray-500 peer-focus:stroke-gray-500"
+                className="absolute  inset-y-0 my-auto h-8 w-12 border-r border-transparent stroke-primary px-3.5 peer-focus:border-primary peer-focus:stroke-primary"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -127,7 +127,7 @@ function Navbar() {
           </div>
           <button
             className="md:hidden w-7 h-7  hover:border-2
-        border-gray-300 rounded-sm mr-10 "
+        border-third rounded-sm mr-10 "
             onClick={() => {
               setToggle(!toggle);
             }}
@@ -138,7 +138,7 @@ function Navbar() {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className=" w-6 h-6   text-gray-700"
+              className=" w-6 h-6   text-primary"
             >
               <path
                 strokeLinecap="round"
@@ -150,7 +150,7 @@ function Navbar() {
         </div>
         <div className={` md:hidden flex-col  ${toggle ? "flex " : "hidden"}`}>
           <ul className="text-start ml-10 pt-5">
-            <li className="flex pb-3 font-sans font-semibold text-base  text-gray-500 hover:cursor-pointer hover:text-gray-800">
+            <li className="flex pb-3 font-sans font-semibold text-base  text-primary hover:cursor-pointer hover:text-gray-500">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -167,7 +167,7 @@ function Navbar() {
               </svg>
               About Us
             </li>
-            <li className="flex pb-3 font-sans font-semibold text-base  text-gray-500 hover:cursor-pointer hover:text-gray-800">
+            <li className="flex pb-3 font-sans font-semibold text-base  text-primary hover:cursor-pointer hover:text-gray-500">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -184,31 +184,53 @@ function Navbar() {
               </svg>
               Community
             </li>
-            <li
-              className="flex pb-3 font-sans font-semibold text-base  text-gray-500 hover:cursor-pointer hover:text-gray-800"
-              onClick={() => {
-                setShowlog(!showLog);
-                setToggle(!toggle);
-              }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6 mr-1"
+            {token ? (
+              <li className="flex pb-3 font-sans font-semibold text-base  text-primary hover:cursor-pointer hover:text-gray-500"
+              onClick={handleLogout}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"
-                />
-              </svg>
-              Login
-            </li>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6 mr-1"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
+                  />
+                </svg>
+                Logout
+              </li>
+            ) : (
+              <li
+                className="flex pb-3 font-sans font-semibold text-base  text-primary hover:cursor-pointer hover:text-gray-500"
+                onClick={() => {
+                  setShowlog(!showLog);
+                  setToggle(!toggle);
+                }}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6 mr-1"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"
+                  />
+                </svg>
+                Login
+              </li>
+            )}
 
-            <li className="flex pb-3 font-sans font-semibold text-base  text-gray-500 hover:cursor-pointer hover:text-gray-800">
+            <li className="flex pb-3 font-sans font-semibold text-base  text-primary hover:cursor-pointer hover:text-gray-500">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -225,7 +247,7 @@ function Navbar() {
               </svg>
               Chat
             </li>
-            <li className="flex pb-3 font-sans font-semibold text-base    text-gray-500 hover:cursor-pointer hover:text-gray-800 ">
+            <li className="flex pb-3 font-sans font-semibold text-base    text-primary hover:cursor-pointer hover:text-gray-500 ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"

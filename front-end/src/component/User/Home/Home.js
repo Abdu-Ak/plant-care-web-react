@@ -1,4 +1,5 @@
 import React from "react";
+import CarouselBackground from "./carousel";
 
 import Login from "./Login";
 function Home() {
@@ -9,7 +10,7 @@ function Home() {
        <div className="fixed  top-28 left-10 md:left-80 lg:left-2/4 w-full  ">
         <Login />
         </div>
-        <img className="w-full" src="/images/home-bg.jpg" alt="" />
+        <CarouselBackground/>
       </div>
         
     </div>
