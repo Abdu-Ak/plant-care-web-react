@@ -7,16 +7,17 @@ function Home() {
 
   return (
     <div >
-      <div>
-       <div className="fixed  top-28 left-10 md:left-80 lg:left-2/4 w-full  ">
+     
+       <div className="fixed z-50  top-28 left-10 md:left-80 lg:left-2/4 w-full  ">
         <Login />
         </div>
-        <Carousel/>
-      </div>
+        <div >
+       <Carousel/>
+       </div>
       <div>
         <Posts/>
       </div>
-        
+  
     </div>
   );
 }

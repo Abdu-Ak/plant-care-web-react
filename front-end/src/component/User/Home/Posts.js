@@ -1,197 +1,114 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
+import Slider from "react-slick";
+
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 function Posts() {
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    cssEase: "linear",
+    arrows: false,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 640,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
+  };
+
+  const posts = [
+    {
+      id: 1,
+      user: {
+        name: "John Doe",
+        avatar: "https://randomuser.me/api/portraits/men/1.jpg",
+      },
+      image: "https://picsum.photos/id/1018/300/200",
+      caption: "Beautiful flowers in my garden",
+    },
+    {
+      id: 2,
+      user: {
+        name: "Jane Smith",
+        avatar: "https://randomuser.me/api/portraits/women/1.jpg",
+      },
+      image: "https://picsum.photos/id/1025/300/200",
+      caption: "Lush greenery in the park",
+    },
+    {
+      id: 3,
+      user: {
+        name: "Bob Johnson",
+        avatar: "https://randomuser.me/api/portraits/men/2.jpg",
+      },
+      image: "https://picsum.photos/id/1035/300/200",
+      caption: "Succulent plants on my windowsill",
+    },
+    {
+      id: 4,
+      user: {
+        name: "Samantha Lee",
+        avatar: "https://randomuser.me/api/portraits/women/2.jpg",
+      },
+      image: "https://picsum.photos/id/1043/300/200",
+      caption: "A walk in the forest",
+    },
+    {
+      id: 5,
+      user: {
+        name: "David Brown",
+        avatar: "https://randomuser.me/api/portraits/men/3.jpg",
+      },
+      image: "https://picsum.photos/id/1052/300/200",
+      caption: "Colorful blooms in the flowerbed",
+    },
+  ];
+
   return (
     <>
-      
-       
-
-        <div id="service" className="  flex  w-full  flex-col">
-          <h1 className=" flex  px-5 pt-4 text-4xl font-bold font-philosephor  text-third md:mx-20 md:px-10">
-            Latest Post
-          </h1>
-          <div className="scrollbar-hide flex overflow-x-auto py-6 " >
-            <div className="flex flex-nowrap  ">
-
-              <div className="inline-block px-3">
-                <div className="serviceBox shadow-3xl flex h-32 w-32 max-w-xs items-center justify-center overflow-hidden rounded-lg transition-shadow duration-300 ease-in-out hover:shadow-xl">
-                  <img
-                    src="/assets/icons/plumping.png"
-                    alt=""
-                    className="h-20 w-20"
-                  />
+      <div className="  flex  w-full py-5  flex-col bg-secondory">
+        <h1 className=" flex  px-5 pt-4 text-4xl font-bold font-philosephor  text-third md:mx-20 md:px-10">
+          Latest Post
+        </h1>
+        <div className="container mx-auto mt-8 p-5">
+          <Slider {...settings}>
+            {posts.map((post) => (
+              <div key={post.id} className="px-4">
+                <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+                  <img className="w-full" src={post.image} alt={post.caption} />
+                  <div className="p-4">
+                    <div className="flex items-center mb-4">
+                      <img
+                        className="h-8 w-8 rounded-full mr-2"
+                        src={post.user.avatar}
+                        alt={post.user.name}
+                      />
+                      <h2 className="text-lg font-medium">{post.user.name}</h2>
+                    </div>
+                    <p className="text-gray-600">{post.caption}</p>
+                  </div>
                 </div>
-                <p className="mx-auto flex items-center justify-center">
-                  Plumbing
-                </p>
               </div>
-              <div className="inline-block px-3">
-                <div className="serviceBox shadow-3xl flex h-32 w-32 max-w-xs items-center justify-center overflow-hidden rounded-lg transition-shadow duration-300 ease-in-out hover:shadow-xl">
-                  <img
-                    src="/assets/icons/plumping.png"
-                    alt=""
-                    className="h-20 w-20"
-                  />
-                </div>
-                <p className="mx-auto flex items-center justify-center">
-                  Plumbing
-                </p>
-              </div> <div className="inline-block px-3">
-                <div className="serviceBox shadow-3xl flex h-32 w-32 max-w-xs items-center justify-center overflow-hidden rounded-lg transition-shadow duration-300 ease-in-out hover:shadow-xl">
-                  <img
-                    src="/assets/icons/plumping.png"
-                    alt=""
-                    className="h-20 w-20"
-                  />
-                </div>
-                <p className="mx-auto flex items-center justify-center">
-                  Plumbing
-                </p>
-              </div> <div className="inline-block px-3">
-                <div className="serviceBox shadow-3xl flex h-32 w-32 max-w-xs items-center justify-center overflow-hidden rounded-lg transition-shadow duration-300 ease-in-out hover:shadow-xl">
-                  <img
-                    src="/assets/icons/plumping.png"
-                    alt=""
-                    className="h-20 w-20"
-                  />
-                </div>
-                <p className="mx-auto flex items-center justify-center">
-                  Plumbing
-                </p>
-              </div> <div className="inline-block px-3">
-                <div className="serviceBox shadow-3xl flex h-32 w-32 max-w-xs items-center justify-center overflow-hidden rounded-lg transition-shadow duration-300 ease-in-out hover:shadow-xl">
-                  <img
-                    src="/assets/icons/plumping.png"
-                    alt=""
-                    className="h-20 w-20"
-                  />
-                </div>
-                <p className="mx-auto flex items-center justify-center">
-                  Plumbing
-                </p>
-              </div> <div className="inline-block px-3">
-                <div className="serviceBox shadow-3xl flex h-32 w-32 max-w-xs items-center justify-center overflow-hidden rounded-lg transition-shadow duration-300 ease-in-out hover:shadow-xl">
-                  <img
-                    src="/assets/icons/plumping.png"
-                    alt=""
-                    className="h-20 w-20"
-                  />
-                </div>
-                <p className="mx-auto flex items-center justify-center">
-                  Plumbing
-                </p>
-              </div> <div className="inline-block px-3">
-                <div className="serviceBox shadow-3xl flex h-32 w-32 max-w-xs items-center justify-center overflow-hidden rounded-lg transition-shadow duration-300 ease-in-out hover:shadow-xl">
-                  <img
-                    src="/assets/icons/plumping.png"
-                    alt=""
-                    className="h-20 w-20"
-                  />
-                </div>
-                <p className="mx-auto flex items-center justify-center">
-                  Plumbing
-                </p>
-              </div> <div className="inline-block px-3">
-                <div className="serviceBox shadow-3xl flex h-32 w-32 max-w-xs items-center justify-center overflow-hidden rounded-lg transition-shadow duration-300 ease-in-out hover:shadow-xl">
-                  <img
-                    src="/assets/icons/plumping.png"
-                    alt=""
-                    className="h-20 w-20"
-                  />
-                </div>
-                <p className="mx-auto flex items-center justify-center">
-                  Plumbing
-                </p>
-              </div>
-              <div className="inline-block px-3">
-                <div className="serviceBox shadow-3xl flex h-32 w-32 max-w-xs items-center justify-center overflow-hidden rounded-lg transition-shadow duration-300 ease-in-out hover:shadow-xl">
-                  <img
-                    src="/assets/icons/cooking.png"
-                    alt=""
-                    className="h-20 w-20"
-                  />
-                </div>
-                <p className="mx-auto flex items-center justify-center">
-                  Cooking
-                </p>
-              </div>
-              <div className="inline-block px-3">
-                <div className="serviceBox shadow-3xl flex h-32 w-32 max-w-xs items-center justify-center overflow-hidden rounded-lg transition-shadow duration-300 ease-in-out hover:shadow-xl">
-                  <img
-                    src="/assets/icons/driving.png"
-                    alt=""
-                    className="h-20 w-20"
-                  />
-                </div>
-                <p className="mx-auto flex items-center justify-center">
-                  Driving
-                </p>
-              </div>
-              <div className="inline-block px-3">
-                <div className="serviceBox shadow-3xl flex h-32 w-32 max-w-xs items-center justify-center overflow-hidden rounded-lg transition-shadow duration-300 ease-in-out hover:shadow-xl">
-                  <img
-                    src="/assets/icons/electrical.png"
-                    alt=""
-                    className="h-20 w-20"
-                  />
-                </div>
-                <p className="mx-auto flex items-center justify-center">
-                  Electrical
-                </p>
-              </div>
-              <div className="inline-block px-3">
-                <div className="serviceBox shadow-3xl flex h-32 w-32 max-w-xs items-center justify-center overflow-hidden rounded-lg transition-shadow duration-300 ease-in-out hover:shadow-xl">
-                  <img
-                    src="/assets/icons/gardening.png"
-                    alt=""
-                    className="h-20 w-20"
-                  />
-                </div>
-                <p className="mx-auto flex items-center justify-center">
-                  Gardening
-                </p>
-              </div>
-              <div className="inline-block px-3">
-                <div className="serviceBox shadow-3xl flex h-32 w-32 max-w-xs items-center justify-center overflow-hidden rounded-lg transition-shadow duration-300 ease-in-out hover:shadow-xl">
-                  <img
-                    src="/assets/icons/home_nurse.png"
-                    alt=""
-                    className="h-20 w-20"
-                  />
-                </div>
-                <p className="mx-auto flex items-center justify-center">
-                  Home Nurse
-                </p>
-              </div>
-              <div className="inline-block px-3">
-                <div className="serviceBox shadow-3xl flex h-32 w-32 max-w-xs items-center justify-center overflow-hidden rounded-lg transition-shadow duration-300 ease-in-out hover:shadow-xl">
-                  <img
-                    src="/assets/icons/pet_care.png"
-                    alt=""
-                    className="h-20 w-20"
-                  />
-                </div>
-                <p className="mx-auto flex items-center justify-center">
-                  Pet Care
-                </p>
-              </div>
-              <div className="inline-block px-3">
-                <div className="serviceBox shadow-3xl flex h-32 w-32 max-w-xs items-center justify-center overflow-hidden rounded-lg transition-shadow duration-300 ease-in-out hover:shadow-xl">
-                  <img
-                    src="/assets/icons/plumping.png"
-                    alt=""
-                    className="h-20 w-20"
-                  />
-                </div>
-                <p className="mx-auto flex items-center justify-center">
-                  Plumbing
-                </p>
-              </div>
-
-            </div>
-          </div>
+            ))}
+          </Slider>
         </div>
-      
+      </div>
     </>
   );
 }

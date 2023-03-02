@@ -39,12 +39,14 @@ function Navbar() {
           show ? "bg-third/40" : "bg-transparent"
         } `}
       >
-        <div className="flex items-center justify-between ">
+        <div className="flex items-center h-24  justify-between ">
+          <div className="w-14 ml-5 md:mb-5 md:w-20 md:h-14 rounded-lg">
           <img
-            className="w-14 md:w-24 ml-5 p-2  hover:cursor-pointer"
+            className="w-full    object-cover rounded-lg hover:cursor-pointer"
             src="/images/logo.png"
             alt="nav_logo"
           />
+          </div>
           <div className="hidden md:flex  ">
             <div className="flex items-center mr-14 ">
               <h3 className="mr-3 font-sans font-semibold text-base text-primary hover:cursor-pointer hover:text-gray-500 ">

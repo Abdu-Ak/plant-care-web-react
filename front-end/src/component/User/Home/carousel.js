@@ -16,10 +16,11 @@ const Carousel = () => {
     cssEase: "linear",
     arrows: false,
     fade: true,
+    height: "80vh"
   };
 
   return (
-    <div className="relative  h-screen">
+    <div className="relative  h-screen" >
       <Slider {...settings}>
         <div className="h-screen  bg-cover bg-center bg-[url('https://images.pexels.com/photos/1094246/pexels-photo-1094246.jpeg?auto=compress&cs=tinysrgb&w=600')]" />
         <div className="h-screen  bg-cover bg-center bg-[url('https://images.pexels.com/photos/1242458/pexels-photo-1242458.jpeg?auto=compress&cs=tinysrgb&w=600')]" />
