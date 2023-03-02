@@ -1,13 +1,14 @@
 import React from 'react'
-
+import "./Footer.css"
 function Footer() {
   return (
     <div>
+       
          <div>
-            <div className='pt-5 border border-t-2  w-full  bg-cover  bg-[url("https://tuk-cdn.s3.amazonaws.com/can-uploader/footer_5_marketing_background.png")]  '>
-                <div className="w-14 ml-2 md:mb-5 md:w-20 md:h-12 rounded-lg">
+            <div id='footer' className='bg-cover  pt-5 border border-t-2  w-full    '>
+                <div className="w-14 ml-5 md:mb-5 md:w-20 md:h-12 rounded-lg">
                     <img
-                        className="w-full    object-cover rounded-lg hover:cursor-pointer"
+                        className="w-full     object-cover rounded-lg hover:cursor-pointer"
                         src="/images/logo.png"
                         alt="nav_logo" />
                 </div>

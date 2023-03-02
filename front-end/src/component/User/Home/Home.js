@@ -1,8 +1,10 @@
 import React from "react";
+import About from "./About";
 import Carousel from "./Carousel";
 
 import Login from "./Login";
 import Posts from "./Posts";
+import Subscribe from "./Subscribe";
 function Home() {
 
   return (
@@ -16,6 +18,12 @@ function Home() {
        </div>
       <div>
         <Posts/>
+      </div>
+      <div>
+        <About/>
+      </div>
+      <div>
+        <Subscribe/>
       </div>
   
     </div>
