@@ -15,7 +15,7 @@ module.exports = {
       const decoded = jwt.verify(token.split(' ')[1], process.env.JWT_SECRET);
       
       if (decoded){
-       console.log(decoded);
+      
         req.id =decoded.id
         next();
       }

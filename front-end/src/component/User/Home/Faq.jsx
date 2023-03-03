@@ -1,6 +1,6 @@
 import React from "react";
 
-function About() {
+function Faq() {
   return (
     <>
       <div className="flex flex-col py-5 w-full bg-white/30">
@@ -85,4 +85,4 @@ function About() {
   );
 }
 
-export default About;
+export default Faq;

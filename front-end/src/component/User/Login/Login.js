@@ -3,7 +3,7 @@ import jwt_decode from "jwt-decode";
 import axios from "../../../axios";
 import { LoginContext } from "../../../context/loginContext"; 
 
-import Signup from "./Signup";
+import Signup from "../Home/Signup";
 
 function Login() {
   const signBtn = useRef(null);

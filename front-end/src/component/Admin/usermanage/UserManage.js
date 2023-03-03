@@ -7,7 +7,7 @@ function UserManage() {
 
   const handleBlock = (id) => {
     axios.get(`/admin/blockuser/${id}`).then((res) => {
-      console.log(res.data.blocked);
+   
     });
   };
 

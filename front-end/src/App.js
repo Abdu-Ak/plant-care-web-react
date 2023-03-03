@@ -1,11 +1,13 @@
 
 import './App.css';
 import { BrowserRouter, Routes,Route, Navigate } from 'react-router-dom';
-import Home from './pages/User/home'
 import ShowLogin from './context/loginContext';
 import Login from './pages/Admin/Login';
 import Dashboard from './pages/Admin/Dashboard';
 import AdminUser from './pages/Admin/AdminUser';
+import HomePage from './pages/User/HomePage';
+import AboutPage from './pages/User/AboutPage';
+import ChatBot from './component/User/ChatBot/ChatBot';
 function App() {
   const token = localStorage.getItem("token")
   return (
@@ -14,8 +16,9 @@ function App() {
      <ShowLogin>
       <BrowserRouter>
      <Routes>
-     <Route exact path='/'  element={ <Home/> } />
-
+     <Route exact path='/'  element={ <HomePage/> } />
+     <Route exact path='/about'  element={ <AboutPage/> } />
+     <Route exact path='/chat'  element={ <ChatBot/> } />
 
      
      <Route exact path='/admin'  element={ token ? <Navigate to={'/admin/dashboard'}/>  : <Login/> } />

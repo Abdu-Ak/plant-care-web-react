@@ -1,6 +1,7 @@
 import axios from "../../../axios";
 import React, { useState, useEffect, useContext } from "react";
 import { LoginContext } from "../../../context/loginContext";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   const [toggle, setToggle] = useState(false);
@@ -49,9 +50,11 @@ function Navbar() {
           </div>
           <div className="hidden md:flex  ">
             <div className="flex items-center mr-14 ">
-              <h3 className="mr-3 font-sans font-semibold text-base text-primary hover:cursor-pointer hover:text-gray-500 ">
+             <Link to={'/about'}>
+             <h3 className="mr-3 font-sans font-semibold text-base text-primary hover:cursor-pointer hover:text-gray-500 ">
                 About Us
               </h3>
+             </Link>
               <h3 className="mr-3 font-sans font-semibold text-base  text-primary hover:cursor-pointer  hover:text-gray-500 ">
                 Community
               </h3>
@@ -152,7 +155,8 @@ function Navbar() {
         </div>
         <div className={` md:hidden flex-col  ${toggle ? "flex " : "hidden"}`}>
           <ul className="text-start ml-10 pt-5">
-            <li className="flex pb-3 font-sans font-semibold text-base  text-primary hover:cursor-pointer hover:text-gray-500">
+           <Link to={'/about'}>
+           <li className="flex pb-3 font-sans font-semibold text-base  text-primary hover:cursor-pointer hover:text-gray-500">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -169,6 +173,7 @@ function Navbar() {
               </svg>
               About Us
             </li>
+           </Link>
             <li className="flex pb-3 font-sans font-semibold text-base  text-primary hover:cursor-pointer hover:text-gray-500">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
