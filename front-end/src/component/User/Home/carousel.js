@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import Slider from "react-slick";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { BotContext } from "../../../context/BotContext";
 
 const Carousel = () => {
+
+  const {showBot,setShowBot} = useContext(BotContext)
+
+
+
   const settings = {
     dots: false,
     infinite: true,
@@ -41,7 +47,9 @@ const Carousel = () => {
           </div>    
         </div>
         <div className="z-10 w-1/6  flex  mt-32   ">
-          <button className="w-full hover:bg-primary hover:text-gray-700 h-12 rounded-2xl border-2 font-semibold border-primary text-lg  text-primary bg-third/70">
+          <button className="w-full hover:bg-primary hover:text-gray-700 h-12 rounded-2xl border-2 font-semibold border-primary text-lg  text-primary bg-third/70"
+          onClick={()=>setShowBot(!showBot)}
+          >
             Start
           </button>
         </div>

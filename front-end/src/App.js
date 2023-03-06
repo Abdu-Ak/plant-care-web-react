@@ -7,18 +7,19 @@ import Dashboard from './pages/Admin/Dashboard';
 import AdminUser from './pages/Admin/AdminUser';
 import HomePage from './pages/User/HomePage';
 import AboutPage from './pages/User/AboutPage';
-import ChatBot from './component/User/ChatBot/ChatBot';
+import ShowBot from './context/BotContext';
 function App() {
   const token = localStorage.getItem("token")
   return (
     <div>
   
      <ShowLogin>
+      <ShowBot>
       <BrowserRouter>
      <Routes>
      <Route exact path='/'  element={ <HomePage/> } />
      <Route exact path='/about'  element={ <AboutPage/> } />
-     <Route exact path='/chat'  element={ <ChatBot/> } />
+   
 
      
      <Route exact path='/admin'  element={ token ? <Navigate to={'/admin/dashboard'}/>  : <Login/> } />
@@ -27,6 +28,7 @@ function App() {
      
      </Routes>
      </BrowserRouter>
+     </ShowBot>
      </ShowLogin>
      
     </div>
