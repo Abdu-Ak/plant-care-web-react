@@ -141,6 +141,33 @@ module.exports={
             }
         })
     },
+   
+    getProfile :(req,res)=>{
+          try {
+            const id = req.id 
+
+          userdetails.findOne({_id:id}).then((user)=>{
+           
+          if (user) {
+            res.send({user})
+          }
+
+          })
+          } catch (error) {
+            console.error()
+          }
+    },
+
+    editProfile :(req,res)=>{
+         console.log(req.body);
+
+    },
+
+
+
+
+
+
 
     logOut : (req,res)=>{
         const id = req.id

@@ -9,9 +9,10 @@ import {
   TypingIndicator,
 } from "@chatscope/chat-ui-kit-react";
 import { BotContext } from "../../../context/BotContext";
+import { CHATGPT } from "../../../constants/Constants";
 function ChatBot() {
 
-  const CHATGPT="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"
+ 
   const { showBot,setShowBot } = useContext(BotContext);
   const [typing, setTyping] = useState(false);
   const [messages, setMessages] = useState([
@@ -71,7 +72,7 @@ function ChatBot() {
         return data.json();
       })
       .then((data) => {
-     
+     console.log(data);
         setMessages([
           ...chatmessages,
           {

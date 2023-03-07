@@ -11,7 +11,7 @@ const [errors, setErrors] = useState("");
 const handleSubmit = (e)=>{
   e.preventDefault();
 
-  axios.post("http://localhost:8000/admin/login",{
+  axios.post("/admin/login",{
     username,
     password
   }).then((res)=>{

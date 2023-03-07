@@ -1,72 +1,69 @@
-import React, { useContext, useEffect, useRef, useState, } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import jwt_decode from "jwt-decode";
 import axios from "../../../axios";
-import { LoginContext } from "../../../context/loginContext"; 
+import { LoginContext } from "../../../context/loginContext";
 
 import Signup from "../Home/Signup";
 
 function Login() {
   const signBtn = useRef(null);
   const [login, setLogin] = useState(true);
-  const { showLog, setShowlog } = useContext(LoginContext)
-  const [email , setEmail]=useState("")
-  const [password , setPassword]=useState("")
-  const [errors,setErrors]=useState("")
+  const { showLog, setShowlog } = useContext(LoginContext);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState("");
 
-  const validate =()=>{
-     if (!email) {
-      setErrors("Email required...!")
-     } else if(!password) {
-      setErrors("Password required...!")
-     }else(
-      setErrors("")
-     )
-  } 
-    
-   const handleSubmit = (e)=>{
+  const validate = () => {
+    if (!email) {
+      setErrors("Email required...!");
+    } else if (!password) {
+      setErrors("Password required...!");
+    } else setErrors("");
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
     validate();
     if (!errors) {
-      axios.post("/login",{
-        email : email,
-        password: password
-      }).then((res)=>{
-        if (res.data.err) {
-          setErrors(res.data.err)
-        } else if(res.data.logged) {
-          localStorage.setItem("token",res.data.token)
-          setShowlog(false)
-        
-        }
-      })
+      axios
+        .post("/login", {
+          email: email,
+          password: password,
+        })
+        .then((res) => {
+          if (res.data.err) {
+            setErrors(res.data.err);
+          } else if (res.data.logged) {
+            localStorage.setItem("token", res.data.token);
+            window.location.reload()
+            setShowlog(false);
+            
+          }
+        });
     }
-   
-   }
-// eslint-disable-next-line react-hooks/exhaustive-deps
-const handleGoogle = async (response) => {
-  const token = response.credential;
+  };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleGoogle = async (response) => {
+    const token = response.credential;
 
-  const userObj = jwt_decode(token);
+    const userObj = jwt_decode(token);
 
-  axios
-    .post("http://localhost:8000/googleSign", {
-      username: userObj.name,
-      email: userObj.email,
-      image: userObj.picture,
-    })
-    .then((res) => {
-      if(res.data.logged) {
-
-        localStorage.setItem("token",res.data.token)
-        setShowlog(false)
-      
-      }else if (res.data.err) {
-        setErrors(res.data.err)
-      }
-    });
-};
-
-
+    axios
+      .post("http://localhost:8000/googleSign", {
+        username: userObj.name,
+        email: userObj.email,
+        image: userObj.picture,
+      })
+      .then((res) => {
+        if (res.data.logged) {
+          localStorage.setItem("token", res.data.token);
+          window.location.reload()
+          setShowlog(false);
+        } else if (res.data.err) {
+          setErrors(res.data.err);
+        }
+      });
+  };
 
   useEffect(() => {
     /* global google */
@@ -113,7 +110,9 @@ const handleGoogle = async (response) => {
             <div className="bg-third/50 rounded-full flex justify-around  items-center text-primary w-10/12 md:w-2/4  h-12">
               <button
                 className={`${
-                  login ? "bg-third rounded-full w-28  md:w-20 lg:w-16  h-9" : ""
+                  login
+                    ? "bg-third rounded-full w-28  md:w-20 lg:w-16  h-9"
+                    : ""
                 } `}
                 onClick={() => setLogin(true)}
               >
@@ -133,7 +132,10 @@ const handleGoogle = async (response) => {
             </div>
             {login ? (
               <div className="w-3/4">
-                <form onSubmit={handleSubmit} className="flex flex-col  justify-start">
+                <form
+                  onSubmit={handleSubmit}
+                  className="flex flex-col  justify-start"
+                >
                   <label
                     htmlFor="email"
                     className="text-start text-sm font-normal pb-3"
@@ -141,7 +143,7 @@ const handleGoogle = async (response) => {
                     Email
                   </label>
                   <input
-                    onChange={(e)=>setEmail(e.target.value)}
+                    onChange={(e) => setEmail(e.target.value)}
                     id="email"
                     className="rounded-full text-center border border-primary  h-12"
                     placeholder="Enter your email"
@@ -155,15 +157,14 @@ const handleGoogle = async (response) => {
                     Password
                   </label>
                   <input
-                    onChange={(e)=>setPassword(e.target.value)}
+                    onChange={(e) => setPassword(e.target.value)}
                     id="password"
                     className="rounded-full text-center border border-primary h-12"
                     placeholder="Enter your password"
                     type="password"
                   />
-                    <p className="text-red-600 font-semibold mt-2">{errors}</p>
+                  <p className="text-red-600 font-semibold mt-2">{errors}</p>
                   <div className="flex flex-col justify-end items-end">
-                
                     <p className="text-sm font-normal m-3  hover:cursor-pointer hover:text-blue-700 hover:underline ">
                       {/* Forgot pasword? */}
                     </p>
@@ -176,15 +177,13 @@ const handleGoogle = async (response) => {
                   </div>
                 </form>
                 <div className="p-5 flex justify-center border-t-2 w-full border-primary">
-        <button  ref={signBtn}>Sigup with Google</button>
-      </div>
+                  <button ref={signBtn}>Sigup with Google</button>
+                </div>
               </div>
             ) : (
-
               <div className="w-3/4">
-                <Signup setLogin={setLogin}/>
+                <Signup setLogin={setLogin} />
               </div>
-
             )}
           </div>
         </div>
