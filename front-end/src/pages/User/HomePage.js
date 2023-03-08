@@ -1,8 +1,8 @@
 import React from 'react'
-import Home from '../../component/User/Home/Home'
-import Navbar from '../../component/User/Navbar/Navbar'
-import Footer from "../../component/User/Footer/Footer"
-import Login from '../../component/User/Login/Login'
+import Home from '../../components/User/Home/Home'
+import Navbar from '../../components/User/Navbar/Navbar'
+import Footer from "../../components/User/Footer/Footer"
+import Login from '../../components/User/Login/Login'
 function HomePage() {
   return (
     <div>

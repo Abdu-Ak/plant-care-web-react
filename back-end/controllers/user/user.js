@@ -162,7 +162,36 @@ module.exports={
          console.log(req.body);
 
     },
+   
+    changePass : (req,res)=>{
+       const { newPass , oldPass} =req.body
+       
+       const id =req.id
 
+       if (oldPass) {
+        
+        userdetails.findOne({_id : id}).then((user)=>{
+          bcrypt.compare(oldPass , user.password).then((result)=>{
+            if (result) {
+                bcrypt.hash(newPass,10).then((password)=>{
+                    userdetails.findByIdAndUpdate({_id : id}, {password : password}).then((user)=>{
+                     res.send({success:true})
+                    })
+                  })
+            } else {
+                res.send({err:"Old password is not matched..!"})
+            }
+          })
+        })
+         
+       } else {
+        bcrypt.hash(newPass,10).then((password)=>{
+          userdetails.findByIdAndUpdate({_id : id}, {password : password}).then((user)=>{
+           res.send({success:true})
+          })
+        })
+       }
+    },
 
 
 

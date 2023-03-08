@@ -1,6 +1,6 @@
 import React from 'react'
-import Sidebar from '../../component/Admin/sidebar/Sidebar'
-import UserManage from '../../component/Admin/usermanage/UserManage'
+import Sidebar from '../../components/Admin/sidebar/Sidebar'
+import UserManage from '../../components/Admin/usermanage/UserManage'
 
 function AdminUser() {
   return (

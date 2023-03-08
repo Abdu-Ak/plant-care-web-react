@@ -1,8 +1,8 @@
 import React from 'react'
-import About from '../../component/User/About/About'
-import Footer from '../../component/User/Footer/Footer'
-import Login from '../../component/User/Login/Login'
-import Navbar from '../../component/User/Navbar/Navbar'
+import About from '../../components/User/About/About'
+import Footer from '../../components/User/Footer/Footer'
+import Login from '../../components/User/Login/Login'
+import Navbar from '../../components/User/Navbar/Navbar'
 
 function AboutPage() {
   return (

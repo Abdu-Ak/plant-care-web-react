@@ -11,7 +11,7 @@ instance.interceptors.request.use((config)=>{
   const token = localStorage.getItem("token")
 
   if (token) {
-    config.headers.Authorization = token
+    config.headers.Authorization = token    
   
   }
 
@@ -23,6 +23,7 @@ instance.interceptors.response.use ((response)=>{
   return response;
 },
  (error) =>{
+  console.log(error);
   localStorage.removeItem("token")
 
  }

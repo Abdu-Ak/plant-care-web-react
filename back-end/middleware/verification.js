@@ -6,7 +6,7 @@ module.exports = {
 
     const token = req.headers.authorization
     if (!token) {
-      
+      console.log("no token");
       return res.status(400).send({
         token: false,
         message: 'No taken provided',
@@ -14,7 +14,7 @@ module.exports = {
     }
     try {
       const decoded = jwt.verify(token.split(" ")[1],process.env.JWT_SECRET);
- 
+
       if (decoded){
 
     
@@ -22,7 +22,7 @@ module.exports = {
         next();
       }
       else {
-  
+      console.log("invalid token");
         return res.status(400).send({
           token: false,
           message: 'invalid token',
