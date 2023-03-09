@@ -125,7 +125,7 @@ function Profile() {
                 {data.username ? data.username : "Username"}
               </p>
             </div>
-            <div className=" md:w-2/4 p-2  flex">
+            <div className=" p-2  flex">
               <div className="mr-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -143,13 +143,15 @@ function Profile() {
                 </svg>
               </div>
               <div>
-                <p className="font-sans text-base font-medium "></p>
+                <p className="font-sans text-base font-medium ">
+                  {data.bio}
+                </p>
                 <span className="font-sans text-base font-medium text-gray-500">
                   bio
                 </span>
               </div>
             </div>
-            <div className=" md:w-2/4 p-2  flex ">
+            <div className="  p-2  flex ">
               <div className="mr-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -168,7 +170,9 @@ function Profile() {
               </div>
 
               <div>
-                <p className="font-sans text-base font-medium "></p>
+                <p className="font-sans text-base font-medium ">
+                  {data.phone}
+                </p>
                 <span className="font-sans text-base font-medium text-gray-500">
                   Phone
                 </span>

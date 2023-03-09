@@ -30,7 +30,15 @@ const UserSchema = new Schema({
      {
         type:Boolean,
         default:false
+     },
+     phone :{
+        type:Number,
+
+     },
+     bio :{
+        type:String
      }
+     
 });
 
 const userdetails = mongoose.model('userdetails',UserSchema);

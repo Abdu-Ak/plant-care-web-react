@@ -159,15 +159,29 @@ module.exports={
     },
 
     editProfile :(req,res)=>{
-         console.log(req.body);
-         console.log(req.file);
+        const id = req.id
+        const {username , phone , bio}= req.body
+         
+
+       userdetails.findByIdAndUpdate({_id : id }, {username : username , phone : phone ,bio : bio  } ).then((user)=>{
+         if (req.file) {
+            const image = req.file.path
+            userdetails.findByIdAndUpdate({_id : id},{image : image}).then((result)=>{
+              if (result) {
+                res.send({success : true})
+              }
+            })
+         }else{
+            res.send({success : true})
+         }
+       })
 
     },
    
     changePass : (req,res)=>{
        const { newPass , oldPass} =req.body
        
-       const id =req.id
+       const id =req.id  
 
        if (oldPass) {
         

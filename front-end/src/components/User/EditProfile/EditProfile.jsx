@@ -2,6 +2,8 @@ import axios from "../../../axios";
 import React, { useState } from "react";
 import ChangePass from "../ChangePass/ChangePass";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 
 function EditProfile() {
   const [edit, setEdit] = useState(true);
@@ -9,6 +11,8 @@ function EditProfile() {
   const [image, setImage] = useState(null);
   const [img, setImg] = useState(null);
   const [err, setErr] = useState("");
+
+  const navigate = useNavigate()
 
   const handleImage = (e) => {
     setImage(e.target.files[0]);
@@ -21,12 +25,15 @@ function EditProfile() {
   };
 
   const validate = () => {
-    if (data.phone) {
-      if ((data.phone.length !== 10) & (data.phone !== "")) {
+    const phone = data.phone.toString()
+    if (phone){
+      if ((phone.length !== 10) & (phone !== "")) {
         setErr("invalid phone..!");
       } else {
         setErr("");
       }
+    }else{
+      setErr("")
     }
   };
 
@@ -35,9 +42,10 @@ function EditProfile() {
 
     validate();
     if (!err) {
+    
       let file = new FormData();
       file.append("image", image);
-      file.append("username", data.username);
+      file.append("username", data.username); 
       file.append("phone", data.phone);
       file.append("bio", data.bio);
 
@@ -50,6 +58,8 @@ function EditProfile() {
         .then((res) => {
           if (res.data.err) {
             setErr(res.data.err);
+          }else if (res.data.success) {
+           navigate('/profile')
           }
         });
     }
@@ -59,6 +69,7 @@ function EditProfile() {
     axios.get("/getprofile").then((res) => {
       if (res.data.user) {
         setData(res.data.user);
+        
         setImg(res.data.user.image);
       }
     });
