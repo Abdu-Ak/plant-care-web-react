@@ -160,6 +160,7 @@ module.exports={
 
     editProfile :(req,res)=>{
          console.log(req.body);
+         console.log(req.file);
 
     },
    
