@@ -160,7 +160,7 @@ function EditProfile() {
               <div className="border w-full p-5">
                 <div className="flex flex-col items-center">
                   <img
-                    className="w-28 object-cover rounded-full"
+                    className="w-28 h-28 object-cover rounded-full"
                     src={img ? img : "/images/user-default.png"}
                     alt=""
                   />

@@ -112,7 +112,7 @@ function Profile() {
           <div className=" mt-5">
             
               <img
-                className="w-40 object-cover rounded-full"
+                className="w-40 h-40 object-cover rounded-full"
                 src={data.image ? data.image : "/images/user-default.png"}
                 alt=""
               />
