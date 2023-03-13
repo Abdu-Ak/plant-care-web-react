@@ -51,7 +51,7 @@ function ChatBot() {
 
     const systemMessage = {
       role: "system",
-      content: "Answer only about plants and agricultuaral things . otherwise say Iam sorry please ask about plants",
+      content: "Answer only about plants and agricultural things . otherwise say Iam sorry please ask about plants",
     };
 
     const apiRequestBody = {

@@ -10,6 +10,8 @@ import AboutPage from './pages/User/AboutPage';
 import ShowBot from './context/BotContext';
 import ProfilePage from './pages/User/ProfilePage';
 import EditProfilePage from './pages/User/EditProfilePage';
+import Diarypage from './pages/User/Diarypage';
+import AddDiaryPage from './pages/User/AddDiaryPage';
 function App() {
   const token = localStorage.getItem("token")
   return (
@@ -23,8 +25,9 @@ function App() {
      <Route exact path='/about'  element={ <AboutPage/> } />
      <Route exact path='/profile'  element={token ?  <ProfilePage/> : <Navigate to={'/'} /> } />
      <Route exact path='/editprofile'  element={token ?  <EditProfilePage/> : <Navigate to={'/'} /> } />
-   
- 
+    <Route exact  path='/diary' element={<Diarypage/>} /> 
+     <Route exact  path='/add-diary' element={<AddDiaryPage/>} />  
+     
      
      <Route exact path='/admin'  element={ token ? <Navigate to={'/admin/dashboard'}/>  : <Login/> } />
      <Route exact path='/admin/dashboard'  element={ token ? <Dashboard/>: <Navigate to={"/admin"} />} />
@@ -33,7 +36,7 @@ function App() {
      </Routes>
      </BrowserRouter>
      </ShowBot>
-     </ShowLogin>
+     </ShowLogin>    
      
     </div>
   );
