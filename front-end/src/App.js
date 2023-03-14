@@ -25,8 +25,8 @@ function App() {
      <Route exact path='/about'  element={ <AboutPage/> } />
      <Route exact path='/profile'  element={token ?  <ProfilePage/> : <Navigate to={'/'} /> } />
      <Route exact path='/editprofile'  element={token ?  <EditProfilePage/> : <Navigate to={'/'} /> } />
-    <Route exact  path='/diary' element={<Diarypage/>} /> 
-     <Route exact  path='/add-diary' element={<AddDiaryPage/>} />  
+    <Route exact  path='/diary' element={token ?  <Diarypage/> : <Navigate to={'/'} />} /> 
+     <Route exact  path='/add-diary' element={token ?  <AddDiaryPage/> : <Navigate to={'/'} /> }/> 
      
      
      <Route exact path='/admin'  element={ token ? <Navigate to={'/admin/dashboard'}/>  : <Login/> } />

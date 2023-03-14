@@ -1,11 +1,15 @@
-import axios from "axios";
+
+import axios from "../../../axios"
 import React, { useEffect, useState } from "react";
 import { PLANTKEY } from "../../../constants/Constants";
+import { useNavigate } from "react-router-dom";
 
 function AddDiary() {
+  const navigate = useNavigate()
   const [data, setData] = useState([]);
   const [key, setKey] = useState("");
-
+  const [num, setNum] = useState(null);
+  const [diary, setDiary] = useState({});
   const handleSearch = () => {
     axios
       .get(`https://perenual.com/api/species-list?key=${PLANTKEY}&q=${key}`)
@@ -15,15 +19,45 @@ function AddDiary() {
       });
   };
 
-  const handleAdd = (id) => {
-    const plant = data.filter((obj) => {
-      return obj.id === id;
-    });
+const handleDiary =()=>{
+  console.log(diary);
+  if (diary.id) {   
+    let file = new FormData()
+    file.append("image" , diary.default_image.original_url)
+    file.append("commonName" ,diary.common_name)
+    file.append("otherName" , diary.other_name)
+    file.append("scientificName",diary.scientific_name)
+    file.append("watering" ,diary.watering)
+    file.append("sunlight",diary.sunlight)
 
-    console.log(plant);
+    axios.post("/addDiary",file,{
+      headers: {
+        "Content-Type": "multipart/form-data",
+      }}).then((res)=>{
+        if (res.data.success) {
+          navigate('/diary')
+        }
+      })
+  }
+}
+
+
+  const handleAdd = (id, index) => {
+    if (num === null) {
+      setNum(index);
+
+      const plant = data.filter((obj) => {
+        return obj.id === id;
+      });
+      setDiary(plant[0]);
+    
+    } else {
+      setNum(null);
+    }
   };
 
   useEffect(() => {
+   
     axios
       .get(`https://perenual.com/api/species-list?page=1&key=${PLANTKEY}`)
       .then((res) => {
@@ -34,10 +68,27 @@ function AddDiary() {
 
   return (
     <>
-      <div className="bg-[#dae4ea] p-10">
+      <div className="bg-[#dae4ea] p-10 flex justify-between items-center">
         <p className="text-4xl font-serif font-semibold text-third">
           Select Plants
         </p>
+        {diary.id  && (<div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-8 h-8 text-green-800  hover:border hover:rounded-full hover:border-green-800 hover:cursor-pointer "
+            onClick={handleDiary}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M4.5 12.75l6 6 9-13.5"
+            />
+          </svg>
+        </div>)}
       </div>
       <div className="flex justify-center items-center md:px-5 min-h-screen bg-[#dae4ea]">
         <div className="w-96  h-auto bg-[#f2f9fb] transition-all rounded-lg  md:w-full p-4">
@@ -67,10 +118,12 @@ function AddDiary() {
             {data.map((data, index) => {
               return (
                 <div
-                  className="w-full h-84 p-3 border  bg-white mt-5 rounded-lg md:w-80  active:border-green-500 active:border-2"
+                  className={`w-full h-84 p-3   bg-white mt-5 rounded-lg md:w-80 ${
+                    index === num ? "border-2 border-green-500" : "border"
+                  } `}
                   key={index}
                   onClick={() => {
-                    handleAdd(data.id);
+                    handleAdd(data.id, index);
                   }}
                 >
                   <div className="flex items-center justify-center ">

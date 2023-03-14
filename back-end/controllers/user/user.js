@@ -1,6 +1,7 @@
 const userdetails = require("../../models/userSchema")
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
+const diary = require("../../models/diarySchema");
 require("dotenv").config();
 
 
@@ -209,7 +210,58 @@ module.exports={
     },
 
 
+  addDiary : (req,res)=>{
+   const id =req.id 
+   const data =req.body
 
+           diary.find({ $and:[{scientificName:data.scientificName},{userId:id}] }).then((olddiary)=>{
+             if (olddiary.length > 0) {
+                console.log(olddiary);
+                res.send({success:true})
+             } else {
+                diary.create({
+                    userId : id,
+                    commonName : data.commonName,
+                    otherName:data.otherName,
+                    scientificName:data.scientificName,
+                    watering : data.watering,
+                    sunlight : data.sunlight,
+                    image:data.image
+                }).then((newdiary)=>{
+                    if (newdiary) {
+                        res.send({success:true})
+                    }
+                })
+             }
+           })
+     
+  },
+ 
+  getDiary : (req,res)=>{
+           const id =req.id;
+
+           diary.find({userId: id}).then((user)=>{
+            if (user) {
+                res.send({user})
+            }
+           })
+  },
+ 
+deleteDiary :(req,res)=>{
+
+const id = req.body.id
+   
+    diary.deleteOne({_id : id}).then((result)=>{
+     
+        if (result) {
+            res.send({success:true})
+        }
+
+    })
+
+
+
+},
 
 
 
