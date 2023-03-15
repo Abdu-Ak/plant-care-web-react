@@ -36,7 +36,7 @@ adminLogin :(req,res)=>{
     }
 
 },
-
+ 
 getUsers : (req,res)=>{
     
     userdetails.find().then((userdata)=>{

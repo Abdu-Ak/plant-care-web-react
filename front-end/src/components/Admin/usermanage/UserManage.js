@@ -6,9 +6,7 @@ function UserManage() {
   const [users, setUsers] = useState([]);
 
   const handleBlock = (id) => {
-    axios.get(`/admin/blockuser/${id}`).then((res) => {
-   
-    });
+    axios.get(`/admin/blockuser/${id}`).then((res) => {});
   };
 
   useEffect(() => {
@@ -16,8 +14,8 @@ function UserManage() {
       if (res.data.userdata) {
         setUsers(res.data.userdata);
       }
-    })
-  })
+    });
+  });
 
   return (
     <div>
@@ -27,6 +25,9 @@ function UserManage() {
             <tr>
               <th scope="col" className="px-6 py-3">
                 Name
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Phone
               </th>
               <th scope="col" className="px-6 py-3">
                 Bio
@@ -69,12 +70,17 @@ function UserManage() {
                       </div>
                     </div>
                   </th>
-                  <td className="px-6 py-4"></td>
+                  <td className="px-6 py-4">{user.phone}</td>
+                  <td className="px-6 py-4">{user.bio}</td>
                   <td className="px-6 py-4">
                     {user.isBlock ? (
                       <div className="flex items-center">
                         <div className="mr-2 ">
-                         <img className="w-4 h-4" src="/images/block.png" alt="" />
+                          <img
+                            className="w-4 h-4"
+                            src="/images/block.png"
+                            alt=""
+                          />
                         </div>
                         Blocked
                       </div>

@@ -1,23 +1,50 @@
 import axios from "../../../axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ProfileNav from "../ProfileNav/ProfileNav";
+import { ExclamationCircleFilled } from '@ant-design/icons';
+import {  message, Modal , } from 'antd';
 
 function Diary() {
   const [data, setData] = useState([]);
 
 
+
+  const { confirm } = Modal;
 const handleDelete = (id) => {
+  confirm({
+    title: 'Are you sure delete this task ?',
+    icon: <ExclamationCircleFilled/>,
+    content: 'Deleted data cant be retrive ',
+    okText: 'Yes',
+    okType: 'danger',
+    cancelText: 'No',
+    onOk() {
+      axios.post('deleteDiary',{
+        id : id
+      }).then((res)=>{
+        if (res.data.success) {
+          window.location.reload()
+          message.success("Diary Deleted ")
+        }
+      })
+    },
+    onCancel() {
+      console.log('Cancel');
+    },
+  });
  
-  axios.post('deleteDiary',{
-    id : id
-  })
+
+
+
+ 
 
 } 
 
 
 
   useEffect(() => {
+
     axios.get("/getdiary").then((res) => {
       if (res.data.user) {
         setData(res.data.user);

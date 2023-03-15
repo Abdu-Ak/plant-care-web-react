@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const diary = require("../../models/diarySchema");
 require("dotenv").config();
-
+const moment = require('moment')
 
 module.exports={
 
@@ -226,7 +226,9 @@ module.exports={
                     scientificName:data.scientificName,
                     watering : data.watering,
                     sunlight : data.sunlight,
-                    image:data.image
+                    image:data.image,
+                    Date :moment().format('L')
+
                 }).then((newdiary)=>{
                     if (newdiary) {
                         res.send({success:true})
@@ -256,7 +258,6 @@ const id = req.body.id
         if (result) {
             res.send({success:true})
         }
-
     })
 
 

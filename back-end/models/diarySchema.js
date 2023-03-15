@@ -30,8 +30,8 @@ const diarySchema = new Schema({
       
     },
     Date : {
-        type:Date,
-       default:Date.now()
+        type:String,
+        require:true
     }
 
 
