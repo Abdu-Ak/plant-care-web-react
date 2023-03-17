@@ -185,12 +185,16 @@ module.exports={
        const id =req.id  
 
        if (oldPass) {
-        
+       console.log(oldPass);
         userdetails.findOne({_id : id}).then((user)=>{
+       
           bcrypt.compare(oldPass , user.password).then((result)=>{
             if (result) {
+             
                 bcrypt.hash(newPass,10).then((password)=>{
+                    
                     userdetails.findByIdAndUpdate({_id : id}, {password : password}).then((user)=>{
+                       
                      res.send({success:true})
                     })
                   })

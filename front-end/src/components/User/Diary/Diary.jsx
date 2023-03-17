@@ -1,9 +1,9 @@
 import axios from "../../../axios";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link  } from "react-router-dom";
 import ProfileNav from "../ProfileNav/ProfileNav";
 import { ExclamationCircleFilled } from '@ant-design/icons';
-import {  message, Modal , } from 'antd';
+import {   Modal  } from 'antd';
 
 function Diary() {
   const [data, setData] = useState([]);
@@ -25,7 +25,7 @@ const handleDelete = (id) => {
       }).then((res)=>{
         if (res.data.success) {
           window.location.reload()
-          message.success("Diary Deleted ")
+         
         }
       })
     },

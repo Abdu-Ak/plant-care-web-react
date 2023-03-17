@@ -2,6 +2,8 @@
 require("dotenv").config();
 const jwt = require('jsonwebtoken');
 const userdetails = require("../../models/userSchema");
+const diary = require("../../models/diarySchema");
+const { default: mongoose } = require("mongoose");
 
 
 module.exports={
@@ -66,6 +68,51 @@ blockUser :(req,res)=>{
    } catch (error) {
     console.error()
    }
-}
+},
+
+getDiaries : (req,res)=>{
+   
+    diary.aggregate([
+        {
+            $match : {
+                
+            }
+        },
+        {
+            $lookup : {
+                from : "userdetails",
+                localField:"userId",
+                foreignField:"_id",
+                pipeline: [
+                    {
+                        $project: {
+                            _id: 0,
+                            username: 1,
+                            email:1
+                        }
+                    }
+                ],
+                as: "userdata"
+            }
+        },
+        {
+            $unwind : "$userdata"
+        }
+    ]).then((data)=>{
+      res.send({data})
+    })
+},
+
+deleteDiary : (req,res)=>{
+     
+    const {id} = req.body
+ 
+     diary.deleteOne({_id : id}).then((data)=>{
+        if (data) {
+            res.send({success : true})
+        }
+     })
+     
+},
 
 }

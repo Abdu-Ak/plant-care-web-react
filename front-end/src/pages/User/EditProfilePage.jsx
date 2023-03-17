@@ -7,6 +7,7 @@ function EditProfilePage() {
 
      <div className='bg-secondory w-full h-screen'>
      <EditProfile/>
+  
         </div>
 
     </>

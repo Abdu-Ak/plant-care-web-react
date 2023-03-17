@@ -1,25 +1,18 @@
-import React from 'react'
-import Sidebar from '../../components/Admin/sidebar/Sidebar'
-import UserManage from '../../components/Admin/usermanage/UserManage'
+import React from "react";
+import Sidebar from "../../components/Admin/sidebar/Sidebar";
+import UserManage from "../../components/Admin/usermanage/UserManage";
 
 function AdminUser() {
   return (
     <div>
-    
-     <div >
-      
-     <Sidebar/>
-        <div className='py-24 p-5  md:p-32 md:ml-40 '>
-        <UserManage/>
- 
+      <div>
+        <Sidebar />
+        <div className="py-24 p-5  md:p-32 md:ml-40 ">
+          <UserManage />
         </div>
-         
-      
-     </div>
-
-        
+      </div>
     </div>
-  )
+  );
 }
 
-export default AdminUser
+export default AdminUser;

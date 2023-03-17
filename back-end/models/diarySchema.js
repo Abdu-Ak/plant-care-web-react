@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const diarySchema = new Schema({
    
     userId :{
-     type:String,
+     type:mongoose.Schema.Types.ObjectId,
      require:true
     },
 
