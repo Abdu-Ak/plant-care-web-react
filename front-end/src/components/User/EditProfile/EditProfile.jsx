@@ -1,4 +1,4 @@
-import axios from "../../../axios";
+import axios from "../../../axios/axios";
 import React, { useState } from "react";
 import ChangePass from "../ChangePass/ChangePass";
 import { useEffect } from "react";
@@ -263,8 +263,8 @@ function EditProfile() {
                           />
                         </div>
                         <p className="text-red-600 font-semibold mt-2">
-                      {err === "invalid phone..!" ? err : ""}
-                    </p>
+                          {err === "invalid phone..!" ? err : ""}
+                        </p>
                       </div>
                     </div>
                   </div>

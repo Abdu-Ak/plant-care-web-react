@@ -1,5 +1,5 @@
 import axios from "axios";
-import { URL } from "./constants/Constants";
+import { URL } from "../constants/Constants";
 
 
 const instance = axios.create({
@@ -8,7 +8,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use((config)=>{
   
-  const token = localStorage.getItem("token")
+  const token = localStorage.getItem("adminToken")
 
   if (token) {
     config.headers.Authorization = token    
@@ -24,7 +24,7 @@ instance.interceptors.response.use ((response)=>{
 },
  (error) =>{
   console.log(error);
-  localStorage.removeItem("token")
+  localStorage.removeItem("adminToken")
 
  }
 )

@@ -15,6 +15,7 @@ import AddDiaryPage from './pages/User/AddDiaryPage';
 import AdminDiary from './pages/Admin/AdminDiary';
 function App() {
   const token = localStorage.getItem("token")
+  const adminToken = localStorage.getItem("adminToken")
   return (
     <div>
   
@@ -30,10 +31,10 @@ function App() {
      <Route exact  path='/add-diary' element={token ?  <AddDiaryPage/> : <Navigate to={'/'} /> }/> 
      
      
-     <Route exact path='/admin'  element={ token ? <Navigate to={'/admin/dashboard'}/>  : <Login/> } />
-     <Route exact path='/admin/dashboard'  element={ token ? <Dashboard/>: <Navigate to={"/admin"} />} />
-     <Route exact path='/admin/usermanage'  element={ token ?  <AdminUser/> : <Navigate to={"/admin"} />} />
-     <Route exact path='/admin/diarymanage'  element={ token ?  <AdminDiary/> : <Navigate to={"/admin"} />} />
+     <Route exact path='/admin'  element={ adminToken ? <Navigate to={'/admin/dashboard'}/>  : <Login/> } />
+     <Route exact path='/admin/dashboard'  element={ adminToken ? <Dashboard/>: <Navigate to={"/admin"} />} />
+     <Route exact path='/admin/usermanage'  element={ adminToken ?  <AdminUser/> : <Navigate to={"/admin"} />} />
+     <Route exact path='/admin/diarymanage'  element={ adminToken ?  <AdminDiary/> : <Navigate to={"/admin"} />} />
         
 
 

@@ -1,4 +1,4 @@
-import axios from "../../../axios";
+import axios from "../../../axios/axios";
 import React, { useState, useEffect, useContext } from "react";
 import { LoginContext } from "../../../context/loginContext";
 import { Link } from "react-router-dom";

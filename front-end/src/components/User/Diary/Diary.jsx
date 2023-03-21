@@ -1,50 +1,40 @@
-import axios from "../../../axios";
+import axios from "../../../axios/axios";
 import { useEffect, useState } from "react";
-import { Link  } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ProfileNav from "../ProfileNav/ProfileNav";
-import { ExclamationCircleFilled } from '@ant-design/icons';
-import {   Modal  } from 'antd';
+import { ExclamationCircleFilled } from "@ant-design/icons";
+import { Modal } from "antd";
 
 function Diary() {
   const [data, setData] = useState([]);
 
-
-
   const { confirm } = Modal;
-const handleDelete = (id) => {
-  confirm({
-    title: 'Are you sure delete this task ?',
-    icon: <ExclamationCircleFilled/>,
-    content: 'Deleted data cant be retrive ',
-    okText: 'Yes',
-    okType: 'danger',
-    cancelText: 'No',
-    onOk() {
-      axios.post('deleteDiary',{
-        id : id
-      }).then((res)=>{
-        if (res.data.success) {
-          window.location.reload()
-         
-        }
-      })
-    },
-    onCancel() {
-      console.log('Cancel');
-    },
-  });
- 
-
-
-
- 
-
-} 
-
-
+  const handleDelete = (id) => {
+    confirm({
+      title: "Are you sure delete this task ?",
+      icon: <ExclamationCircleFilled />,
+      content: "Deleted data cant be retrive ",
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk() {
+        axios
+          .post("deleteDiary", {
+            id: id,
+          })
+          .then((res) => {
+            if (res.data.success) {
+              window.location.reload();
+            }
+          });
+      },
+      onCancel() {
+        console.log("Cancel");
+      },
+    });
+  };
 
   useEffect(() => {
-
     axios.get("/getdiary").then((res) => {
       if (res.data.user) {
         setData(res.data.user);
@@ -83,8 +73,8 @@ const handleDelete = (id) => {
                             strokeWidth={1.5}
                             stroke="currentColor"
                             className="w-5 h-5 text-red-500 rounded-full hover:text-red-800 hover:cursor-pointer"
-                            onClick={()=>{
-                              handleDelete(data._id)
+                            onClick={() => {
+                              handleDelete(data._id);
                             }}
                           >
                             <path

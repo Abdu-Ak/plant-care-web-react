@@ -1,5 +1,5 @@
 
-import axios from "../../../axios"
+import axios from "../../../axios/axios"
 import React, { useEffect, useState } from "react";
 import { PLANTKEY } from "../../../constants/Constants";
 import { useNavigate } from "react-router-dom";
@@ -10,17 +10,21 @@ function AddDiary() {
   const [key, setKey] = useState("");
   const [num, setNum] = useState(null);
   const [diary, setDiary] = useState({});
+
   const handleSearch = () => {
-    axios
+    
+   if (key) {
+     axios
       .get(`https://perenual.com/api/species-list?key=${PLANTKEY}&q=${key}`)
       .then((res) => {
         console.log(res.data.data);
         setData(res.data.data);
       });
+   }
   };
 
 const handleDiary =()=>{
-  console.log(diary);
+
   if (diary.id) {   
     let file = new FormData()
     file.append("image" , diary.default_image.original_url)
@@ -57,12 +61,13 @@ const handleDiary =()=>{
   };
 
   useEffect(() => {
-   
     axios
       .get(`https://perenual.com/api/species-list?page=1&key=${PLANTKEY}`)
       .then((res) => {
+       
         res.data.data.shift();
         setData(res.data.data);
+       
       });
   }, []);
 
@@ -129,7 +134,7 @@ const handleDiary =()=>{
                   <div className="flex items-center justify-center ">
                     <img
                       className="w-60 h-60"
-                      src={data.default_image.original_url}
+                      src={data.default_image?.original_url}
                       alt="plant"
                     />
                   </div>

@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import axios from "../../../axios";
+import axios from "../../../axios/AdminAxios";
 import React, { useEffect, useState } from "react";
 
 function UserManage() {

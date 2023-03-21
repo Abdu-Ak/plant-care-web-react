@@ -6,7 +6,7 @@ function Sidebar() {
   const [showbar, setShowbar] = useState(false);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("adminToken");
     window.location = "/";
   };
 
@@ -165,9 +165,7 @@ function Sidebar() {
                     />
                   </svg>
 
-                  <span className="flex-1 ml-3 whitespace-nowrap">
-                    Diaries
-                  </span>
+                  <span className="flex-1 ml-3 whitespace-nowrap">Diaries</span>
                 </a>
               </Link>
             </li>

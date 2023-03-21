@@ -1,44 +1,39 @@
-import axios from "../../../axios";
+import axios from "../../../axios/AdminAxios";
 import React, { useEffect, useState } from "react";
-import { ExclamationCircleFilled } from '@ant-design/icons';
-import {   Modal  } from 'antd';
+import { ExclamationCircleFilled } from "@ant-design/icons";
+import { Modal } from "antd";
 
 function DiaryManage() {
   const [data, setData] = useState([]);
 
   const { confirm } = Modal;
 
-const handleDelete =(id)=>{
-  confirm({
-    title: 'Are you sure delete this task ?',
-    icon: <ExclamationCircleFilled/>,
-    content: 'Deleted data cant be retrive ',
-    okText: 'Yes',
-    okType: 'danger',
-    cancelText: 'No',
-    onOk() {
-      axios.post('/admin/deleteDiary',{id}).then((res)=>{
-        if (res.data.success) {
-          window.location.reload()
-        }
-      })
-    },
-    onCancel() {
-      console.log('Cancel');
-    },
-  });
- 
-
- 
-
-}
- 
+  const handleDelete = (id) => {
+    confirm({
+      title: "Are you sure delete this task ?",
+      icon: <ExclamationCircleFilled />,
+      content: "Deleted data cant be retrive ",
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk() {
+        axios.post("/admin/deleteDiary", { id }).then((res) => {
+          if (res.data.success) {
+            window.location.reload();
+          }
+        });
+      },
+      onCancel() {
+        console.log("Cancel");
+      },
+    });
+  };
 
   useEffect(() => {
     axios.get("/admin/diaries").then((res) => {
       if (res.data.data) {
         setData(res.data.data);
-         console.log(res.data.data);
+        console.log(res.data.data);
       }
     });
   }, []);
@@ -74,8 +69,8 @@ const handleDelete =(id)=>{
                           strokeWidth={1.5}
                           stroke="currentColor"
                           className="w-5 h-5 text-red-500 rounded-full hover:text-red-800 hover:cursor-pointer"
-                          onClick={()=>{
-                            handleDelete(data._id)
+                          onClick={() => {
+                            handleDelete(data._id);
                           }}
                         >
                           <path
@@ -87,23 +82,25 @@ const handleDelete =(id)=>{
                       </div>
 
                       <div className="md:flex  ">
-                     <div className="flex justify-center">
-                     <img className="w-32 h-32  rounded-lg object-cover" src={data.image} alt="" />
-                     </div>
-                      <div className="flex flex-col mt-5  p-3">
-                        <p className="mb-2  leading-normal text-base">
-                         {data.commonName}
-                        </p>
-                        <p className="mb-2  leading-normal text-base">
-                         {data.scientificName}
-                        </p>
-                        <p className="mb-2  leading-normal text-base">
-                        {data.Date}
-                        </p>
+                        <div className="flex justify-center">
+                          <img
+                            className="w-32 h-32  rounded-lg object-cover"
+                            src={data.image}
+                            alt=""
+                          />
+                        </div>
+                        <div className="flex flex-col mt-5  p-3">
+                          <p className="mb-2  leading-normal text-base">
+                            {data.commonName}
+                          </p>
+                          <p className="mb-2  leading-normal text-base">
+                            {data.scientificName}
+                          </p>
+                          <p className="mb-2  leading-normal text-base">
+                            {data.Date}
+                          </p>
+                        </div>
                       </div>
-                      
-                      </div>
-
                     </div>
                   </li>
                 );

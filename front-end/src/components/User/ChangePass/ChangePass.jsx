@@ -1,4 +1,4 @@
-import axios from "../../../axios";
+import axios from "../../../axios/axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { message } from "antd";
@@ -12,28 +12,25 @@ function ChangePass() {
   const [err, setErr] = useState("");
 
   const validate = () => {
-    let error = ""
-    if (newPass==="" ) {
-      error="Password required..!"
-    }else if (rePass==="") {
-      error="Password required..!"
-    }else if (oldPass==="" && pass) {
-      error="Old password required..!"
+    let error = "";
+    if (newPass === "") {
+      error = "Password required..!";
+    } else if (rePass === "") {
+      error = "Password required..!";
+    } else if (oldPass === "" && pass) {
+      error = "Old password required..!";
+    } else if (newPass.length < 4) {
+      error = "Password is too short..!";
+    } else if (newPass !== rePass) {
+      error = "Passwords should be same..!";
     }
 
-    else if (newPass.length < 4) {
-      error="Password is too short..!"
-    } else if (newPass !== rePass) {
-      error="Passwords should be same..!"
-    } 
-
-    return error
+    return error;
   };
 
   const handleSubmit = () => {
-    
     const error = validate();
-    setErr(error)
+    setErr(error);
 
     if (!error) {
       axios
@@ -47,10 +44,7 @@ function ChangePass() {
             localStorage.removeItem("token");
             navigate("/");
             message.success("Password changed ");
-          }
-          else if (res.data.err) {
-            
-     
+          } else if (res.data.err) {
             setErr(res.data.err);
           }
         });

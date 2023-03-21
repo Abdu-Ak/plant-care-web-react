@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import axios from "../../../axios";
+import axios from "../../../axios/AdminAxios";
 import React, {  useState } from "react";
 
 
@@ -18,7 +18,7 @@ const handleSubmit = (e)=>{
     if (res.data.err) {
       setErrors(res.data.err)
     }else if(res.data.logged){
-      localStorage.setItem("token" ,res.data.token )
+      localStorage.setItem("adminToken" ,res.data.token )
       window.location="/admin/dashboard"
     }
   })

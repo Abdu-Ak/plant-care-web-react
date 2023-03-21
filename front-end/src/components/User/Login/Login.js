@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import jwt_decode from "jwt-decode";
-import axios from "../../../axios";
+import axios from "../../../axios/axios";
 import { LoginContext } from "../../../context/loginContext";
 
 import Signup from "../Home/Signup";

@@ -1,4 +1,4 @@
-import axios from "../../../axios"
+import axios from "../../../axios/axios"
 import React, { useState } from "react";
 
 function Signup(props) {
