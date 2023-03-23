@@ -7,6 +7,37 @@ const db = require("./config/connection");
 const adminRouter = require("./routes/admin");
 const userRouter = require("./routes/user");
 const cors = require("cors");
+const http = require('http')
+const socketio = require('socket.io');
+
+
+// socket server
+
+
+const server = http.createServer(app)
+
+
+const io = socketio(server,{
+  cors: {
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST']
+  },
+
+})
+
+io.on('connection',(Socket)=>{
+    console.log("we have connection..!")
+
+    Socket.on('join',(token)=>{
+      console.log(token);
+    })
+
+    Socket.on('disconnect', ()=>{
+        console.log("user had left..!");
+    })
+})
+
+
 
 // cors setting
 app.use(cors());
@@ -24,7 +55,7 @@ db.dbConnect();
 
 //server creating//
 
-app.listen(process.env.PORT, () => {
+server.listen(process.env.PORT, () => {
   console.log("server started ");
 });
 

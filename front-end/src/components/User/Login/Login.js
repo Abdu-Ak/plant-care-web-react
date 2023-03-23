@@ -35,7 +35,6 @@ function Login() {
             setErrors(res.data.err);
           } else if (res.data.logged) {
             localStorage.setItem("token", res.data.token);
-            window.location.reload()
             setShowlog(false);
             
           }

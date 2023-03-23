@@ -1,32 +1,43 @@
+import { message } from "antd";
 import axios from "axios";
 import { URL } from "../constants/Constants";
 
 
 const instance = axios.create({
-  baseURL : URL
-})
+  baseURL: URL,
+});
 
-instance.interceptors.request.use((config)=>{
-  
-  const token = localStorage.getItem("token")
+instance.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
 
   if (token) {
-    config.headers.Authorization = token    
-  
+    config.headers.Authorization = token;
   }
 
-  return config
+  return config;
+});
 
-})
+instance.interceptors.response.use(
+  (response) => {
+    console.log(response);
+    return response;
+  },
+  (error) => {
 
-instance.interceptors.response.use ((response)=>{
-  return response;
-},
- (error) =>{
-  console.log(error);
-  localStorage.removeItem("token")
 
- }
-)
+    
+    if (error.response.data.blocked) {  
+      window.location ="/" 
+      message.error("You been blocked by Admin..!");
 
-  export default instance
+     
+      localStorage.removeItem("token");
+    }else{
+      localStorage.removeItem("token");
+    }
+   
+   
+  }
+);
+
+export default instance;

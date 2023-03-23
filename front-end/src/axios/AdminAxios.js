@@ -1,32 +1,28 @@
 import axios from "axios";
 import { URL } from "../constants/Constants";
 
-
 const instance = axios.create({
-  baseURL : URL
-})
+  baseURL: URL,
+});
 
-instance.interceptors.request.use((config)=>{
-  
-  const token = localStorage.getItem("adminToken")
+instance.interceptors.request.use((config) => {
+  const token = localStorage.getItem("adminToken");
 
   if (token) {
-    config.headers.Authorization = token    
-  
+    config.headers.Authorization = token;
   }
 
-  return config
+  return config;
+});
 
-})
+instance.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    console.log(error);
+    localStorage.removeItem("adminToken");
+  }
+);
 
-instance.interceptors.response.use ((response)=>{
-  return response;
-},
- (error) =>{
-  console.log(error);
-  localStorage.removeItem("adminToken")
-
- }
-)
-
-  export default instance
+export default instance;

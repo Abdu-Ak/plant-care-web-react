@@ -13,6 +13,8 @@ import EditProfilePage from './pages/User/EditProfilePage';
 import Diarypage from './pages/User/Diarypage';
 import AddDiaryPage from './pages/User/AddDiaryPage';
 import AdminDiary from './pages/Admin/AdminDiary';
+import GroupChatPage from './pages/User/GroupChatPage';
+import ShowView from './context/AdminViewContext';
 function App() {
   const token = localStorage.getItem("token")
   const adminToken = localStorage.getItem("adminToken")
@@ -21,6 +23,7 @@ function App() {
   
      <ShowLogin>
       <ShowBot>
+        <ShowView>
       <BrowserRouter>
      <Routes>
      <Route exact path='/'  element={ <HomePage/> } />
@@ -30,6 +33,7 @@ function App() {
     <Route exact  path='/diary' element={token ?  <Diarypage/> : <Navigate to={'/'} />} /> 
      <Route exact  path='/add-diary' element={token ?  <AddDiaryPage/> : <Navigate to={'/'} /> }/> 
      
+     <Route exact path='/group-chat' element={ <GroupChatPage/> }/>
      
      <Route exact path='/admin'  element={ adminToken ? <Navigate to={'/admin/dashboard'}/>  : <Login/> } />
      <Route exact path='/admin/dashboard'  element={ adminToken ? <Dashboard/>: <Navigate to={"/admin"} />} />
@@ -41,6 +45,7 @@ function App() {
 
      </Routes>
      </BrowserRouter>
+     </ShowView>
      </ShowBot>
      </ShowLogin>    
      

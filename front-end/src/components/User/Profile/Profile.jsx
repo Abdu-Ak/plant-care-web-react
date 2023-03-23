@@ -10,11 +10,11 @@ function Profile() {
     axios.get("/getprofile").then((res) => {
       console.log(res);
       if (res.data.user) {
-        console.log(res.data.user);
+       
         setData(res.data.user);
       }
     })
-  })
+  },[setData])
 
   return (
     <>

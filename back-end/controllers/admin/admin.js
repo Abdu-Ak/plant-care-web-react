@@ -22,7 +22,7 @@ adminLogin :(req,res)=>{
             payload,
             process.env.JWT_SECRET,
             {
-                expiresIn : 3600
+                expiresIn :  86400
             },
             (err,token)=>{
                 if (err) {
@@ -114,5 +114,20 @@ deleteDiary : (req,res)=>{
      })
      
 },
+
+
+userView : async (req,res)=>{
+    const  id  = req.params.id
+   
+     
+    const data = await diary.find({userId : id})
+    const user = await userdetails.findOne({_id  : id})
+     
+    const  diaryCount = data.length
+    
+     res.send( {success : true ,  user,diaryCount})
+
+
+}
 
 }
