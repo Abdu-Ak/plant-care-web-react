@@ -1,50 +1,49 @@
-
-import axios from "../../../axios/axios"
+import axios from "../../../axios/axios";
 import React, { useEffect, useState } from "react";
 import { PLANTKEY } from "../../../constants/Constants";
 import { useNavigate } from "react-router-dom";
 
 function AddDiary() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [key, setKey] = useState("");
   const [num, setNum] = useState(null);
   const [diary, setDiary] = useState({});
 
   const handleSearch = () => {
-    
-   if (key) {
-     axios
-      .get(`https://perenual.com/api/species-list?key=${PLANTKEY}&q=${key}`)
-      .then((res) => {
-        console.log(res.data.data);
-        setData(res.data.data);
-      });
-   }
+    if (key) {
+      axios
+        .get(`https://perenual.com/api/species-list?key=${PLANTKEY}&q=${key}`)
+        .then((res) => {
+          console.log(res.data.data);
+          setData(res.data.data);
+        });
+    }
   };
 
-const handleDiary =()=>{
+  const handleDiary = () => {
+    if (diary.id) {
+      let file = new FormData();
+      file.append("image", diary.default_image.original_url);
+      file.append("commonName", diary.common_name);
+      file.append("otherName", diary.other_name);
+      file.append("scientificName", diary.scientific_name);
+      file.append("watering", diary.watering);
+      file.append("sunlight", diary.sunlight);
 
-  if (diary.id) {   
-    let file = new FormData()
-    file.append("image" , diary.default_image.original_url)
-    file.append("commonName" ,diary.common_name)
-    file.append("otherName" , diary.other_name)
-    file.append("scientificName",diary.scientific_name)
-    file.append("watering" ,diary.watering)
-    file.append("sunlight",diary.sunlight)
-
-    axios.post("/addDiary",file,{
-      headers: {
-        "Content-Type": "multipart/form-data",
-      }}).then((res)=>{
-        if (res.data.success) {
-          navigate('/diary')
-        }
-      })
-  }
-}
-
+      axios
+        .post("/addDiary", file, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          if (res.data.success) {
+            navigate("/diary");
+          }
+        });
+    }
+  };
 
   const handleAdd = (id, index) => {
     if (num === null) {
@@ -54,7 +53,6 @@ const handleDiary =()=>{
         return obj.id === id;
       });
       setDiary(plant[0]);
-    
     } else {
       setNum(null);
     }
@@ -64,10 +62,8 @@ const handleDiary =()=>{
     axios
       .get(`https://perenual.com/api/species-list?page=1&key=${PLANTKEY}`)
       .then((res) => {
-       
         res.data.data.shift();
         setData(res.data.data);
-       
       });
   }, []);
 
@@ -77,23 +73,25 @@ const handleDiary =()=>{
         <p className="text-4xl font-serif font-semibold text-third">
           Select Plants
         </p>
-        {diary.id  && (<div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-8 h-8 text-green-800  hover:border hover:rounded-full hover:border-green-800 hover:cursor-pointer "
-            onClick={handleDiary}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M4.5 12.75l6 6 9-13.5"
-            />
-          </svg>
-        </div>)}
+        {diary.id && (
+          <div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-8 h-8 text-green-800  hover:border hover:rounded-full hover:border-green-800 hover:cursor-pointer "
+              onClick={handleDiary}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M4.5 12.75l6 6 9-13.5"
+              />
+            </svg>
+          </div>
+        )}
       </div>
       <div className="flex justify-center items-center md:px-5 min-h-screen bg-[#dae4ea]">
         <div className="w-96  h-auto bg-[#f2f9fb] transition-all rounded-lg  md:w-full p-4">

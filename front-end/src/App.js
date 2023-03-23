@@ -15,6 +15,8 @@ import AddDiaryPage from './pages/User/AddDiaryPage';
 import AdminDiary from './pages/Admin/AdminDiary';
 import GroupChatPage from './pages/User/GroupChatPage';
 import ShowView from './context/AdminViewContext';
+import AddPostPage from './pages/User/AddPostPage';
+import DiaryView from './components/Admin/diarymanage/DiaryView';
 function App() {
   const token = localStorage.getItem("token")
   const adminToken = localStorage.getItem("adminToken")
@@ -34,6 +36,9 @@ function App() {
      <Route exact  path='/add-diary' element={token ?  <AddDiaryPage/> : <Navigate to={'/'} /> }/> 
      
      <Route exact path='/group-chat' element={ <GroupChatPage/> }/>
+     <Route exact path='/view' element={ <DiaryView/> }/>
+
+     <Route exact path='/add-post' element={ <AddPostPage/> }/>
      
      <Route exact path='/admin'  element={ adminToken ? <Navigate to={'/admin/dashboard'}/>  : <Login/> } />
      <Route exact path='/admin/dashboard'  element={ adminToken ? <Dashboard/>: <Navigate to={"/admin"} />} />

@@ -1,4 +1,4 @@
-import axios from "../../../axios/axios";
+import axios from "../../../axios/AdminAxios";
 import React, { useContext, useEffect, useState } from "react";
 import { AdminViewContext } from "../../../context/AdminViewContext";
 
@@ -8,7 +8,7 @@ function UserView({id}) {
 
     const {  view,setView } = useContext(AdminViewContext);
 useEffect(() => {
-
+    
     axios.get(`/admin/userview/${id}`).then((res)=>{
       if (res.data.success) {
         console.log(res.data);
@@ -18,7 +18,7 @@ useEffect(() => {
     })
 
 
-},[setView,id])
+},[setView,id,view])
 
 
 

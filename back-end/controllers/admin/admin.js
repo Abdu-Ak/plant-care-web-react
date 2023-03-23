@@ -3,7 +3,6 @@ require("dotenv").config();
 const jwt = require('jsonwebtoken');
 const userdetails = require("../../models/userSchema");
 const diary = require("../../models/diarySchema");
-const { default: mongoose } = require("mongoose");
 
 
 module.exports={
@@ -117,8 +116,11 @@ deleteDiary : (req,res)=>{
 
 
 userView : async (req,res)=>{
+   try {
+    
+
     const  id  = req.params.id
-   
+
      
     const data = await diary.find({userId : id})
     const user = await userdetails.findOne({_id  : id})
@@ -127,6 +129,27 @@ userView : async (req,res)=>{
     
      res.send( {success : true ,  user,diaryCount})
 
+
+   } catch (error) {
+    console.log(error);
+   }
+
+
+},
+diaryView: async (req,res)=>{
+    
+
+    const id = req.params.id
+    const data = await diary.findOne({_id: id})
+    const user = await userdetails.findOne({_id:data.userId})
+    console.log(data);
+    console.log(user);
+   
+    res.send( {success : true ,  user, data})
+
+
+
+   
 
 }
 

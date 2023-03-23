@@ -76,7 +76,7 @@ function EditProfile() {
   return (
     <>
       <div className="p-5 md:p-10  w-full h-full   ">
-        <form encType="mumultipart/form-data" onSubmit={handleSubmit}>
+        <form encType="multipart/form-data" onSubmit={handleSubmit}>
           <div className="flex justify-between">
             <button className="md:hidden pt-4">
               <svg

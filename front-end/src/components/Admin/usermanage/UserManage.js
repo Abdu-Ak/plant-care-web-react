@@ -10,7 +10,7 @@ function UserManage() {
   const { view, setView } = useContext(AdminViewContext);
 
   const handleBlock = (id) => {
-    axios.get(`/admin/blockuser/${id}`).then((res) => {});
+    axios.get(`/admin/blockuser/${id}`)
   };
 
   const handleView = (id) => {
