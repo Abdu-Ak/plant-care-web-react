@@ -21,7 +21,7 @@ function App() {
   const token = localStorage.getItem("token")
   const adminToken = localStorage.getItem("adminToken")
   return (
-    <div>
+    <>
   
      <ShowLogin>
       <ShowBot>
@@ -54,7 +54,7 @@ function App() {
      </ShowBot>
      </ShowLogin>    
      
-    </div>
+    </>
   );
 }
 

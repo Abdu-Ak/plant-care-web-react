@@ -260,6 +260,15 @@ module.exports = {
     });
   },
 
+  getUsers : (req,res)=>{
+
+    userdetails.find().then((users)=>{
+      res.send({success:true,users })
+    })
+
+  },
+  
+
   getChat: (req, res) => {},
 
   logOut: (req, res) => {

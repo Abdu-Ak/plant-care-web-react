@@ -27,7 +27,7 @@ function GroupChat() {
     socket = io(ENDPOINT);
 
     socket.emit("join", { token }, () => {});
-
+     console.log(socket);
     return () => {
       // socket.emit('disconnect')
 

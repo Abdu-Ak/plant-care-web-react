@@ -15,6 +15,7 @@ router.post('/changepass',verify,userControllers.changePass)
 router.post('/addDiary',verify,uploadImage,userControllers.addDiary )
 router.get('/getdiary',verify,userControllers.getDiary)
 router.post('/deleteDiary',verify,userControllers.deleteDiary)
+router.get('/getUsers', verify ,userControllers.getUsers )
 
 router.get("/chat",userControllers.getChat)
 

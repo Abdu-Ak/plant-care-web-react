@@ -36,7 +36,6 @@ function Login() {
           } else if (res.data.logged) {
             localStorage.setItem("token", res.data.token);
             setShowlog(false);
-            
           }
         });
     }
@@ -56,7 +55,7 @@ function Login() {
       .then((res) => {
         if (res.data.logged) {
           localStorage.setItem("token", res.data.token);
-          window.location.reload()
+          window.location.reload();
           setShowlog(false);
         } else if (res.data.err) {
           setErrors(res.data.err);

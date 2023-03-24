@@ -14,6 +14,7 @@ function EditProfile() {
   const navigate = useNavigate();
 
   const handleImage = (e) => {
+   
     setImage(e.target.files[0]);
     setImg(URL.createObjectURL(e.target.files[0]));
   };

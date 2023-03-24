@@ -5,14 +5,13 @@ import { Dropdown, Space } from "antd";
 function ProfileNav() {
   const items = [
     {
-      label: <Link to={'/add-diary'}> Add diary  </Link> ,
+      label: <Link to={"/add-diary"}> Add diary </Link>,
       key: "0",
     },
     {
-      label: <Link > Add post  </Link> ,
+      label: <Link to={"/add-post"}> Add post </Link>,
       key: "1",
     },
-
   ];
 
   return (

@@ -77,7 +77,7 @@ function Navbar() {
             </div>
             {token && (
               <div className="flex">
-                <Link to={'/chat'}>
+                <Link to={'/group-chat'}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
