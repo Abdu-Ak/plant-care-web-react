@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const diary = require("../../models/diarySchema");
 require("dotenv").config();
 const moment = require("moment");
+const posts = require("../../models/postSchema");
 
 module.exports = {
   userSignup: (req, res) => {
@@ -267,12 +268,34 @@ module.exports = {
     })
 
   },
-  
+   
+  addPost : (req,res)=>{
+    const id = req.id
+    const image = req.file.path
+    const {title,caption,tag} = req.body
+
+    console.log(tag);
+     
+    posts.create({
+      userId : id,
+      image : image,
+      title : title,
+      caption :caption ,
+      tags : tag ,
+      Date :  moment().format("L"),
+
+    }).then((data)=>{
+     res.send({success : true  })
+    })
+     
+   
+
+  },  
 
   getChat: (req, res) => {},
 
   logOut: (req, res) => {
-    const id = req.id;
+    const id = req.id;   
 
     userdetails
       .updateOne({ _id: id }, { $set: { status: "offline" } })

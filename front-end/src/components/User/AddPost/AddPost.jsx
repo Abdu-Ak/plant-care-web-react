@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Button, message, Steps, theme } from "antd";
 import { useState } from "react";
 import axios from "../../../axios/axios";
+import { useNavigate } from "react-router-dom";
 
 function AddPost() {
   const { token } = theme.useToken();
@@ -11,31 +12,98 @@ function AddPost() {
   const [caption, setCaption] = useState("");
   const [key, setKey] = useState("");
   const [users, setUsers] = useState([]);
+  const [filtered, setFiltered] = useState([]);
+  const [tag, setTag] = useState([]);
+  const navigate = useNavigate() 
 
   const handleSearch = (e) => {
-    e.preventDefault();
     setKey(e.target.value);
-    
-    const filtered = key ?  users.filter((value) => {
-      (value.username && value.username.toLowerCase().includes(key.toLowerCase())) ||
-      (value.email && value.email.toLowerCase().includes(key.toLowerCase()))
-      
-    }) : ""
+    const filter = key
+      ? users.filter((value) => {
+          return (
+            (value.username &&
+              value.username.toLowerCase().includes(key.toLowerCase())) ||
+            (value.email &&
+              value.email.toLowerCase().includes(key.toLowerCase()))
+          );
+        })
+      : "";
 
-     console.log(filtered);
-  }
+    if (filter) {
+      setFiltered(filter);
+    }
+  };
+
+  const handleTag = (id) => {
+    const tagUser = id
+      ? users.filter((value) => {
+          return value._id.includes(id);
+        })
+      : "";
+    if (tagUser && tag.includes(tagUser[0]) === false) {
+      setTag((tag) => {
+        const data = [...tag];
+          data.push(tagUser[0]);
+          return data;
+      });
+      
+
+    }
+  };
+    const removeTag = (id) =>{
+      const tagUser = id
+      ? users.filter((value) => {
+          return value._id.includes(id);
+        })
+      : "";
+      if (tagUser) {
+        setTag((tag) => {
+          const data = [...tag];
+          data.pop(tagUser[0]);
+          return data;
+        });
+        console.log(tag);
+    }
+    }
 
   const handleImage = (e) => {
     setImage(e.target.files[0]);
     setImg(URL.createObjectURL(e.target.files[0]));
   };
+
+ const handleSubmit = () =>{
+   if (image) {
+    console.log(tag);
+        let file = new FormData()
+        
+        file.append('image' , image )
+        file.append('title', title)
+        file.append('caption',caption)
+        for (let i = 0; i < tag.length; i++) {
+          file.append('tag[]', (tag[i]._id));
+        }
+        axios.post('/addPost',file ,{
+          headers :{
+            "Content-Type": "multipart/form-data",
+          }
+        }).then((res)=>{
+           if (res.data.success) {
+             navigate('/profile')
+             message.success("Post added..!")
+           }
+        })
+   }else{
+    message.error("must add a image..!")
+   }
+ }
+
   useEffect(() => {
     axios.get("/getUsers").then((res) => {
       if (res.data.success) {
         setUsers(res.data.users);
       }
     });
-  }, [key]);
+  }, [token]);
 
   const [current, setCurrent] = useState(0);
   const next = () => {
@@ -112,6 +180,7 @@ function AddPost() {
             <input
               className=" bg-gray-100 border h-12 border-gray-300 p-2 mb-4 outline-none"
               placeholder="Title"
+              name="title"
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -119,6 +188,7 @@ function AddPost() {
             <textarea
               className=" border p-2 bg-gray-100 h-28 mt-1 block w-full text-start sm:text-sm border-gray-300  outline-none"
               rows="3"
+              name="caption"
               placeholder="Describe everything about this post here"
               value={caption}
               onChange={(e) => {
@@ -201,13 +271,47 @@ function AddPost() {
                       handleSearch(e);
                     }}
                   />{" "}
-                  <i className="fa fa-search absolute right-3 top-4 text-gray-300"></i>{" "}
+                  <span className="absolute right-3 top-4 ">
+                    {tag &&
+                      tag.map((tag,index) => {
+                        return (
+                          <div key={index} className="text-xs inline-flex items-center font-bold leading-sm  mr-1  px-3 py-1 bg-blue-200 text-gray-500 rounded-full">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth={1.5}
+                              stroke="currentColor"
+                              className="w-5 h-5 mr-1 cursor-pointer"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                removeTag(tag._id);
+                              }}
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M6 18L18 6M6 6l12 12"
+                              />
+                            </svg>
+                            {tag.username ? tag.username : tag.email}
+                          </div>
+                        );
+                      })}
+                  </span>
                 </div>
                 <ul>
                   {key &&
-                    users.map((data,index) => {
+                    filtered.map((data, index) => {
                       return (
-                        <li key={index} className="flex justify-between items-center bg-white mt-2 p-2 hover:shadow-lg rounded cursor-pointer transition">
+                        <li
+                          key={index}
+                          className="flex justify-between items-center bg-white mt-2 p-2 hover:shadow-lg rounded cursor-pointer transition"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleTag(data._id);
+                          }}
+                        >
                           <div className="flex items-center ml-2">
                             {" "}
                             <img
@@ -270,7 +374,7 @@ function AddPost() {
               <Button onClick={() => next()}>Next</Button>
             )}
             {current === steps.length - 1 && (
-              <Button onClick={() => message.success("Processing complete!")}>
+              <Button onClick={handleSubmit}>
                 Done
               </Button>
             )}

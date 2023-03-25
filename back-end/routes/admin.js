@@ -3,7 +3,7 @@ const router = express.Router();
 const adminControllers =require("../controllers/admin/admin");
 const { adminVerify } = require("../middleware/adminVerify");
 
-
+  
 router.post("/login",adminControllers.adminLogin)
 router.get("/getusers",adminVerify,adminControllers.getUsers)
 router.get("/blockuser/:id",adminVerify,adminControllers.blockUser)

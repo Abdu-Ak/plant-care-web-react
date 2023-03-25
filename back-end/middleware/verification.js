@@ -21,6 +21,7 @@ module.exports = {
             });
           } else {
             req.id = decoded.id;
+
             next();
           }
         });
