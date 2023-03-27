@@ -3,6 +3,7 @@ require("dotenv").config();
 const jwt = require('jsonwebtoken');
 const userdetails = require("../../models/userSchema");
 const diary = require("../../models/diarySchema");
+const posts = require("../../models/postSchema");
 
 
 module.exports={
@@ -151,6 +152,73 @@ diaryView: async (req,res)=>{
 
    
 
-}
+},
+
+getPosts :(req,res)=>{
+    posts.aggregate([
+        {
+          $unwind: "$tags",
+        },
+        {
+          $lookup: {
+            from: "userdetails",
+            let: { userId: "$userId" },   
+            pipeline: [
+              { $match: { $expr: { $eq: ["$_id", "$$userId"] } } },
+              { $project: { _id: 0, username: 1, email: 1 , image:1 } }
+            ],
+            as: "user",
+          },
+        },
+        {
+          $lookup: {
+            from: "userdetails",
+            let: { tagId: "$tags" },
+            pipeline: [
+              { $match: { $expr: { $eq: ["$_id", "$$tagId"] } } },
+              { $project: { _id: 0, username: 1, email: 1 } }
+            ],
+            as: "tagged",
+          },
+        },
+        {
+          $unwind: "$tagged",
+        },
+        {
+          $group: {
+            _id: "$_id",
+            title: { $first: "$title" },
+            caption: { $first: "$caption" },
+            Date: { $first: "$Date" },
+            image: { $first: "$image" },
+            userId: { $first: "$userId" },
+            tags: { $push: "$tags" },
+            taggedUsers: { $push: "$tagged" },
+            user: { $first: "$user" },
+          }
+        },
+        
+      ])
+        .then((posts) => {
+        
+          res.send({
+            success : true ,
+            posts
+          });
+        });
+},
+
+deletePosts : (req,res)=>{
+   const id = req.params.id 
+   console.log(id);
+   posts.deleteOne({_id : id }).then((data)=>{
+    
+    if (data ) {
+       res.send({success:true})
+    }
+  
+   })
+
+},
 
 }

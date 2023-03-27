@@ -1,6 +1,7 @@
 import axios from "../../../axios/axios";
 import React, { useEffect, useState } from "react";
 import ProfileNav from "../ProfileNav/ProfileNav";
+import Posts from "./Posts";
 
 
 function Profile() {
@@ -93,6 +94,7 @@ function Profile() {
           </div>
         </div>
       </div>
+       <Posts/>
     </>
   );
 }

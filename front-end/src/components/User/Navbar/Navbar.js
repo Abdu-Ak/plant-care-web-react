@@ -43,11 +43,13 @@ function Navbar() {
       >
         <div className="flex items-center h-24  justify-between ">
           <div className="w-14 ml-5 md:mb-5 md:w-20 md:h-14 rounded-lg">
-          <img
+         <Link to={'/'}>
+         <img
             className="w-full    object-cover rounded-lg hover:cursor-pointer"
             src="/images/logo.png"
             alt="nav_logo"
           />
+         </Link>
           </div>
           <div className="hidden md:flex  ">
             <div className="flex items-center mr-14 ">
@@ -56,9 +58,11 @@ function Navbar() {
                 About Us
               </h3>
              </Link>
-              <h3 className="mr-3 font-sans font-semibold text-base  text-primary hover:cursor-pointer  hover:text-gray-500 ">
-                Community
+             <Link to={'/community'}>
+             <h3 className="mr-3 font-sans font-semibold text-base text-primary hover:cursor-pointer hover:text-gray-500 ">
+                community
               </h3>
+             </Link>
               {token ? (
                 <h3
                   className="mr-3 font-sans font-semibold  text-primary hover:cursor-pointer  hover:text-gray-500   "
@@ -179,7 +183,8 @@ function Navbar() {
               About Us
             </li>
            </Link>
-            <li className="flex pb-3 font-sans font-semibold text-base  text-primary hover:cursor-pointer hover:text-gray-500">
+           <Link to={'/community'}>
+           <li className="flex pb-3 font-sans font-semibold text-base  text-primary hover:cursor-pointer hover:text-gray-500">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -196,6 +201,7 @@ function Navbar() {
               </svg>
               Community
             </li>
+           </Link>
             {token ? (
               <li className="flex pb-3 font-sans font-semibold text-base  text-primary hover:cursor-pointer hover:text-gray-500"
               onClick={handleLogout}

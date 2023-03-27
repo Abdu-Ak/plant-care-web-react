@@ -9,6 +9,7 @@ import ChatBot from '../ChatBot/ChatBot'
 import { BotContext } from "../../../context/BotContext";
 function Home() {
   const {showBot} = useContext(BotContext)
+  
 
   return (
     <div >

@@ -16,6 +16,8 @@ import AdminDiary from './pages/Admin/AdminDiary';
 import GroupChatPage from './pages/User/GroupChatPage';
 import ShowView from './context/AdminViewContext';
 import AddPostPage from './pages/User/AddPostPage';
+import CommunityPage from './pages/User/CommunityPage';
+import AdminPost from './pages/Admin/AdminPost';
 function App() {
   const token = localStorage.getItem("token")
   const adminToken = localStorage.getItem("adminToken")
@@ -29,12 +31,15 @@ function App() {
      <Routes>
      <Route exact path='/'  element={ <HomePage/> } />
      <Route exact path='/about'  element={ <AboutPage/> } />
+     <Route exact path='/community' element={ <CommunityPage/>}/>
+
      <Route exact path='/profile'  element={token ?  <ProfilePage/> : <Navigate to={'/'} /> } />
      <Route exact path='/editprofile'  element={token ?  <EditProfilePage/> : <Navigate to={'/'} /> } />
      <Route exact  path='/diary' element={token ?  <Diarypage/> : <Navigate to={'/'} />} /> 
      <Route exact  path='/add-diary' element={token ?  <AddDiaryPage/> : <Navigate to={'/'} /> }/> 
      <Route exact path='/add-post' element={token ? <AddPostPage/> : <Navigate to={'/'} />}/>
-
+     
+     
      
      <Route exact path='/group-chat' element={ <GroupChatPage/> }/>
 
@@ -43,6 +48,7 @@ function App() {
      <Route exact path='/admin/dashboard'  element={ adminToken ? <Dashboard/>: <Navigate to={"/admin"} />} />
      <Route exact path='/admin/usermanage'  element={ adminToken ?  <AdminUser/> : <Navigate to={"/admin"} />} />
      <Route exact path='/admin/diarymanage'  element={ adminToken ?  <AdminDiary/> : <Navigate to={"/admin"} />} />
+     <Route exact path='/admin/posts'  element={ adminToken ?  <AdminPost/> : <Navigate to={"/admin"} />} />
         
 
 

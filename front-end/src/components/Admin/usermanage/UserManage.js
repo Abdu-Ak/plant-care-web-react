@@ -24,10 +24,10 @@ function UserManage() {
         setUsers(res.data.userdata);
       }
     });
-  });
+  },[]);
 
   return (
-    <div>
+    <>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         {view && <UserView id={id} />}
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -186,7 +186,7 @@ function UserManage() {
           </tbody>
         </table>
       </div>
-    </div>
+    </>
   );
 }
 

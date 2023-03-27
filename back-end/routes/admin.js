@@ -11,5 +11,7 @@ router.get("/diaries",adminVerify,adminControllers.getDiaries)
 router.post('/deleteDiary',adminVerify,adminControllers.deleteDiary)
 router.get('/userview/:id',adminVerify,adminControllers.userView)
 router.get('/diaryview/:id',adminVerify,adminControllers.diaryView)
+router.get('/posts' , adminVerify,adminControllers.getPosts )
+router.get('/deletePost/:id',adminVerify,adminControllers.deletePosts)
 
 module.exports = router; 

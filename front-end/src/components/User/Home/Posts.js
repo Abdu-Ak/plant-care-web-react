@@ -1,19 +1,19 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import axios from "../../../axios/axios";
 
 function Posts() {
   const settings = {
-    
     infinite: true,
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 3000,
+    autoplaySpeed: 3000 ,
     cssEase: "linear",
     arrows: false,
     responsive: [
@@ -31,54 +31,17 @@ function Posts() {
       },
     ],
   };
+  const [posts, setPost] = useState([]);
 
-  const posts = [
-    {
-      id: 1,
-      user: {
-        name: "John Doe",
-        avatar: "https://randomuser.me/api/portraits/men/1.jpg",
-      },
-      image: "https://picsum.photos/id/1018/300/200",
-      caption: "Beautiful flowers in my garden",
-    },
-    {
-      id: 2,
-      user: {
-        name: "Jane Smith",
-        avatar: "https://randomuser.me/api/portraits/women/1.jpg",
-      },
-      image: "https://picsum.photos/id/1025/300/200",
-      caption: "Lush greenery in the park",
-    },
-    {
-      id: 3,
-      user: {
-        name: "Bob Johnson",
-        avatar: "https://randomuser.me/api/portraits/men/2.jpg",
-      },
-      image: "https://picsum.photos/id/1035/300/200",
-      caption: "Succulent plants on my windowsill",
-    },
-    {
-      id: 4,
-      user: {
-        name: "Samantha Lee",
-        avatar: "https://randomuser.me/api/portraits/women/2.jpg",
-      },
-      image: "https://picsum.photos/id/1043/300/200",
-      caption: "A walk in the forest",
-    },
-    {
-      id: 5,
-      user: {
-        name: "David Brown",
-        avatar: "https://randomuser.me/api/portraits/men/3.jpg",
-      },
-      image: "https://picsum.photos/id/1052/300/200",
-      caption: "Colorful blooms in the flowerbed",
-    },
-  ];
+  useEffect(() => {
+    axios.get("/posts").then((res) => {
+      if (res.data.success) {
+        setPost(res.data.posts);
+        console.log(res.data.posts);
+      }
+    });
+  }, []);
+
 
   return (
     <>
@@ -91,17 +54,34 @@ function Posts() {
             {posts.map((post) => (
               <div key={post.id} className="px-4">
                 <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-                  <img className="w-full" src={post.image} alt={post.caption} />
+                  <img className="w-full h-[198px]" src={post.image} alt={post.caption} />
                   <div className="p-4">
                     <div className="flex items-center mb-4">
                       <img
                         className="h-8 w-8 rounded-full mr-2"
-                        src={post.user.avatar}
-                        alt={post.user.name}
+                        src={post.user[0].image ? post.user[0].image : "/images/user-default.png" }
+                        alt=""
                       />
-                      <h2 className="text-lg font-medium">{post.user.name}</h2>
+                      <h2 className="text-lg font-medium">
+                        {post.user[0].username ? post.user[0].username : post.user[0].email}
+                      </h2>
                     </div>
-                    <p className="text-gray-600">{post.caption}</p>
+                    <div>
+                      <p className="text-gray-500 font-medium">{post.title}</p>
+                      <p className="text-gray-600">{post.caption}</p>
+                    </div>
+                    <div className="flex justify-between mt-3">
+                      <div className="flex flex-col">
+                        {post.taggedUsers.map((tag) => {
+                          return (
+                            <p key={tag._id} className="text-blue-500 text-sm">#{tag.username ? tag.username : tag.email }</p>
+                          );
+                        })}
+                      </div>
+                      <div>
+                        <p className="text-gray-600 text-xs ">{post.Date}</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

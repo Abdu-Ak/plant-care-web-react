@@ -5,6 +5,7 @@ const diary = require("../../models/diarySchema");
 require("dotenv").config();
 const moment = require("moment");
 const posts = require("../../models/postSchema");
+const { default: mongoose } = require("mongoose");
 
 module.exports = {
   userSignup: (req, res) => {
@@ -183,7 +184,6 @@ module.exports = {
     const id = req.id;
 
     if (oldPass) {
-      console.log(oldPass);
       userdetails.findOne({ _id: id }).then((user) => {
         bcrypt.compare(oldPass, user.password).then((result) => {
           if (result) {
@@ -218,7 +218,6 @@ module.exports = {
       .find({ $and: [{ scientificName: data.scientificName }, { userId: id }] })
       .then((olddiary) => {
         if (olddiary.length > 0) {
-          console.log(olddiary);
           res.send({ success: true });
         } else {
           diary
@@ -261,41 +260,167 @@ module.exports = {
     });
   },
 
-  getUsers : (req,res)=>{
+  getUsers: (req, res) => {
+    userdetails.find().then((users) => {
+      res.send({ success: true, users });
+    });
+  },
 
-    userdetails.find().then((users)=>{
-      res.send({success:true,users })
-    })
+  addPost: (req, res) => {
+    const id = req.id;
+    const image = req.file.path;
+    const { title, caption, tag } = req.body;
+
+
+    posts
+      .create({
+        userId: id,
+        image: image,
+        title: title,
+        caption: caption,
+        tags: tag,
+        Date: moment().format("L"),
+      })
+      .then((data) => {
+        res.send({ success: true });
+      });
+  },
+
+  getPost: (req, res) => {
+    posts.aggregate([
+      {
+        $unwind: "$tags",
+      },
+      {
+        $lookup: {
+          from: "userdetails",
+          let: { userId: "$userId" },
+          pipeline: [
+            { $match: { $expr: { $eq: ["$_id", "$$userId"] } } },
+            { $project: { _id: 0, username: 1, email: 1 , image:1 } }
+          ],
+          as: "user",
+        },
+      },
+      {
+        $lookup: {
+          from: "userdetails",
+          let: { tagId: "$tags" },
+          pipeline: [
+            { $match: { $expr: { $eq: ["$_id", "$$tagId"] } } },
+            { $project: { _id: 0, username: 1, email: 1 } }
+          ],
+          as: "tagged",
+        },
+      },
+      {
+        $unwind: "$tagged",
+      },
+      {
+        $group: {
+          _id: "$_id",
+          title: { $first: "$title" },
+          caption: { $first: "$caption" },
+          Date: { $first: "$Date" },
+          image: { $first: "$image" },
+          userId: { $first: "$userId" },
+          tags: { $push: "$tags" },
+          taggedUsers: { $push: "$tagged" },
+          user: { $first: "$user" },
+        }
+      },
+      
+    ])
+      .then((posts) => {
+      
+        res.send({
+          success : true ,
+          posts
+        });
+      });
+  },
+
+  userPosts :(req,res)=>{
+     const id = req.id 
+    console.log(id);
+     posts.aggregate([
+      {
+       $match : {
+         userId : mongoose.Types.ObjectId(id)
+       }
+      },
+      {
+        $unwind: "$tags",
+      },
+      {
+        $lookup: {
+          from: "userdetails",
+          let: { userId: "$userId" },
+          pipeline: [
+            { $match: { $expr: { $eq: ["$_id", "$$userId"] } } },
+            { $project: { _id: 0, username: 1, email: 1 , image:1 } }
+          ],
+          as: "user",
+        },
+      },
+      {
+        $lookup: {
+          from: "userdetails",
+          let: { tagId: "$tags" },
+          pipeline: [
+            { $match: { $expr: { $eq: ["$_id", "$$tagId"] } } },
+            { $project: { _id: 0, username: 1, email: 1 } }
+          ],
+          as: "tagged",
+        },
+      },
+      {
+        $unwind: "$tagged",
+      },
+      {
+        $group: {
+          _id: "$_id",
+          title: { $first: "$title" },
+          caption: { $first: "$caption" },
+          Date: { $first: "$Date" },
+          image: { $first: "$image" },
+          userId: { $first: "$userId" },
+          tags: { $push: "$tags" },
+          taggedUsers: { $push: "$tagged" },
+          user: { $first: "$user" },
+        }
+      },
+      
+    ])
+      .then((posts) => {
+        console.log(posts);
+        res.send({
+          success : true ,
+          posts
+        });
+      });
+
 
   },
-   
-  addPost : (req,res)=>{
-    const id = req.id
-    const image = req.file.path
-    const {title,caption,tag} = req.body
 
-    console.log(tag);
-     
-    posts.create({
-      userId : id,
-      image : image,
-      title : title,
-      caption :caption ,
-      tags : tag ,
-      Date :  moment().format("L"),
+ postDelete : (req,res) =>{
+     const id =req.params.id
+ posts.deleteOne({_id : id }).then((data)=>{
+    
+  if (data ) {
+     res.send({success:true})
+  }
 
-    }).then((data)=>{
-     res.send({success : true  })
-    })
-     
-   
+ })
 
-  },  
+
+ },
+
 
   getChat: (req, res) => {},
 
   logOut: (req, res) => {
-    const id = req.id;   
+    const id = req.id;
 
     userdetails
       .updateOne({ _id: id }, { $set: { status: "offline" } })
