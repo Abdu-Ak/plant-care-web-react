@@ -18,6 +18,8 @@ import ShowView from './context/AdminViewContext';
 import AddPostPage from './pages/User/AddPostPage';
 import CommunityPage from './pages/User/CommunityPage';
 import AdminPost from './pages/Admin/AdminPost';
+import AdminPlans from './pages/Admin/AdminPlans';
+import AddPlansPage from './pages/Admin/AddPlansPage';
 function App() {
   const token = localStorage.getItem("token")
   const adminToken = localStorage.getItem("adminToken")
@@ -49,6 +51,8 @@ function App() {
      <Route exact path='/admin/usermanage'  element={ adminToken ?  <AdminUser/> : <Navigate to={"/admin"} />} />
      <Route exact path='/admin/diarymanage'  element={ adminToken ?  <AdminDiary/> : <Navigate to={"/admin"} />} />
      <Route exact path='/admin/posts'  element={ adminToken ?  <AdminPost/> : <Navigate to={"/admin"} />} />
+     <Route exact path='/admin/plans'  element={ adminToken ?  <AdminPlans/> : <Navigate to={"/admin"} />} />
+     <Route exact path='/admin/addPlan'  element={ adminToken ?  <AddPlansPage/> : <Navigate to={"/admin"} />} />
         
 
 
