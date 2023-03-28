@@ -13,5 +13,12 @@ router.get('/userview/:id',adminVerify,adminControllers.userView)
 router.get('/diaryview/:id',adminVerify,adminControllers.diaryView)
 router.get('/posts' , adminVerify,adminControllers.getPosts )
 router.get('/deletePost/:id',adminVerify,adminControllers.deletePosts)
+router.post('/addPost',adminVerify,adminControllers.addPlan)
+router.get('/getPlans' , adminVerify,adminControllers.getPlans )
+router.get('/getPlan/:id' , adminVerify,adminControllers.getSinglePlan )
+router.post('/editPost',adminVerify,adminControllers.editPlan)
+router.get('/deletePlan/:id',adminVerify,adminControllers.deletePlan)
+
+
 
 module.exports = router; 

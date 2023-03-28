@@ -6,6 +6,7 @@ require("dotenv").config();
 const moment = require("moment");
 const posts = require("../../models/postSchema");
 const { default: mongoose } = require("mongoose");
+const plans = require("../../models/adminModels/planSchema");
 
 module.exports = {
   userSignup: (req, res) => {
@@ -393,7 +394,7 @@ module.exports = {
       
     ])
       .then((posts) => {
-        console.log(posts);
+        
         res.send({
           success : true ,
           posts
@@ -413,6 +414,16 @@ module.exports = {
 
  })
 
+
+ },
+
+ getPlans :(req,res) =>{
+    
+   plans.find().then((plan)=>{
+     if (plan) {
+      res.send({success:true,plan})
+     }
+   }) 
 
  },
 

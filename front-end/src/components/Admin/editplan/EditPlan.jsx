@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Select } from "antd";
 import axios from "../../../axios/AdminAxios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-function AddPlans() {
+function EditPlans() {
 
   const [data, setData] = useState({});
   const [feature, setFeature ] = useState([])
   const [err, setErr] = useState("");
   const navigate=useNavigate()
+  const id =useParams() 
+  
+
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -16,7 +19,8 @@ function AddPlans() {
   };
  
   const handleFeatures = (value) => {
-   setFeature({...feature,  value  })
+     
+   setFeature({ ...feature , value   })
   };
 
   const validate = () => {
@@ -41,9 +45,10 @@ const handleSubmit = ()=>{
   setErr(error);
 
   if (!err) {
-    axios.post('/admin/addPost',{
+    axios.post('/admin/editPost',{
       data,
-      feature
+      feature,
+      id:id.id
     }).then((res)=>{
    if (res.data.success) {
       navigate('/admin/plans')
@@ -52,11 +57,23 @@ const handleSubmit = ()=>{
   }
 }
 
+useEffect(() => {
+    axios.get(`/admin/getPlan/${id.id}`).then((res)=>{
+        if (res.data.success) {
+           setData(res.data.plan)
+           setFeature(res.data.plan.features)
+        }
+
+    })
+}, [id])
+
+
+
   return (
     <>
       <div className="flex flex-col w-full h-full">
         <div className="  m-5 ">
-          <p className="text-4xl font-serif font-semibold">Add Plan</p>
+          <p className="text-4xl font-serif font-semibold">Edit Plan</p>
         </div>
         <div className="flex justify-center items-center ">
           <form className="w-full max-w-lg rounded-lg shadow-md bg-third/10 p-5" onSubmit={((e)=>{
@@ -113,6 +130,7 @@ const handleSubmit = ()=>{
                   style={{
                     width: "100%",
                   }}
+                  value={feature}
                   placeholder="plant search page.."
                   onChange={handleFeatures}
                 
@@ -133,7 +151,7 @@ const handleSubmit = ()=>{
                     id="plan"
                     name="plan"
                     value={data.plan}
-                    onChange={handleChange}
+                    onChange={ handleChange}
                   > 
                     
                     <option>Monthly</option>
@@ -191,4 +209,4 @@ const handleSubmit = ()=>{
   );
 }
 
-export default AddPlans;
+export default EditPlans;

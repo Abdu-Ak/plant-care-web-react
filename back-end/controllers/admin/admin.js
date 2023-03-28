@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const userdetails = require("../../models/userSchema");
 const diary = require("../../models/diarySchema");
 const posts = require("../../models/postSchema");
+const plans = require("../../models/adminModels/planSchema");
 
 
 module.exports={
@@ -143,8 +144,7 @@ diaryView: async (req,res)=>{
     const id = req.params.id
     const data = await diary.findOne({_id: id})
     const user = await userdetails.findOne({_id:data.userId})
-    console.log(data);
-    console.log(user);
+ 
    
     res.send( {success : true ,  user, data})
 
@@ -220,5 +220,64 @@ deletePosts : (req,res)=>{
    })
 
 },
+
+addPlan : (req,res)=>{
+    const {data ,feature } =req.body
+     console.log(data,feature);
+     plans.create({
+       name : data.name,
+       title : data.title,
+       plan : data.plan,
+       amount :data.amount,
+       features : feature.value
+     }).then((data)=>{
+     res.send({success:true})
+     })
+
+
+},
+
+getPlans : (req,res) =>{
+
+  plans.find().then((plans)=>{
+    res.send({succes:true,plans})
+  })
+
+
+},
+getSinglePlan:(req,res)=>{
+   const id =req.params.id
+
+    plans.findOne({_id:id}).then((plan)=>{
+      res.send({success:true, plan})
+    })
+
+},
+
+editPlan : (req,res)=>{ 
+   const {id , data ,feature } = req.body
+   
+   plans.findByIdAndUpdate({_id : id},{$set :{ 
+    name : data.name,
+    title : data.title,
+    plan : data.plan,
+    amount :data.amount,
+    features : feature.value
+   }}) .then((plan)=>{
+    res.send({success:true})
+   })
+    
+},
+deletePlan : (req,res)=>{
+    const id = req.params.id
+
+    plans.deleteOne({_id : id}).then((data)=>{
+      if (data ) {
+        res.send({success:true})
+     }
+   
+    })
+},
+
 
 }

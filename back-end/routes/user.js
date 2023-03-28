@@ -19,6 +19,7 @@ router.get('/getUsers', verify ,userControllers.getUsers )
 router.post('/addPost',verify,uploadImage,userControllers.addPost)
 router.get('/userPosts',verify,userControllers.userPosts)
 router.get('/deletePost/:id',verify,userControllers.postDelete)
+router.get('/getPlans',verify,userControllers.getPlans)
 
 
 router.get("/chat",userControllers.getChat)

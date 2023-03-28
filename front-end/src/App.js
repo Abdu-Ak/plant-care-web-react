@@ -20,6 +20,8 @@ import CommunityPage from './pages/User/CommunityPage';
 import AdminPost from './pages/Admin/AdminPost';
 import AdminPlans from './pages/Admin/AdminPlans';
 import AddPlansPage from './pages/Admin/AddPlansPage';
+import EditPlanPage from './pages/Admin/EditPlanPage';
+import SubscriptionPage from './pages/User/SubscriptionPage';
 function App() {
   const token = localStorage.getItem("token")
   const adminToken = localStorage.getItem("adminToken")
@@ -40,6 +42,7 @@ function App() {
      <Route exact  path='/diary' element={token ?  <Diarypage/> : <Navigate to={'/'} />} /> 
      <Route exact  path='/add-diary' element={token ?  <AddDiaryPage/> : <Navigate to={'/'} /> }/> 
      <Route exact path='/add-post' element={token ? <AddPostPage/> : <Navigate to={'/'} />}/>
+     <Route exact path='/subscribe' element={token ? <SubscriptionPage/> : <Navigate to={'/'} />}/>
      
      
      
@@ -53,7 +56,8 @@ function App() {
      <Route exact path='/admin/posts'  element={ adminToken ?  <AdminPost/> : <Navigate to={"/admin"} />} />
      <Route exact path='/admin/plans'  element={ adminToken ?  <AdminPlans/> : <Navigate to={"/admin"} />} />
      <Route exact path='/admin/addPlan'  element={ adminToken ?  <AddPlansPage/> : <Navigate to={"/admin"} />} />
-        
+     <Route exact path='/admin/editPlan/:id'  element={ adminToken ?  <EditPlanPage/> : <Navigate to={"/admin"} />} />
+         
 
 
 
