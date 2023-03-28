@@ -7,6 +7,8 @@ const moment = require("moment");
 const posts = require("../../models/postSchema");
 const { default: mongoose } = require("mongoose");
 const plans = require("../../models/adminModels/planSchema");
+const instance = require("../../middleware/razorpay");
+const crypto = require("crypto");
 
 module.exports = {
   userSignup: (req, res) => {
@@ -272,7 +274,6 @@ module.exports = {
     const image = req.file.path;
     const { title, caption, tag } = req.body;
 
-
     posts
       .create({
         userId: id,
@@ -288,145 +289,198 @@ module.exports = {
   },
 
   getPost: (req, res) => {
-    posts.aggregate([
-      {
-        $unwind: "$tags",
-      },
-      {
-        $lookup: {
-          from: "userdetails",
-          let: { userId: "$userId" },
-          pipeline: [
-            { $match: { $expr: { $eq: ["$_id", "$$userId"] } } },
-            { $project: { _id: 0, username: 1, email: 1 , image:1 } }
-          ],
-          as: "user",
+    posts
+      .aggregate([
+        {
+          $unwind: "$tags",
         },
-      },
-      {
-        $lookup: {
-          from: "userdetails",
-          let: { tagId: "$tags" },
-          pipeline: [
-            { $match: { $expr: { $eq: ["$_id", "$$tagId"] } } },
-            { $project: { _id: 0, username: 1, email: 1 } }
-          ],
-          as: "tagged",
+        {
+          $lookup: {
+            from: "userdetails",
+            let: { userId: "$userId" },
+            pipeline: [
+              { $match: { $expr: { $eq: ["$_id", "$$userId"] } } },
+              { $project: { _id: 0, username: 1, email: 1, image: 1 } },
+            ],
+            as: "user",
+          },
         },
-      },
-      {
-        $unwind: "$tagged",
-      },
-      {
-        $group: {
-          _id: "$_id",
-          title: { $first: "$title" },
-          caption: { $first: "$caption" },
-          Date: { $first: "$Date" },
-          image: { $first: "$image" },
-          userId: { $first: "$userId" },
-          tags: { $push: "$tags" },
-          taggedUsers: { $push: "$tagged" },
-          user: { $first: "$user" },
-        }
-      },
-      
-    ])
+        {
+          $lookup: {
+            from: "userdetails",
+            let: { tagId: "$tags" },
+            pipeline: [
+              { $match: { $expr: { $eq: ["$_id", "$$tagId"] } } },
+              { $project: { _id: 0, username: 1, email: 1 } },
+            ],
+            as: "tagged",
+          },
+        },
+        {
+          $unwind: "$tagged",
+        },
+        {
+          $group: {
+            _id: "$_id",
+            title: { $first: "$title" },
+            caption: { $first: "$caption" },
+            Date: { $first: "$Date" },
+            image: { $first: "$image" },
+            userId: { $first: "$userId" },
+            tags: { $push: "$tags" },
+            taggedUsers: { $push: "$tagged" },
+            user: { $first: "$user" },
+          },
+        },
+      ])
       .then((posts) => {
-      
         res.send({
-          success : true ,
-          posts
+          success: true,
+          posts,
         });
       });
   },
 
-  userPosts :(req,res)=>{
-     const id = req.id 
+  userPosts: (req, res) => {
+    const id = req.id;
     console.log(id);
-     posts.aggregate([
-      {
-       $match : {
-         userId : mongoose.Types.ObjectId(id)
-       }
-      },
-      {
-        $unwind: "$tags",
-      },
-      {
-        $lookup: {
-          from: "userdetails",
-          let: { userId: "$userId" },
-          pipeline: [
-            { $match: { $expr: { $eq: ["$_id", "$$userId"] } } },
-            { $project: { _id: 0, username: 1, email: 1 , image:1 } }
-          ],
-          as: "user",
+    posts
+      .aggregate([
+        {
+          $match: {
+            userId: mongoose.Types.ObjectId(id),
+          },
         },
-      },
-      {
-        $lookup: {
-          from: "userdetails",
-          let: { tagId: "$tags" },
-          pipeline: [
-            { $match: { $expr: { $eq: ["$_id", "$$tagId"] } } },
-            { $project: { _id: 0, username: 1, email: 1 } }
-          ],
-          as: "tagged",
+        {
+          $unwind: "$tags",
         },
-      },
-      {
-        $unwind: "$tagged",
-      },
-      {
-        $group: {
-          _id: "$_id",
-          title: { $first: "$title" },
-          caption: { $first: "$caption" },
-          Date: { $first: "$Date" },
-          image: { $first: "$image" },
-          userId: { $first: "$userId" },
-          tags: { $push: "$tags" },
-          taggedUsers: { $push: "$tagged" },
-          user: { $first: "$user" },
-        }
-      },
-      
-    ])
+        {
+          $lookup: {
+            from: "userdetails",
+            let: { userId: "$userId" },
+            pipeline: [
+              { $match: { $expr: { $eq: ["$_id", "$$userId"] } } },
+              { $project: { _id: 0, username: 1, email: 1, image: 1 } },
+            ],
+            as: "user",
+          },
+        },
+        {
+          $lookup: {
+            from: "userdetails",
+            let: { tagId: "$tags" },
+            pipeline: [
+              { $match: { $expr: { $eq: ["$_id", "$$tagId"] } } },
+              { $project: { _id: 0, username: 1, email: 1 } },
+            ],
+            as: "tagged",
+          },
+        },
+        {
+          $unwind: "$tagged",
+        },
+        {
+          $group: {
+            _id: "$_id",
+            title: { $first: "$title" },
+            caption: { $first: "$caption" },
+            Date: { $first: "$Date" },
+            image: { $first: "$image" },
+            userId: { $first: "$userId" },
+            tags: { $push: "$tags" },
+            taggedUsers: { $push: "$tagged" },
+            user: { $first: "$user" },
+          },
+        },
+      ])
       .then((posts) => {
-        
         res.send({
-          success : true ,
-          posts
+          success: true,
+          posts,
         });
       });
-
-
   },
 
- postDelete : (req,res) =>{
-     const id =req.params.id
- posts.deleteOne({_id : id }).then((data)=>{
-    
-  if (data ) {
-     res.send({success:true})
-  }
+  postDelete: (req, res) => {
+    const id = req.params.id;
+    posts.deleteOne({ _id: id }).then((data) => {
+      if (data) {
+        res.send({ success: true });
+      }
+    });
+  },
 
- })
+  getPlans: (req, res) => {
+    plans.find().then((plan) => {
+      if (plan) {
+        res.send({ success: true, plan });
+      }
+    });
+  },
 
+  getSubscribe: async (req, res) => {
+    const planId = req.params.id;
+    const id = req.id;
+    const email = req.email;
 
- },
+    const plan = await plans.findOne({ _id: planId });
 
- getPlans :(req,res) =>{
-    
-   plans.find().then((plan)=>{
-     if (plan) {
-      res.send({success:true,plan})
-     }
-   }) 
+    const price = plan.amount;
 
- },
+    const options = {
+      amount: price * 100,
+      currency: "INR",
+      receipt: "" + email,
+    };
 
+    instance.orders.create(options, (err, order) => {
+      if (err) {
+        console.log(err);
+        res.status(400).json({
+          success: false,
+          err,
+        });
+      } else {
+        res.send({ order: order });
+      }
+    });
+  },
+
+  verifyPayment: (req, res) => {
+    const id = req.id;
+    const order = req.body;
+
+    let hmac = crypto.createHmac("sha256", process.env.KEY_SECRET);
+    hmac.update(
+      `${order.payment.razorpay_order_id}|${order.payment.razorpay_payment_id}`
+    );
+    hmac = hmac.digest("hex");
+
+    userdetails
+      .findByIdAndUpdate(
+        { _id: id },
+        {
+          $set: {
+            subscribed: true,
+          },
+        }
+      )
+      .then((user) => {
+        res.send({
+          success: true,
+        });
+      });
+  },
+
+  checkSubscribe: (req, res) => {
+    const id = req.id;
+
+    userdetails.findOne({ _id: id }).then((user) => {
+      if (user.subscribed) {
+           res.send({subscribed : true})
+      }
+    });
+  },
 
   getChat: (req, res) => {},
 

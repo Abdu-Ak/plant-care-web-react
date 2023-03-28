@@ -1,8 +1,63 @@
 import axios from "../../../axios/axios";
 import React, { useEffect, useState } from "react";
-
+import useRazorpay from "react-razorpay";
+import { RAZOR_KEY_ID } from "../../../constants/Constants";
+import { message } from "antd";
+import { useNavigate } from "react-router-dom";
 function Subscription() {
   const [plan, setPlan] = useState([]);
+  const [subscribed , setSubscribed] = useState(false)
+  const Razorpay = useRazorpay();
+  const navigate = useNavigate();
+
+  const handlePayment = (id) => {
+    axios.get(`/subscribe/${id}`).then((res) => {
+      if (res.data.order) {
+        const options = {
+          key: RAZOR_KEY_ID,
+          amount: res.data.price * 100,
+          currency: "INR",
+          name: "Green_Pit",
+          description: "Test Transaction",
+          image: "/images/logo.png",
+          order_id: res.data.order.id,
+          handler: function (response) {
+            verifyPayment(response, res.data);
+          },
+          prefill: {
+            name: "MyBook",
+            email: "mybook@gmail.com",
+            contact: "9999999999",
+          },
+          notes: {
+            address: "Razorpay Corporate Office",
+          },
+          theme: {
+            color: "#3399cc",
+          },
+        };
+        const rzp1 = new Razorpay(options);
+        rzp1.on("payment.failed", function () {
+          message.error("payment failed");
+          navigate("/");
+        });
+
+        rzp1.open();
+      }
+    });
+  };
+
+  const verifyPayment = (payment,details)=> {
+
+     axios.post('/verifyPayment', { 
+        payment,details
+     }).then((res)=>{
+        if (res.data.success) {
+            message.success("Payment Completed Succesfully")
+            navigate('/')
+        }
+    })
+  }
 
   useEffect(() => {
     axios.get("/getPlans").then((res) => {
@@ -12,6 +67,14 @@ function Subscription() {
       }
     });
   }, []);
+   
+  useEffect(()=>{
+      axios.get('/checkSubsciption').then((res)=>{
+          if (res.data.subscribed) {
+             setSubscribed(true)
+          }
+      })
+  },[])
 
   return (
     <>
@@ -59,152 +122,75 @@ function Subscription() {
                       <p className="text-sm font-bold  tracking-wider uppercase">
                         {plan.name}
                       </p>
-                      <p className="text-5xl font-extrabold">
-                        {"\u20B9"}
-                        {plan.amount}
-                      </p>
+                      <div className="flex">
+                        <p className="text-5xl font-extrabold">
+                          {"\u20B9"}
+                          {plan.amount}
+                        </p>
+                        <p className="flex text-sm font-medium justify-end items-end ml-3">
+                          {plan.plan}/-
+                        </p>
+                      </div>
                     </div>
+
                     <div className="flex items-center justify-center w-24 h-24 rounded-full bg-blue-gray-50">
-                      <svg
-                        className="w-10 h-10 text-gray-600"
-                        viewBox="0 0 24 24"
-                        stroke-linecap="round"
-                        stroke-width="2"
-                      >
-                        <path
-                          d="M12,7L12,7 c-1.657,0-3-1.343-3-3v0c0-1.657,1.343-3,3-3h0c1.657,0,3,1.343,3,3v0C15,5.657,13.657,7,12,7z"
-                          fill="none"
-                          stroke="currentColor"
-                        ></path>
-                        <path
-                          d="M15,23H9v-5H7v-6 c0-1.105,0.895-2,2-2h6c1.105,0,2,0.895,2,2v6h-2V23z"
-                          fill="none"
-                          stroke="currentColor"
-                        ></path>
-                      </svg>
+                      <img src="/images/sub.webp" alt="" />
                     </div>
                   </div>
                   <div>
                     <p className="mb-2 font-bold tracking-wide">Features</p>
                     <ul className="space-y-2">
-                      <li className="flex items-center">
-                        <div className="mr-2">
-                          <svg
-                            className="w-4 h-4 text-deep-purple-accent-400"
-                            viewBox="0 0 24 24"
-                            stroke-linecap="round"
-                            stroke-width="2"
-                          >
-                            <polyline
-                              fill="none"
-                              stroke="currentColor"
-                              points="6,12 10,16 18,8"
-                            ></polyline>
-                            <circle
-                              cx="12"
-                              cy="12"
-                              fill="none"
-                              r="11"
-                              stroke="currentColor"
-                            ></circle>
-                          </svg>
-                        </div>
-                        <p className="font-medium text-gray-800">
-                          10 deploys per day
-                        </p>
-                      </li>
-                      <li className="flex items-center">
-                        <div className="mr-2">
-                          <svg
-                            className="w-4 h-4 text-deep-purple-accent-400"
-                            viewBox="0 0 24 24"
-                            stroke-linecap="round"
-                            stroke-width="2"
-                          >
-                            <polyline
-                              fill="none"
-                              stroke="currentColor"
-                              points="6,12 10,16 18,8"
-                            ></polyline>
-                            <circle
-                              cx="12"
-                              cy="12"
-                              fill="none"
-                              r="11"
-                              stroke="currentColor"
-                            ></circle>
-                          </svg>
-                        </div>
-                        <p className="font-medium text-gray-800">
-                          10 GB of storage
-                        </p>
-                      </li>
-                      <li className="flex items-center">
-                        <div className="mr-2">
-                          <svg
-                            className="w-4 h-4 text-deep-purple-accent-400"
-                            viewBox="0 0 24 24"
-                            stroke-linecap="round"
-                            stroke-width="2"
-                          >
-                            <polyline
-                              fill="none"
-                              stroke="currentColor"
-                              points="6,12 10,16 18,8"
-                            ></polyline>
-                            <circle
-                              cx="12"
-                              cy="12"
-                              fill="none"
-                              r="11"
-                              stroke="currentColor"
-                            ></circle>
-                          </svg>
-                        </div>
-                        <p className="font-medium text-gray-800">
-                          Unlimited domains
-                        </p>
-                      </li>
-                      <li className="flex items-center">
-                        <div className="mr-2">
-                          <svg
-                            className="w-4 h-4 text-deep-purple-accent-400"
-                            viewBox="0 0 24 24"
-                            stroke-linecap="round"
-                            stroke-width="2"
-                          >
-                            <polyline
-                              fill="none"
-                              stroke="currentColor"
-                              points="6,12 10,16 18,8"
-                            ></polyline>
-                            <circle
-                              cx="12"
-                              cy="12"
-                              fill="none"
-                              r="11"
-                              stroke="currentColor"
-                            ></circle>
-                          </svg>
-                        </div>
-                        <p className="font-medium text-gray-800">
-                          SSL Certificates
-                        </p>
-                      </li>
+                      {plan.features.map((feature) => {
+                        return (
+                          <li className="flex items-center">
+                            <div className="mr-2">
+                              <svg
+                                className="w-4 h-4 text-deep-purple-accent-400"
+                                viewBox="0 0 24 24"
+                                stroke-linecap="round"
+                                stroke-width="2"
+                              >
+                                <polyline
+                                  fill="none"
+                                  stroke="currentColor"
+                                  points="6,12 10,16 18,8"
+                                ></polyline>
+                                <circle
+                                  cx="12"
+                                  cy="12"
+                                  fill="none"
+                                  r="11"
+                                  stroke="currentColor"
+                                ></circle>
+                              </svg>
+                            </div>
+                            <p className="font-medium text-gray-800">
+                              {feature}
+                            </p>
+                          </li>
+                        );
+                      })}
                     </ul>
                   </div>
                 </div>
                 <div>
-                  <a
-                    href="/"
+      
+                  {subscribed ? ( <button
                     className="inline-flex items-center justify-center w-full h-12 px-6 mb-4 font-medium tracking-wide text-white transition duration-200 bg-gray-800 rounded shadow-md hover:bg-gray-900 focus:shadow-outline focus:outline-none"
+                    disabled
                   >
-                    Start for free
-                  </a>
-                  <p className="text-sm text-gray-600">
-                    Sed ut perspiciatis unde omnis iste natus error sit
-                    voluptatem accusantium
-                  </p>
+                    Subscribed
+                  </button>) : (<button
+                    className="inline-flex items-center justify-center w-full h-12 px-6 mb-4 font-medium tracking-wide text-white transition duration-200 bg-gray-800 rounded shadow-md hover:bg-gray-900 focus:shadow-outline focus:outline-none"
+                    onClick={() => {
+                      handlePayment(plan._id);
+                    }}
+                  >
+                    Subscribe
+                  </button>) }
+
+                  
+                  <p className="text-sm text-gray-600">{plan.title}</p>
                 </div>
               </div>
             );

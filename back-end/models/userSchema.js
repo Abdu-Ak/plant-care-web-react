@@ -37,6 +37,10 @@ const UserSchema = new Schema({
      },
      bio :{
         type:String
+     },
+      subscribed :{
+         type:Boolean,
+         default:false
      }
      
 });

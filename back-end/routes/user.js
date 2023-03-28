@@ -20,7 +20,9 @@ router.post('/addPost',verify,uploadImage,userControllers.addPost)
 router.get('/userPosts',verify,userControllers.userPosts)
 router.get('/deletePost/:id',verify,userControllers.postDelete)
 router.get('/getPlans',verify,userControllers.getPlans)
-
+router.get('/subscribe/:id',verify,userControllers.getSubscribe)
+router.post('/verifyPayment',verify, userControllers.verifyPayment )
+router.get('/checkSubsciption',verify,userControllers.checkSubscribe)
 
 router.get("/chat",userControllers.getChat)
 

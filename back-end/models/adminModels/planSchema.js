@@ -4,13 +4,7 @@ const Schema = mongoose.Schema;
 
 const planSchema = new Schema(
   {
-    users: [
-      {
-        userId: {
-          type: mongoose.Schema.Types.ObjectId,
-        },
-      },
-    ],
+    
     name: {
       type: String,
       require: true,

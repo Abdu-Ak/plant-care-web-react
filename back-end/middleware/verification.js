@@ -20,6 +20,7 @@ module.exports = {
               message: "blocked by admin..!",
             });
           } else {
+           req.email = decoded.email 
             req.id = decoded.id;
 
             next();

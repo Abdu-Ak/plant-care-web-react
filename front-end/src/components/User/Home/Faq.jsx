@@ -1,6 +1,21 @@
-import React from "react";
+import axios from "../../../axios/axios";
+import React, { useContext, useEffect, useState } from "react";
+import { BotContext } from "../../../context/BotContext";
 
 function Faq() {
+
+  const {showBot,setShowBot} = useContext(BotContext)
+  const [subscribed , setSubscribed] = useState(false)
+  
+
+
+  useEffect(()=>{
+    axios.get('/checkSubsciption').then((res)=>{
+        if (res.data.subscribed) {
+           setSubscribed(true)
+        }
+    })
+},[])
   return (
     <>
       <div className="flex flex-col py-5 w-full bg-white/30">
@@ -78,6 +93,15 @@ function Faq() {
                   </svg>
                 </div>
             </li>
+           { subscribed && (<li className="flex  items-center justify-end pt-5">
+           
+           <button className="w-3/12  hover:bg-primary hover:text-gray-700 h-10 rounded-2xl border-2 font-semibold border-primary text-lg  text-primary bg-third/70"
+           onClick={()=>setShowBot(!showBot)}
+           >
+             Ask
+           </button>
+         
+             </li>) }
           </ul>
         </div>
       </div>

@@ -75,9 +75,7 @@ function Plans() {
               <th scope="col" className="px-6 py-3">
                 Feature
               </th>
-              <th scope="col" className="px-6 py-3">
-                Subscribers
-              </th>
+             
               <th scope="col" className="px-6 py-3">
                 Options
               </th>
@@ -113,7 +111,7 @@ function Plans() {
                       );
                     })}
                   </td>
-                  <td className="px-3 py-4"></td>
+                  
                   <td className=" flex px-6 py-4">
                     <Link 
                        to={`/admin/editPlan/${plan._id}`}
