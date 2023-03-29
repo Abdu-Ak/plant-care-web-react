@@ -6,16 +6,16 @@ import Navbar from '../../components/User/Navbar/Navbar'
 
 function AboutPage() {
   return (
-    <div>
+    <>
         <Navbar/>
         <div className="fixed z-50  top-28 left-10 md:left-80 lg:left-2/4 w-full  ">
         <Login/>
         </div>
-     <div className='pt-28'>
+     <div className='bg-third/50 pt-28'>
      <About/>
      </div>
         <Footer/>
-    </div>
+    </>
   )
 }
 

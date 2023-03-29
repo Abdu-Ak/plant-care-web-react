@@ -33,6 +33,15 @@ function Diary() {
       },
     });
   };
+  const handleSchedule = (id) => {
+    axios.get(`/getSchedule/${id}`).then((res)=>{
+      if (res.data.success) {
+        window.location.reload()
+      }
+    })
+  };
+
+
 
   useEffect(() => {
     axios.get("/getdiary").then((res) => {
@@ -83,20 +92,43 @@ function Diary() {
                               d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
                             />
                           </svg>
-                          <svg
+                         {data.Notification ? (<svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="w-5 h-5 ml-3 hover:text-blue-500 hover:cursor-pointer"
+                            onClick={() => {
+                              handleSchedule(data._id);
+                            }}
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M9.143 17.082a24.248 24.248 0 003.844.148m-3.844-.148a23.856 23.856 0 01-5.455-1.31 8.964 8.964 0 002.3-5.542m3.155 6.852a3 3 0 005.667 1.97m1.965-2.277L21 21m-4.225-4.225a23.81 23.81 0 003.536-1.003A8.967 8.967 0 0118 9.75V9A6 6 0 006.53 6.53m10.245 10.245L6.53 6.53M3 3l3.53 3.53"
+                            />
+                          </svg>) :  <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
                             strokeWidth={1.5}
                             stroke="currentColor"
                             className="w-5 h-5 ml-3 hover:text-green-500 hover:cursor-pointer"
+                            onClick={() => {
+                              handleSchedule(data._id);
+                            }}
                           >
                             <path
                               strokeLinecap="round"
                               strokeLinejoin="round"
                               d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0M3.124 7.5A8.969 8.969 0 015.292 3m13.416 0a8.969 8.969 0 012.168 4.5"
                             />
-                          </svg>
+                          </svg> }
+
+                         
+
+                          
                         </div>
                       </div>
                       <div className="flex items-center justify-center ">

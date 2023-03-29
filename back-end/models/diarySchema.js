@@ -32,6 +32,10 @@ const diarySchema = new Schema({
     Date : {
         type:String,
         require:true
+    },
+    Notification : {
+         type : Boolean,
+         default : false
     }
 
 

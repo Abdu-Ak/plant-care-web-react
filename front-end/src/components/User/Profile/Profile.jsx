@@ -3,34 +3,28 @@ import React, { useEffect, useState } from "react";
 import ProfileNav from "../ProfileNav/ProfileNav";
 import Posts from "./Posts";
 
-
 function Profile() {
   const [data, setData] = useState({});
 
   useEffect(() => {
     axios.get("/getprofile").then((res) => {
-      console.log(res);
       if (res.data.user) {
-       
         setData(res.data.user);
       }
-    })
-  },[])
+    });
+  }, []);
 
   return (
     <>
       <div className="bg-white flex w-full  border-t-2 border-b-2">
-           <ProfileNav/>
+        <ProfileNav />
         <div className="flex flex-col items-center w-full">
           <div className=" mt-5">
-            
-              <img
-                className="w-40 h-40 object-cover rounded-full"
-                src={data.image ? data.image : "/images/user-default.png"}
-                alt=""
-              />
-            
-            
+            <img
+              className="w-40 h-40 object-cover rounded-full"
+              src={data.image ? data.image : "/images/user-default.png"}
+              alt=""
+            />
           </div>
           <div className="flex flex-col justify-center items-center ">
             <div className="flex justify-center  p-2">
@@ -56,9 +50,7 @@ function Profile() {
                 </svg>
               </div>
               <div>
-                <p className="font-sans text-base font-medium ">
-                  {data.bio}
-                </p>
+                <p className="font-sans text-base font-medium ">{data.bio}</p>
                 <span className="font-sans text-base font-medium text-gray-500">
                   bio
                 </span>
@@ -83,9 +75,7 @@ function Profile() {
               </div>
 
               <div>
-                <p className="font-sans text-base font-medium ">
-                  {data.phone}
-                </p>
+                <p className="font-sans text-base font-medium ">{data.phone}</p>
                 <span className="font-sans text-base font-medium text-gray-500">
                   Phone
                 </span>
@@ -94,7 +84,7 @@ function Profile() {
           </div>
         </div>
       </div>
-       <Posts/>
+      <Posts />
     </>
   );
 }

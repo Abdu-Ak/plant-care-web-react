@@ -24,6 +24,7 @@ router.get('/subscribe/:id',verify,userControllers.getSubscribe)
 router.post('/verifyPayment',verify, userControllers.verifyPayment )
 router.get('/checkSubsciption',verify,userControllers.checkSubscribe)
 router.post('/postCalender',verify , userControllers.postCalender)
+router.get('/getSchedule/:id',verify,userControllers.getSchedule)
 
 
 router.get("/chat",userControllers.getChat)

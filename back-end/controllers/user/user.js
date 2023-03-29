@@ -10,6 +10,8 @@ const plans = require("../../models/adminModels/planSchema");
 const instance = require("../../middleware/razorpay");
 const crypto = require("crypto");
 const calender = require("../../models/calenderSchema");
+const cron = require("node-cron");
+const { DateTime } = require("luxon");
 
 module.exports = {
   userSignup: (req, res) => {
@@ -496,7 +498,7 @@ module.exports = {
             { $set: { wateringTime: time, fertiliseDate: date } }
           )
           .then((data) => {
-            res.send({ updated: true});
+            res.send({ updated: true });
           });
       } else {
         calender
@@ -506,6 +508,60 @@ module.exports = {
             fertiliseDate: date,
           })
           .then((data) => {
+            res.send({ success: true });
+          });
+      }
+    });
+  },
+
+  getSchedule: async (req, res) => {
+    const id = req.id;
+    const diaryId = req.params.id;
+
+    const schedule = await calender.findOne({ userId: id });
+
+    const wateringTime = DateTime.fromFormat(schedule.wateringTime, "hh:mm a", {
+      zone: "Asia/Kolkata",
+    });
+    const fertiliseDate = schedule.fertiliseDate.split("-")[0];
+    let watering = cron.schedule(
+      `${wateringTime.minute} ${wateringTime.hour} 1-31 1-12 *`,
+      () => {
+        console.log("water ");
+      },
+      {
+        scheduled: false,
+      }
+    );
+    let fertilise = cron.schedule(
+      `0 0 ${fertiliseDate} * *`,
+      () => {
+        console.log("fertile ");
+      },
+      {
+        scheduled: false,
+      }
+    );
+
+    diary.findOne({ _id: diaryId }).then((data) => {
+      console.log(data.Notification);
+      if (data.Notification) {
+        diary
+          .findByIdAndUpdate(
+            { _id: diaryId },
+            { $set: { Notification: false } }
+          )
+          .then((data) => {
+            watering.stop();
+            fertilise.stop();
+            res.send({ success: true });
+          });
+      } else {
+        diary
+          .findByIdAndUpdate({ _id: diaryId }, { $set: { Notification: true } })
+          .then((data) => {
+            watering.start();
+            fertilise.start();
             res.send({ success: true });
           });
       }
