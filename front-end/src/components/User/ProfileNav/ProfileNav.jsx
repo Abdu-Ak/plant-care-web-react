@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Dropdown, Space } from "antd";
+import axios from "../../../axios/axios";
 
 function ProfileNav() {
   const items = [
@@ -13,27 +14,23 @@ function ProfileNav() {
       key: "1",
     },
   ];
+  const token = localStorage.getItem("token");
+  
+  const handleLogout = () => {
+   
+    axios.get('/logout').then((response) => {
+    
+      if (response.data.logout) {
+        localStorage.removeItem("token");
+        window.location = "/";
+      }
+    });
+  };
 
   return (
     <>
       <div className="p-4 md:p-10 flex flex-col w-20 border-r-2 ">
-        <div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
-            />
-          </svg>
-        </div>
-        <div className="mt-3">
+        <div >
           <Link to={"/diary"}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -116,6 +113,23 @@ function ProfileNav() {
             </svg>
           </Link>
         </div>
+       {token && ( <div className="mt-3">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-6 h-6 hover:cursor-pointer"
+            onClick={handleLogout}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"
+            />
+          </svg>
+        </div>) }
       </div>
     </>
   );

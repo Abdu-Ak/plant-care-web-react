@@ -1,4 +1,3 @@
-import axios from "../../../axios/axios";
 import React, { useState, useEffect, useContext } from "react";
 import { LoginContext } from "../../../context/loginContext";
 import { Link } from "react-router-dom";
@@ -16,16 +15,7 @@ function Navbar() {
     }
   };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleLogout = () => {
-   
-    axios.get('/logout').then((response) => {
-    
-      if (response.data.logout) {
-        localStorage.removeItem("token");
-        window.location = "/";
-      }
-    });
-  };
+ 
 
   useEffect(() => {
     window.addEventListener("scroll", transitionNavBar);
@@ -60,16 +50,11 @@ function Navbar() {
              </Link>
              <Link to={'/community'}>
              <h3 className="mr-3 font-sans font-semibold text-base text-primary hover:cursor-pointer hover:text-gray-500 ">
-                community
+                Community
               </h3>
              </Link>
               {token ? (
-                <h3
-                  className="mr-3 font-sans font-semibold  text-primary hover:cursor-pointer  hover:text-gray-500   "
-                  onClick={handleLogout}
-                >
-                  Logout
-                </h3>
+               ""
               ) : (
                 <h3
                   className="mr-3 font-sans font-semibold  text-primary hover:cursor-pointer  hover:text-gray-500   "
@@ -203,25 +188,7 @@ function Navbar() {
             </li>
            </Link>
             {token ? (
-              <li className="flex pb-3 font-sans font-semibold text-base  text-primary hover:cursor-pointer hover:text-gray-500"
-              onClick={handleLogout}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6 mr-1"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
-                  />
-                </svg>
-                Logout
-              </li>
+             ""
             ) : (
               <li
                 className="flex pb-3 font-sans font-semibold text-base  text-primary hover:cursor-pointer hover:text-gray-500"
@@ -265,6 +232,7 @@ function Navbar() {
               </svg>
               Chat
             </li>
+            <Link to={'/profile'}>
             <li className="flex pb-3 font-sans font-semibold text-base    text-primary hover:cursor-pointer hover:text-gray-500 ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -282,6 +250,7 @@ function Navbar() {
               </svg>
               Profile
             </li>
+            </Link>
           </ul>
         </div>
       </nav>

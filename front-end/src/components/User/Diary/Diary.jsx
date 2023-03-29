@@ -72,7 +72,7 @@ function Diary() {
                             viewBox="0 0 24 24"
                             strokeWidth={1.5}
                             stroke="currentColor"
-                            className="w-5 h-5 text-red-500 rounded-full hover:text-red-800 hover:cursor-pointer"
+                            className="w-5 h-5 text-red-500  hover:text-red-800 hover:cursor-pointer"
                             onClick={() => {
                               handleDelete(data._id);
                             }}
@@ -89,7 +89,7 @@ function Diary() {
                             viewBox="0 0 24 24"
                             strokeWidth={1.5}
                             stroke="currentColor"
-                            className="w-5 h-5 ml-3"
+                            className="w-5 h-5 ml-3 hover:text-green-500 hover:cursor-pointer"
                           >
                             <path
                               strokeLinecap="round"

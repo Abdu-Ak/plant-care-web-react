@@ -40,7 +40,6 @@ function ChangePass() {
         })
         .then((res) => {
           if (res.data.success) {
-            console.log(res.data.seccess);
             localStorage.removeItem("token");
             navigate("/");
             message.success("Password changed ");

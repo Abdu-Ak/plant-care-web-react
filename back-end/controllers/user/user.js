@@ -9,6 +9,7 @@ const { default: mongoose } = require("mongoose");
 const plans = require("../../models/adminModels/planSchema");
 const instance = require("../../middleware/razorpay");
 const crypto = require("crypto");
+const calender = require("../../models/calenderSchema");
 
 module.exports = {
   userSignup: (req, res) => {
@@ -477,7 +478,36 @@ module.exports = {
 
     userdetails.findOne({ _id: id }).then((user) => {
       if (user.subscribed) {
-           res.send({subscribed : true})
+        res.send({ subscribed: true });
+      }
+    });
+  },
+
+  postCalender: (req, res) => {
+    const id = req.id;
+    const time = moment(req.body.time).format("hh:mm A");
+    const date = moment(req.body.date).format("DD-MMM-YYYY");
+
+    calender.findOne({ userId: id }).then((user) => {
+      if (user) {
+        calender
+          .updateOne(
+            { userId: id },
+            { $set: { wateringTime: time, fertiliseDate: date } }
+          )
+          .then((data) => {
+            res.send({ updated: true});
+          });
+      } else {
+        calender
+          .create({
+            userId: id,
+            wateringTime: time,
+            fertiliseDate: date,
+          })
+          .then((data) => {
+            res.send({ success: true });
+          });
       }
     });
   },

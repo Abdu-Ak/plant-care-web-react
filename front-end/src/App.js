@@ -9,7 +9,6 @@ import HomePage from './pages/User/HomePage';
 import AboutPage from './pages/User/AboutPage';
 import ShowBot from './context/BotContext';
 import ProfilePage from './pages/User/ProfilePage';
-import EditProfilePage from './pages/User/EditProfilePage';
 import Diarypage from './pages/User/Diarypage';
 import AddDiaryPage from './pages/User/AddDiaryPage';
 import AdminDiary from './pages/Admin/AdminDiary';
@@ -22,6 +21,7 @@ import AdminPlans from './pages/Admin/AdminPlans';
 import AddPlansPage from './pages/Admin/AddPlansPage';
 import EditPlanPage from './pages/Admin/EditPlanPage';
 import SubscriptionPage from './pages/User/SubscriptionPage';
+import SettingsPage from './pages/User/SettingsPage';
 function App() {
   const token = localStorage.getItem("token")
   const adminToken = localStorage.getItem("adminToken")
@@ -38,7 +38,7 @@ function App() {
      <Route exact path='/community' element={ <CommunityPage/>}/>
 
      <Route exact path='/profile'  element={token ?  <ProfilePage/> : <Navigate to={'/'} /> } />
-     <Route exact path='/editprofile'  element={token ?  <EditProfilePage/> : <Navigate to={'/'} /> } />
+     <Route exact path='/editprofile'  element={token ?  <SettingsPage/> : <Navigate to={'/'} /> } />
      <Route exact  path='/diary' element={token ?  <Diarypage/> : <Navigate to={'/'} />} /> 
      <Route exact  path='/add-diary' element={token ?  <AddDiaryPage/> : <Navigate to={'/'} /> }/> 
      <Route exact path='/add-post' element={token ? <AddPostPage/> : <Navigate to={'/'} />}/>
