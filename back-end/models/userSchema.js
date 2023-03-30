@@ -43,7 +43,7 @@ const UserSchema = new Schema({
          default:false
      }
      
-});
+},{timestamps:true});
 
 const userdetails = mongoose.model('userdetails',UserSchema);
 module.exports = userdetails;

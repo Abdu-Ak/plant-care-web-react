@@ -1,12 +1,28 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import ApexCharts from "apexcharts";
+import axios from '../../../axios/AdminAxios';
+
+
 
 function PieChart() {
   const chartRef = useRef(null);
 
+
+  const [data ,setData ] = useState({})
+ 
+
+  useEffect(() => {
+    axios.get( '/admin/getDashboard').then((res)=>{
+      setData(res.data)
+  })
+  }, [])
+
+
+
+
   useEffect(() => {
     const chart = new ApexCharts(chartRef.current, {
-      series: [44, 55, 67, 83],
+      series: [data.userCount, data.premiumCount, data.postCount, data.diaryCount],
       chart: {
         height: 350,
         type: "radialBar",
@@ -31,7 +47,7 @@ function PieChart() {
           },
         },
       },
-      labels: ["Apples", "Oranges", "Bananas", "Berries"],
+      labels: ["users", "premium users", "posts", "diaries"],
     });
 
     chart.render();
@@ -39,7 +55,7 @@ function PieChart() {
     return () => {
       chart.destroy();
     };
-  }, []);
+  }, [data]);
 
   return <div ref={chartRef}></div>;
 }

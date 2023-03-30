@@ -1,186 +1,169 @@
-import React from "react";
+import axios from "../../../axios/AdminAxios";
+import React, { useEffect, useState } from "react";
 import LineChart from "./LineChart";
 import PieChart from "./PieChart";
 
 function DashBoard() {
+   
+    const [data ,setData ] = useState({})
+
+
+
+   useEffect(() => {
+     
+    axios.get( '/admin/getDashboard').then((res)=>{
+        setData(res.data)
+    })
+   
+     
+   }, [])
+   
+
+
   return (
     <>
-      <div class="flex h-full w-full bg-white ">
-        <div class="grid w-full h-full    ">
-          <div class="grid grid-cols-12 gap-6">
-            <div class="grid grid-cols-12 col-span-12 gap-6 xxl:col-span-9">
-              <div class="col-span-12 mt-8">
-                <div class="flex items-center h-10 intro-y">
-                  <h2 class="mr-5 text-lg font-medium truncate">Dashboard</h2>
-                </div>
-                <div class="grid grid-cols-12 gap-6 mt-5">
-                  <a
-                    class="transform  hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 sm:col-span-6 xl:col-span-3 intro-y bg-white"
-                    href="/"
-                  >
-                    <div class="p-5">
-                      <div class="flex justify-between">
+      <div className="flex h-full w-full bg-white ">
+        <div className="grid w-full h-full    ">
+          <div className="grid grid-cols-12 gap-6">
+            <div className="grid grid-cols-12 col-span-12 gap-6 xxl:col-span-9">
+              <div className="col-span-12 ">
+                <div className="grid grid-cols-12 gap-6 mt-5">
+                  <div className="transform  hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 sm:col-span-6 xl:col-span-3 intro-y bg-white">
+                    <div className="p-5">
+                      <div className="flex justify-between">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          class="h-7 w-7 text-blue-400"
                           fill="none"
                           viewBox="0 0 24 24"
+                          strokeWidth={2}
                           stroke="currentColor"
+                          className="w-7 h-7 text-blue-400 "
                         >
                           <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"
                           />
                         </svg>
-                        <div class="bg-green-500 rounded-full h-6 px-2 flex justify-items-center text-white font-semibold text-sm">
-                          <span class="flex items-center">30%</span>
-                        </div>
                       </div>
-                      <div class="ml-2 w-full flex-1">
+                      <div className="ml-2 w-full flex-1">
                         <div>
-                          <div class="mt-3 text-3xl font-bold leading-8">
-                            4.510
+                          <div className="mt-3 text-3xl font-bold leading-8">
+                           {data.userCount}
                           </div>
 
-                          <div class="mt-1 text-base text-gray-600">
-                            Item Sales
+                          <div className="mt-1 text-base text-gray-600">
+                            Users
                           </div>
                         </div>
                       </div>
                     </div>
-                  </a>
-                  <a
-                    class="transform  hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 sm:col-span-6 xl:col-span-3 intro-y bg-white"
-                    href="/"
-                  >
-                    <div class="p-5">
-                      <div class="flex justify-between">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="h-7 w-7 text-yellow-400"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                          />
-                        </svg>
-                        <div class="bg-red-500 rounded-full h-6 px-2 flex justify-items-center text-white font-semibold text-sm">
-                          <span class="flex items-center">30%</span>
-                        </div>
-                      </div>
-                      <div class="ml-2 w-full flex-1">
-                        <div>
-                          <div class="mt-3 text-3xl font-bold leading-8">
-                            4.510
-                          </div>
-
-                          <div class="mt-1 text-base text-gray-600">
-                            Item Sales
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                  <a
-                    class="transform  hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 sm:col-span-6 xl:col-span-3 intro-y bg-white"
-                    href="/"
-                  >
-                    <div class="p-5">
-                      <div class="flex justify-between">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="h-7 w-7 text-pink-600"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"
-                          />
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"
-                          />
-                        </svg>
-                        <div class="bg-yellow-500 rounded-full h-6 px-2 flex justify-items-center text-white font-semibold text-sm">
-                          <span class="flex items-center">30%</span>
-                        </div>
-                      </div>
-                      <div class="ml-2 w-full flex-1">
-                        <div>
-                          <div class="mt-3 text-3xl font-bold leading-8">
-                            4.510
-                          </div>
-
-                          <div class="mt-1 text-base text-gray-600">
-                            Item Sales
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                  <a
-                    class="transform  hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 sm:col-span-6 xl:col-span-3 intro-y bg-white"
-                    href="/"
-                  >
-                    <div class="p-5">
-                      <div class="flex justify-between">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="h-7 w-7 text-green-400"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"
-                          />
-                        </svg>
-                        <div class="bg-blue-500 rounded-full h-6 px-2 flex justify-items-center text-white font-semibold text-sm">
-                          <span class="flex items-center">30%</span>
-                        </div>
-                      </div>
-                      <div class="ml-2 w-full flex-1">
-                        <div>
-                          <div class="mt-3 text-3xl font-bold leading-8">
-                            4.510
-                          </div>
-
-                          <div class="mt-1 text-base text-gray-600">
-                            Item Sales
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-              </div>
-              <div class="col-span-12 mt-5">
-                <div class="grid gap-2 grid-cols-1 lg:grid-cols-2">
-                  <div class="bg-white shadow-lg p-4" id="chartline">
-                      <LineChart/>
                   </div>
-                  <div class="bg-white shadow-lg" id="chartpie">
-                    <PieChart/>
+                  <div className="transform  hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 sm:col-span-6 xl:col-span-3 intro-y bg-white">
+                    <div className="p-5">
+                      <div className="flex justify-between">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={2}
+                          stroke="currentColor"
+                          className="w-7 h-7 text-green-400"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z"
+                          />
+                        </svg>
+                      </div>
+                      <div className="ml-2 w-full flex-1">
+                        <div>
+                          <div className="mt-3 text-3xl font-bold leading-8">
+                          {data.premiumCount}
+                          </div>
+
+                          <div className="mt-1 text-base text-gray-600">
+                            Premium Users
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="transform  hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 sm:col-span-6 xl:col-span-3 intro-y bg-white">
+                    <div className="p-5">
+                      <div className="flex justify-between">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={2}
+                          stroke="currentColor"
+                          className="h-7 w-7 text-pink-600"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z"
+                          />
+                        </svg>
+                      </div>
+                      <div className="ml-2 w-full flex-1">
+                        <div>
+                          <div className="mt-3 text-3xl font-bold leading-8">
+                           {data.postCount}
+                          </div>
+
+                          <div className="mt-1 text-base text-gray-600">
+                            Posts
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="transform  hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 sm:col-span-6 xl:col-span-3 intro-y bg-white">
+                    <div className="p-5">
+                      <div className="flex justify-between">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={2}
+                          stroke="currentColor"
+                          className="w-7 h-7 text-yellow-400"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M16.5 3.75V16.5L12 14.25 7.5 16.5V3.75m9 0H18A2.25 2.25 0 0120.25 6v12A2.25 2.25 0 0118 20.25H6A2.25 2.25 0 013.75 18V6A2.25 2.25 0 016 3.75h1.5m9 0h-9"
+                          />
+                        </svg>
+                      </div>
+                      <div className="ml-2 w-full flex-1">
+                        <div>
+                          <div className="mt-3 text-3xl font-bold leading-8">
+                           {data.diaryCount}
+                          </div>
+
+                          <div className="mt-1 text-base text-gray-600">
+                            Diaries
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-             
+              <div className="col-span-12 mt-5">
+                <div className="grid gap-2 grid-cols-1 lg:grid-cols-2">
+                  {/* <div className="bg-white shadow-lg p-4" id="chartline">
+                    <LineChart />
+                  </div> */}
+                  <div className="bg-white shadow-lg" id="chartpie">
+                    <PieChart />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

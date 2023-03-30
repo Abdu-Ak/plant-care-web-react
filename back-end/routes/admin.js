@@ -19,6 +19,7 @@ router.get('/getPlan/:id' , adminVerify,adminControllers.getSinglePlan )
 router.post('/editPost',adminVerify,adminControllers.editPlan)
 router.get('/deletePlan/:id',adminVerify,adminControllers.deletePlan)
 
+router.get('/getDashboard',adminVerify,adminControllers.getDashboard)
 
 
 module.exports = router; 
