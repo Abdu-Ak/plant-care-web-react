@@ -1,13 +1,14 @@
 import axios from "../../../axios/axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ProfileNav from "../ProfileNav/ProfileNav";
 import { ExclamationCircleFilled } from "@ant-design/icons";
-import { Modal } from "antd";
+import { message, Modal } from "antd";
+import Notification from "../Profile/Notification";
 
 function Diary() {
   const [data, setData] = useState([]);
-
+  const navigate = useNavigate()
   const { confirm } = Modal;
   const handleDelete = (id) => {
     confirm({
@@ -37,6 +38,10 @@ function Diary() {
     axios.get(`/getSchedule/${id}`).then((res)=>{
       if (res.data.success) {
         window.location.reload()
+      }else if(res.data.err){
+         navigate('/editprofile')
+        message.error(res.data.err)
+
       }
     })
   };
@@ -55,7 +60,7 @@ function Diary() {
     <>
       <div className="bg-white flex w-full  border-t-2 ">
         <ProfileNav />
-
+        <Notification/>
         <div className="flex flex-col w-full h-full">
           <div className="  m-5 ">
             <p className="text-4xl font-philosephor font-semibold">Diary</p>

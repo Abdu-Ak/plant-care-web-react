@@ -1,9 +1,12 @@
 import axios from "../../../axios/axios";
-import React, { useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import ProfileNav from "../ProfileNav/ProfileNav";
 import Posts from "./Posts";
+import Notification from "./Notification";
 
 function Profile() {
+  
+
   const [data, setData] = useState({});
 
   useEffect(() => {
@@ -17,7 +20,8 @@ function Profile() {
   return (
     <>
       <div className="bg-white flex w-full  border-t-2 border-b-2">
-        <ProfileNav />
+        <ProfileNav/>
+         <Notification/>
         <div className="flex flex-col items-center w-full">
           <div className=" mt-5">
             <img

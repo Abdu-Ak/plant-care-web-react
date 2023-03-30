@@ -12,6 +12,7 @@ const crypto = require("crypto");
 const calender = require("../../models/calenderSchema");
 const cron = require("node-cron");
 const { DateTime } = require("luxon");
+const notification = require("../../models/notificationSchema");
 
 module.exports = {
   userSignup: (req, res) => {
@@ -519,53 +520,175 @@ module.exports = {
     const diaryId = req.params.id;
 
     const schedule = await calender.findOne({ userId: id });
+    const diaryData = await diary.findOne({ userId: id });
 
-    const wateringTime = DateTime.fromFormat(schedule.wateringTime, "hh:mm a", {
-      zone: "Asia/Kolkata",
-    });
-    const fertiliseDate = schedule.fertiliseDate.split("-")[0];
-    let watering = cron.schedule(
-      `${wateringTime.minute} ${wateringTime.hour} 1-31 1-12 *`,
-      () => {
-        console.log("water ");
+    if (schedule && diaryData) {
+      const wateringTime = DateTime.fromFormat(
+        schedule.wateringTime,
+        "hh:mm a",
+        {
+          zone: "Asia/Kolkata",
+        }
+      );
+      const fertiliseDate = schedule.fertiliseDate.split("-")[0];
+
+      let watermesg = {
+        title: `Water your Beloved ${diaryData.commonName}`,
+        body: `please give atleast ${
+          diaryData.watering === "average" ? "120 ml " : "500ml"
+        } water to the plant`,
+      };
+      let fertilemesg = {
+        title: `Care your  ${diaryData.commonName} today `,
+        body: `please change the soil and add some fertilers..`,
+      };
+      let watering;
+      let fertilise;
+      notification.findOne({userId: id}).then((user)=>{
+        console.log(user);
+        if (user) {
+          watering = cron.schedule(
+            `${wateringTime.minute} ${wateringTime.hour} 1-31 1-12 *`,
+            () => {
+             
+               notification.updateOne(
+                { userId: id },
+                {
+                  $set: {
+                    message: watermesg,
+                  },
+                }
+              ).then((data)=>{
+                console.log(data);
+              })
+             
+            },
+            {
+              scheduled: false,
+            }
+          );
+           fertilise = cron.schedule(
+            `0 0 ${fertiliseDate} * *`,
+            () => {
+              notification.updateOne(
+                { userId: id },
+                {
+                  $set: {
+                    message: fertilemesg,
+                  },
+                }
+              ).then((data)=>{
+                console.log(data);
+              })
+            },
+            {
+              scheduled: false,
+            }
+          );
+        } else {
+          notification
+          .create({
+            userId: id,
+          })
+         
+             watering = cron.schedule(
+              `${wateringTime.minute} ${wateringTime.hour} 1-31 1-12 *`,
+              () => {
+                console.log("water");
+                notification.updateOne(
+                  { userId: id },
+                  {
+                    $set: {
+                      message: watermesg,
+                    },
+                  }
+                );
+                console.log("oombi");
+              },
+              {
+                scheduled: false,
+              }
+            );
+             fertilise = cron.schedule(
+              `0 0 ${fertiliseDate} * *`,
+              () => {
+                notification.updateOne(
+                  { userId: id },
+                  {
+                    $set: {
+                      message: fertilemesg,
+                    },
+                  }
+                );
+              },
+              {
+                scheduled: false,
+              }
+            );
+        }
+      
+
+      })
+
+     
+        
+
+      diary.findOne({ _id: diaryId }).then((data) => {
+      
+        if (data.Notification) {
+          diary
+            .findByIdAndUpdate(
+              { _id: diaryId },
+              { $set: { Notification: false } }
+            )
+            .then((data) => {
+              watering.stop();
+              fertilise.stop();
+              res.send({ success: true });
+            });
+        } else {
+          diary
+            .findByIdAndUpdate(
+              { _id: diaryId },
+              { $set: { Notification: true } }
+            )
+            .then((data) => {
+              watering.start();
+              fertilise.start();
+              res.send({ success: true });
+            });
+        }
+      });
+    } else {
+      res.send({ err: "Set Calender First..! " });
+    }
+  },
+
+  getNotification : (req,res)=>{
+    const id = req.id 
+      
+    notification.findOne({userId : id}).then((data)=>{
+
+      res.send({success:true , data})
+    })
+
+  },
+ 
+  deleteMessage :(req,res)=>{
+      const mesgId = req.params.id
+      const userId = req.id
+     
+      notification.updateOne(
+        {
+        userId : mongoose.Types.ObjectId(userId)
       },
       {
-        scheduled: false,
+        $pull: { message: { _id: mesgId } }
       }
-    );
-    let fertilise = cron.schedule(
-      `0 0 ${fertiliseDate} * *`,
-      () => {
-        console.log("fertile ");
-      },
-      {
-        scheduled: false,
-      }
-    );
+      ).then((data)=>{
+        res.send({success:true})
+      })
 
-    diary.findOne({ _id: diaryId }).then((data) => {
-      console.log(data.Notification);
-      if (data.Notification) {
-        diary
-          .findByIdAndUpdate(
-            { _id: diaryId },
-            { $set: { Notification: false } }
-          )
-          .then((data) => {
-            watering.stop();
-            fertilise.stop();
-            res.send({ success: true });
-          });
-      } else {
-        diary
-          .findByIdAndUpdate({ _id: diaryId }, { $set: { Notification: true } })
-          .then((data) => {
-            watering.start();
-            fertilise.start();
-            res.send({ success: true });
-          });
-      }
-    });
   },
 
   getChat: (req, res) => {},

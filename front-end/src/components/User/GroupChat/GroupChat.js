@@ -21,19 +21,20 @@ let socket;
 function GroupChat() {
   const ENDPOINT = "localhost:8000";
 
+ 
   const token = localStorage.getItem("token");
-
   useEffect(() => {
+    
     socket = io(ENDPOINT);
 
     socket.emit("join", { token }, () => {});
      console.log(socket);
     return () => {
       // socket.emit('disconnect')
-
       socket.off();
     };
-  }, [ENDPOINT, token]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
 
   return (
     <>

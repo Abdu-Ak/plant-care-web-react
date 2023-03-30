@@ -33,7 +33,7 @@ function Posts() {
     axios.get("/userPosts").then((res) => {
       if (res.data.success) {
         setPost(res.data.posts);
-        console.log(res.data.posts);
+       
       }
     });
   }, []);

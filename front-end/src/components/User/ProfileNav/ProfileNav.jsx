@@ -1,9 +1,12 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { Dropdown, Space } from "antd";
 import axios from "../../../axios/axios";
+import { useContext } from "react";
+import { NotificationContext } from "../../../context/NotificationContext";
 
 function ProfileNav() {
+  const { showDrawer } = useContext(NotificationContext);
+
   const items = [
     {
       label: <Link to={"/add-diary"}> Add diary </Link>,
@@ -15,11 +18,9 @@ function ProfileNav() {
     },
   ];
   const token = localStorage.getItem("token");
-  
+
   const handleLogout = () => {
-   
-    axios.get('/logout').then((response) => {
-    
+    axios.get("/logout").then((response) => {
       if (response.data.logout) {
         localStorage.removeItem("token");
         window.location = "/";
@@ -30,7 +31,7 @@ function ProfileNav() {
   return (
     <>
       <div className="p-4 md:p-10 flex flex-col w-20 border-r-2 ">
-        <div >
+        <div>
           <Link to={"/diary"}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -55,7 +56,11 @@ function ProfileNav() {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-6 h-6"
+            className="w-6 h-6 hover:cursor-pointer"
+            onClick={(()=>{
+              showDrawer();
+              
+            })}
           >
             <path
               strokeLinecap="round"
@@ -113,23 +118,25 @@ function ProfileNav() {
             </svg>
           </Link>
         </div>
-       {token && ( <div className="mt-3">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6 hover:cursor-pointer"
-            onClick={handleLogout}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"
-            />
-          </svg>
-        </div>) }
+        {token && (
+          <div className="mt-3">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6 hover:cursor-pointer"
+              onClick={handleLogout}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"
+              />
+            </svg>
+          </div>
+        )}
       </div>
     </>
   );

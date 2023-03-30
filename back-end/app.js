@@ -28,8 +28,9 @@ const io = socketio(server,{
 io.on('connection',(Socket)=>{
     console.log("we have connection..!")
 
+
     Socket.on('join',(token)=>{
-      console.log(token);
+     console.log("joined");
     })
 
     Socket.on('disconnect', ()=>{

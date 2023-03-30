@@ -1,17 +1,9 @@
-import axios from '../../../axios/AdminAxios';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Chart from 'react-apexcharts';
 
 const LineChart = () => {
   
-  const [data ,setData ] = useState({})
- 
 
-  useEffect(() => {
-    axios.get( '/admin/getDashboard').then((res)=>{
-      setData(res.data)
-  })
-  }, [])
   
 
 

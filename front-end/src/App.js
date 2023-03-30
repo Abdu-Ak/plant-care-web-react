@@ -22,15 +22,20 @@ import AddPlansPage from './pages/Admin/AddPlansPage';
 import EditPlanPage from './pages/Admin/EditPlanPage';
 import SubscriptionPage from './pages/User/SubscriptionPage';
 import SettingsPage from './pages/User/SettingsPage';
+import ShowNotification from './context/NotificationContext';
+
 function App() {
   const token = localStorage.getItem("token")
   const adminToken = localStorage.getItem("adminToken")
   return (
     <>
-  
+    
      <ShowLogin>
       <ShowBot>
         <ShowView>
+         <ShowNotification>
+
+
       <BrowserRouter>
      <Routes>
      <Route exact path='/'  element={ <HomePage/> } />
@@ -63,10 +68,12 @@ function App() {
 
      </Routes>
      </BrowserRouter>
+     </ShowNotification>
+    
      </ShowView>
      </ShowBot>
-     </ShowLogin>    
-     
+     </ShowLogin> 
+    
     </>
   );
 }
