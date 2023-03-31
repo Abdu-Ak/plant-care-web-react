@@ -2,20 +2,17 @@ import React, { useContext, useEffect, useState } from "react";
 import { Drawer } from "antd";
 import { NotificationContext } from "../../../context/NotificationContext";
 import axios from "../../../axios/axios";
-import { useNavigate } from "react-router-dom";
 function Notification() {
   const { onClose, open } = useContext(NotificationContext);
   const [data, setData] = useState([]);
-  const navigate = useNavigate()
 
-const handleDelete = (id) => {
-  axios.get(`/deleteMessage/${id}`).then((res)=>{
-    if (res.data.success) {
-       navigate('/profile')
-    }
-  })
-} 
-  
+  const handleDelete = (id) => {
+    axios.get(`/deleteMessage/${id}`).then((res) => {
+      if (res.data.success) {
+       window.location.reload()
+      }
+    });
+  };
 
   useEffect(() => {
     axios.get("/getNotification").then((res) => {
@@ -31,17 +28,17 @@ const handleDelete = (id) => {
       <Drawer
         title="Notification : "
         placement={"left"}
-        closable={false}
         onClose={onClose}
         open={open}
         key={"left"}
         style={{ backgroundColor: "#F8F4EB" }}
       >
-        {data.map((message,index) => {
+        {data.map((message, index) => {
           return (
             <div
-             key={index}
-            className="shadow-lg rounded-lg bg-white mx-auto m-2 p-4 notification-box flex">
+              key={index}
+              className="shadow-lg rounded-lg bg-white mx-auto m-2 p-4 notification-box flex"
+            >
               <div className="pr-2">
                 <svg
                   className="fill-current text-yellow-400"
@@ -66,9 +63,9 @@ const handleDelete = (id) => {
                       viewBox="0 0 24 24"
                       width="22"
                       height="22"
-                      onClick={(()=>{
-                        handleDelete(message._id)
-                      })}
+                      onClick={() => {
+                        handleDelete(message._id);
+                      }}
                     >
                       <path
                         className="heroicon-ui"

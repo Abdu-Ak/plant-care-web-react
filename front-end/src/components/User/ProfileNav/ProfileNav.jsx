@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import { Dropdown, Space } from "antd";
 import axios from "../../../axios/axios";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { NotificationContext } from "../../../context/NotificationContext";
 
 function ProfileNav() {
   const { showDrawer } = useContext(NotificationContext);
-
+  const [count, setCount] = useState(null);
+  
   const items = [
     {
       label: <Link to={"/add-diary"}> Add diary </Link>,
@@ -27,6 +28,15 @@ function ProfileNav() {
       }
     });
   };
+
+  useEffect(() => {
+    axios.get('/getcount').then((res)=>{
+       if (res.data.success) {
+         setCount(res.data.count)
+       }
+    })
+  }, [])
+  
 
   return (
     <>
@@ -49,7 +59,14 @@ function ProfileNav() {
             </svg>
           </Link>
         </div>
-        <div className="mt-3">
+        <div className="relative mt-5">
+          {
+            count === 0 ? "" : (
+              <span class="absolute rounded-full text-red-800 text-xs font-medium bottom-3 left-3 px-2.5 py-0.5   bg-red-400 ">
+            {count}
+          </span>
+            )
+          }
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -57,10 +74,9 @@ function ProfileNav() {
             strokeWidth={1.5}
             stroke="currentColor"
             className="w-6 h-6 hover:cursor-pointer"
-            onClick={(()=>{
+            onClick={() => {
               showDrawer();
-              
-            })}
+            }}
           >
             <path
               strokeLinecap="round"
@@ -69,7 +85,7 @@ function ProfileNav() {
             />
           </svg>
         </div>
-        <div className="mt-3">
+        <div className="mt-5">
           <Dropdown
             menu={{
               items,
@@ -95,7 +111,7 @@ function ProfileNav() {
             </Space>
           </Dropdown>
         </div>
-        <div className="mt-3">
+        <div className="mt-5">
           <Link to={"/editprofile"}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -119,7 +135,7 @@ function ProfileNav() {
           </Link>
         </div>
         {token && (
-          <div className="mt-3">
+          <div className="mt-5">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

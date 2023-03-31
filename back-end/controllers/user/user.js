@@ -13,8 +13,15 @@ const calender = require("../../models/calenderSchema");
 const cron = require("node-cron");
 const { DateTime } = require("luxon");
 const notification = require("../../models/notificationSchema");
+  
 
+
+ 
 module.exports = {
+
+ 
+
+
   userSignup: (req, res) => {
     let data = req.body;
 
@@ -666,11 +673,14 @@ module.exports = {
 
   getNotification : (req,res)=>{
     const id = req.id 
-      
-    notification.findOne({userId : id}).then((data)=>{
+       
+  
 
-      res.send({success:true , data})
+    notification.findOne({userId : id}).then((data)=>{
+     
+      res.send({success:true , data })
     })
+   
 
   },
  
@@ -690,6 +700,19 @@ module.exports = {
       })
 
   },
+
+ getMesgCount : (req,res) => {
+   
+  const id = req.id 
+   
+  notification.findOne({userId : id}).then((data)=>{
+      const count = data.message.length
+    res.send({success:true , count })
+  }) 
+   
+
+ }, 
+
 
   getChat: (req, res) => {},
 

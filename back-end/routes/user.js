@@ -27,7 +27,7 @@ router.post('/postCalender',verify , userControllers.postCalender)
 router.get('/getSchedule/:id',verify,userControllers.getSchedule)
 router.get('/getNotification',verify,userControllers.getNotification)
 router.get('/deleteMessage/:id',verify,userControllers.deleteMessage)
-
+router.get('/getcount',verify,userControllers.getMesgCount)
 
 router.get("/chat",userControllers.getChat)
 
