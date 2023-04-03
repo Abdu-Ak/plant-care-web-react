@@ -37,6 +37,7 @@ function GroupChat() {
   }, [token]);
 
   return (
+    
     <>
       <div className="w-full h-full">
         <div

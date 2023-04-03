@@ -7,7 +7,7 @@ function Navbar() {
   const [show, handleShow] = useState(false);
   const { showLog, setShowlog } = useContext(LoginContext);
   const token = localStorage.getItem("token");
- 
+
   const transitionNavBar = () => {
     if (window.scrollY > 100) {
       handleShow(true);
@@ -24,7 +24,7 @@ function Navbar() {
       window.removeEventListener("scroll", transitionNavBar);
     };
   }, []);
- 
+
   return (
     <div>
       <nav
@@ -83,8 +83,7 @@ function Navbar() {
                     />
                   </svg>
                 </Link>
-                <Link to={"/profile"} >
-                  
+                <Link to={"/profile"}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"

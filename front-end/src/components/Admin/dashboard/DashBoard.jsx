@@ -1,6 +1,5 @@
 import axios from "../../../axios/AdminAxios";
 import React, { useEffect, useState } from "react";
-import LineChart from "./LineChart";
 import PieChart from "./PieChart";
 
 function DashBoard() {
@@ -156,9 +155,7 @@ function DashBoard() {
               </div>
               <div className="col-span-12 mt-5">
                 <div className="grid gap-2 grid-cols-1 lg:grid-cols-2">
-                  {/* <div className="bg-white shadow-lg p-4" id="chartline">
-                    <LineChart />
-                  </div> */}
+            
                   <div className="bg-white shadow-lg" id="chartpie">
                     <PieChart />
                   </div>

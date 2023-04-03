@@ -95,7 +95,7 @@ function Faq() {
             </li>
            { subscribed && (<li className="flex  items-center justify-end pt-5">
            
-           <button className="w-3/12  hover:bg-primary hover:text-gray-700 h-10 rounded-2xl border-2 font-semibold border-primary text-lg  text-primary bg-third/70"
+           <button className="w-3/12  hover:bg-primary hover:text-gray-700 h-10 rounded-2xl border-2 font-semibold border-primary text-lg  text-primary  bg-third"
            onClick={()=>setShowBot(!showBot)}
            >
              Ask

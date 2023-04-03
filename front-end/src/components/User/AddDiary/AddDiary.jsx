@@ -1,7 +1,9 @@
 import axios from "../../../axios/axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { PLANTKEY } from "../../../constants/Constants";
 import { useNavigate } from "react-router-dom";
+import { LoaderContext } from "../../../context/LoaderContext";
+import Loader from "../Loader/Loader";
 
 function AddDiary() {
   const navigate = useNavigate();
@@ -9,13 +11,16 @@ function AddDiary() {
   const [key, setKey] = useState("");
   const [num, setNum] = useState(null);
   const [diary, setDiary] = useState({});
+  const {load ,setLoad } = useContext(LoaderContext)
 
   const handleSearch = () => {
     if (key) {
+    setLoad(true)
+
       axios
         .get(`https://perenual.com/api/species-list?key=${PLANTKEY}&q=${key}`)
         .then((res) => {
-          console.log(res.data.data);
+         setLoad(false)
           setData(res.data.data);
         });
     }
@@ -59,17 +64,24 @@ function AddDiary() {
   };
 
   useEffect(() => {
+    setLoad(true)
     axios
       .get(`https://perenual.com/api/species-list?page=1&key=${PLANTKEY}`)
       .then((res) => {
+         setLoad(false)
         res.data.data.shift();
         setData(res.data.data);
       });
-  }, []);
+  }, [setLoad]);
 
   return (
-    <>
-      <div className="bg-[#dae4ea] p-10 flex justify-between items-center">
+    <>   
+      { load && <div className="fixed z-20 w-full h-full flex justify-center items-center  bg-black/50" >
+          <Loader/>
+         </div>}
+    
+      <div className=" bg-[#dae4ea] p-10 flex justify-between items-center">
+       
         <p className="text-4xl font-serif font-semibold text-third">
           Select Plants
         </p>
