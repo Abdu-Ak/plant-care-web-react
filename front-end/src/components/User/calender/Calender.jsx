@@ -1,15 +1,13 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { DatePicker, message, Space, TimePicker } from "antd";
 import axios from "../../../axios/axios";
 import { useNavigate } from "react-router-dom";
 function Calender() {
-   const [time , setTime]= useState("")
-   const [date , setDate]= useState('')
+  const [time, setTime] = useState("");
+  const [date, setDate] = useState("");
   const [err, setErr] = useState("");
   const navigate = useNavigate();
-   
 
-   
   const validate = () => {
     let error = "";
     if (time === "") {
@@ -21,34 +19,37 @@ function Calender() {
     return error;
   };
 
-
-   const handleSubmit = ()=>{
+  const handleSubmit = () => {
     const error = validate();
     setErr(error);
 
     if (!error) {
-      console.log("podddii");
-        axios.post('/postCalender',{
-            time,
-            date
-        }).then((res)=>{
-             if (res.data.success) {
-                navigate("/profile");
-                message.success(" Calender Added..! ");
-             }else if (res.data.updated) {
-              navigate("/profile");
-              message.success(" Calender Updated..! ");
-             }
+     
+
+      axios
+        .post("/postCalender", {
+          time,
+          date,
         })
+        .then((res) => {
+          if (res.data.success) {
+            
+
+            navigate("/profile");
+            message.success(" Calender Added..! ");
+          } else if (res.data.updated) {
+          
+
+            navigate("/profile");
+            message.success(" Calender Updated..! ");
+          }
+        });
     }
-
-   }
-
- 
-   
+  };
 
   return (
     <>
+   
       <div className="border w-full px-5 p-2">
         <div className="shadow sm:rounded-md sm:overflow-hidden">
           <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
@@ -61,22 +62,20 @@ function Calender() {
                   Watering TIme
                 </label>
                 <div className="mt-1 flex rounded-md shadow-sm">
-                  <Space direction="vertical"
-                  style={{
-                    width: "100%",
-                  }}
-                  >
-                    <TimePicker 
+                  <Space
+                    direction="vertical"
                     style={{
+                      width: "100%",
+                    }}
+                  >
+                    <TimePicker
+                      style={{
                         width: "100%",
-                        
                       }}
-                      
                       value={time}
-                      onChange={((value)=>{
-                         setTime(value);
-                      })}
-                      
+                      onChange={(value) => {
+                        setTime(value);
+                      }}
                     />
                   </Space>
                 </div>
@@ -102,10 +101,10 @@ function Calender() {
                       style={{
                         width: "100%",
                       }}
-                     value={date}
-                     onChange={((value)=>{
-                        setDate(value)
-                     })}
+                      value={date}
+                      onChange={(value) => {
+                        setDate(value);
+                      }}
                     />
                   </Space>
                 </div>

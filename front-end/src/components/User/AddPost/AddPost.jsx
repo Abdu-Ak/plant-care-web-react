@@ -1,8 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Button, message, Steps, theme } from "antd";
 import { useState } from "react";
 import axios from "../../../axios/axios";
 import { useNavigate } from "react-router-dom";
+import { LoaderContext } from "../../../context/LoaderContext";
+import Loader from "../Loader/Loader";
 
 function AddPost() {
   const { token } = theme.useToken();
@@ -14,7 +16,8 @@ function AddPost() {
   const [users, setUsers] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [tag, setTag] = useState([]);
-  const navigate = useNavigate() 
+  const navigate = useNavigate();
+  const { load, setLoad } = useContext(LoaderContext);
 
   const handleSearch = (e) => {
     setKey(e.target.value);
@@ -43,59 +46,60 @@ function AddPost() {
     if (tagUser && tag.includes(tagUser[0]) === false) {
       setTag((tag) => {
         const data = [...tag];
-          data.push(tagUser[0]);
-          return data;
+        data.push(tagUser[0]);
+        return data;
       });
-      
-
     }
   };
-    const removeTag = (id) =>{
-      const tagUser = id
+  const removeTag = (id) => {
+    const tagUser = id
       ? users.filter((value) => {
           return value._id.includes(id);
         })
       : "";
-      if (tagUser) {
-        setTag((tag) => {
-          const data = [...tag];
-          data.pop(tagUser[0]);
-          return data;
-        });
-        console.log(tag);
+    if (tagUser) {
+      setTag((tag) => {
+        const data = [...tag];
+        data.pop(tagUser[0]);
+        return data;
+      });
+      console.log(tag);
     }
-    }
+  };
 
   const handleImage = (e) => {
     setImage(e.target.files[0]);
     setImg(URL.createObjectURL(e.target.files[0]));
   };
 
- const handleSubmit = () =>{
-   if (image) {
-    console.log(tag);
-        let file = new FormData()
-        
-        file.append('image' , image )
-        file.append('title', title)
-        file.append('caption',caption)
-        for (let i = 0; i < tag.length; i++) {
-          file.append('tag[]', (tag[i]._id));
-        }
-        axios.post('/addPost',file ,{
-          headers :{
+  const handleSubmit = () => {
+    if (image) {
+      setLoad(true);
+      let file = new FormData();
+
+      file.append("image", image);
+      file.append("title", title);
+      file.append("caption", caption);
+      for (let i = 0; i < tag.length; i++) {
+        file.append("tag[]", tag[i]._id);
+      }
+      axios
+        .post("/addPost", file, {
+          headers: {
             "Content-Type": "multipart/form-data",
-          }
-        }).then((res)=>{
-           if (res.data.success) {
-             navigate('/profile')
-             message.success("Post added..!")
-           }
+          },
         })
-   }else{
-    message.error("must add a image..!")
-   }
- }
+        .then((res) => {
+          if (res.data.success) {
+            setLoad(false);
+            navigate("/profile");
+            message.success("Post added..!");
+          }
+        });
+    } else {
+      message.error("must add a image..!");
+    }
+  };
 
   useEffect(() => {
     axios.get("/getUsers").then((res) => {
@@ -273,9 +277,12 @@ function AddPost() {
                   />{" "}
                   <span className="absolute right-3 top-4 ">
                     {tag &&
-                      tag.map((tag,index) => {
+                      tag.map((tag, index) => {
                         return (
-                          <div key={index} className="text-xs inline-flex items-center font-bold leading-sm  mr-1  px-3 py-1 bg-blue-200 text-gray-500 rounded-full">
+                          <div
+                            key={index}
+                            className="text-xs inline-flex items-center font-bold leading-sm  mr-1  px-3 py-1 bg-blue-200 text-gray-500 rounded-full"
+                          >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               fill="none"
@@ -358,6 +365,11 @@ function AddPost() {
 
   return (
     <>
+      {load && (
+        <div className="fixed z-20 w-full h-full flex justify-center items-center  bg-black/50">
+          <Loader />
+        </div>
+      )}
       <div className="bg-[#dae4ea] w-full p-10 flex justify-between items-center">
         <p className="text-4xl font-serif font-semibold text-third">Add Post</p>
       </div>
@@ -374,9 +386,7 @@ function AddPost() {
               <Button onClick={() => next()}>Next</Button>
             )}
             {current === steps.length - 1 && (
-              <Button onClick={handleSubmit}>
-                Done
-              </Button>
+              <Button onClick={handleSubmit}>Done</Button>
             )}
             {current > 0 && (
               <Button
