@@ -154,7 +154,7 @@ function DashBoard() {
                 </div>
               </div>
               <div className="col-span-12 mt-5">
-                <div className="grid gap-2 grid-cols-1 lg:grid-cols-2">
+                <div className="flex justify-center items-center w-full ">
             
                   <div className="bg-white shadow-lg" id="chartpie">
                     <PieChart />

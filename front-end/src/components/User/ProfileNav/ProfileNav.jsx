@@ -24,6 +24,7 @@ function ProfileNav() {
     axios.get("/logout").then((response) => {
       if (response.data.logout) {
         localStorage.removeItem("token");
+        localStorage.removeItem("userId");
         window.location = "/";
       }
     });

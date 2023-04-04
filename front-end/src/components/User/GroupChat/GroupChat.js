@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from "react";
 import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import {
   MainContainer,
@@ -16,28 +17,38 @@ import {
   MessageSeparator,
 } from "@chatscope/chat-ui-kit-react";
 import io from "socket.io-client";
-let socket;
+import { ENDPOINT } from "../../../constants/Constants";
 
 function GroupChat() {
-  const ENDPOINT = "localhost:8000";
+  const [users, setUsers] = useState([]);
 
- 
-  const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
+  useEffect(() => {
+    const socket = io(ENDPOINT, {
+      query: {
+        userId: localStorage.getItem("userId"),
+      },
+    });
+
+    socket.on("userList", (users) => {
+      setUsers(users);
+    });
+
+    socket.emit("getUserList");
+
+    return () => {
+      socket.emit("disconectUser", userId);
+      socket.disconnect();
+    };
+  }, []);
+
+
   useEffect(() => {
     
-    socket = io(ENDPOINT);
-
-    socket.emit("join", { token }, () => {});
-     console.log(socket);
-    return () => {
-      // socket.emit('disconnect')
-      socket.off();
-    };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
+  }, [])
+  
 
   return (
-    
     <>
       <div className="w-full h-full">
         <div
@@ -50,54 +61,21 @@ function GroupChat() {
             <Sidebar position="left" scrollable={false}>
               <Search placeholder="Search..." />
               <ConversationList>
-                <Conversation
-                  name="Lilly"
-                  lastSenderName="Lilly"
-                  info="Yes i can do it for you"
-                >
-                  <Avatar
-                    src="/images/user-default.png"
-                    name="Lilly"
-                    status="available"
-                  />
-                </Conversation>
-
-                <Conversation
-                  name="Joe"
-                  lastSenderName="Joe"
-                  info="Yes i can do it for you"
-                >
-                  <Avatar
-                    src="/images/user-default.png"
-                    name="Joe"
-                    status="dnd"
-                  />
-                </Conversation>
-
-                <Conversation
-                  name="Emily"
-                  lastSenderName="Emily"
-                  info="Yes i can do it for you"
-                  unreadCnt={3}
-                >
-                  <Avatar
-                    src="/images/user-default.png"
-                    name="Emily"
-                    status="available"
-                  />
-                </Conversation>
-
-                <Conversation
-                  name="Patrik"
-                  lastSenderName="Patrik"
-                  info="Yes i can do it for you"
-                >
-                  <Avatar
-                    src="/images/user-default.png"
-                    name="Patrik"
-                    status="invisible"
-                  />
-                </Conversation>
+                {users.map((user, index) => {
+                  return (
+                    <Conversation
+                      key={index}
+                      name={user.username}
+                      info={user.email}
+                    >
+                      <Avatar
+                        src={user.image}
+                        name={user.username}
+                        status="available"
+                      />
+                    </Conversation>
+                  );
+                })}
               </ConversationList>
             </Sidebar>
 

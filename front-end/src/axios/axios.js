@@ -27,8 +27,12 @@ instance.interceptors.response.use(
       message.error("You been blocked by Admin..!");
 
       localStorage.removeItem("token");
+      localStorage.removeItem("userId");
+
     } else {
       localStorage.removeItem("token");
+      localStorage.removeItem("userId");
+
     }
   }
 );

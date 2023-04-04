@@ -4,41 +4,31 @@ const { Schema } = mongoose;
 
 const chatSchema = new Schema(
   {
-    user: {
-        
-        type: mongoose.Schema.Types.ObjectId, 
-        required: true
-     },
-  
-
-    unreadMessages: 
-    {
-         type: Number,
-          required: true
-         },
-    message:
-     [
+    users: [
       {
-        content: { 
-            type: String
-            , required: true
-         },
-        read: { 
-            type: String,
-             required: true, 
-             default: false 
-            },
-        date: {
-             type: Date,
-              required: true,
-               default: Date.now 
-            },
+        userId: {
+          type: mongoose.Schema.Types.ObjectId,
+          
+        },
       },
     ],
+    messages : [
+       { 
+        sender  : {
+          type: mongoose.Schema.Types.ObjectId,
+        },
+        content : {
+            type : String
+        }, 
+        time: {
+          type: Date,
+          default: Date.now
+        }
+  
+       
+       }
+    ]
   },
-  {
-    timestamps: true,
-  }
 );
 
 const Chat = mongoose.model("chat", chatSchema);

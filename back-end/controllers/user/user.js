@@ -13,15 +13,8 @@ const calender = require("../../models/calenderSchema");
 const cron = require("node-cron");
 const { DateTime } = require("luxon");
 const notification = require("../../models/notificationSchema");
-  
 
-
- 
 module.exports = {
-
- 
-
-
   userSignup: (req, res) => {
     let data = req.body;
 
@@ -71,7 +64,11 @@ module.exports = {
                         if (err) {
                           console.log(err);
                         } else {
-                          res.send({ logged: true, token: `Bearer ${token}` });
+                          res.send({
+                            logged: true,
+                            token: `Bearer ${token}`,
+                            userId: result.id,
+                          });
                         }
                       }
                     );
@@ -112,7 +109,11 @@ module.exports = {
                     if (err) {
                       console.log(err);
                     } else {
-                      res.send({ logged: true, token: `Bearer ${token}` });
+                      res.send({
+                        logged: true,
+                        token: `Bearer ${token}`,
+                        userId: result.id,
+                      });
                     }
                   }
                 );
@@ -354,7 +355,7 @@ module.exports = {
 
   userPosts: (req, res) => {
     const id = req.id;
-    console.log(id);
+
     posts
       .aggregate([
         {
@@ -551,97 +552,89 @@ module.exports = {
       };
       let watering;
       let fertilise;
-      notification.findOne({userId: id}).then((user)=>{
-        console.log(user);
+      notification.findOne({ userId: id }).then((user) => {
         if (user) {
           watering = cron.schedule(
             `${wateringTime.minute} ${wateringTime.hour} 1-31 1-12 *`,
             () => {
-             
-               notification.updateOne(
-                { userId: id },
-                {
-                  $set: {
-                    message: watermesg,
-                  },
-                }
-              ).then((data)=>{
-                console.log(data);
-              })
-             
-            },
-            {
-              scheduled: false,
-            }
-          );
-           fertilise = cron.schedule(
-            `0 0 ${fertiliseDate} * *`,
-            () => {
-              notification.updateOne(
-                { userId: id },
-                {
-                  $set: {
-                    message: fertilemesg,
-                  },
-                }
-              ).then((data)=>{
-                console.log(data);
-              })
-            },
-            {
-              scheduled: false,
-            }
-          );
-        } else {
-          notification
-          .create({
-            userId: id,
-          })
-         
-             watering = cron.schedule(
-              `${wateringTime.minute} ${wateringTime.hour} 1-31 1-12 *`,
-              () => {
-                console.log("water");
-                notification.updateOne(
+              notification
+                .updateOne(
                   { userId: id },
                   {
                     $set: {
                       message: watermesg,
                     },
                   }
-                );
-                console.log("oombi");
-              },
-              {
-                scheduled: false,
-              }
-            );
-             fertilise = cron.schedule(
-              `0 0 ${fertiliseDate} * *`,
-              () => {
-                notification.updateOne(
+                )
+                .then((data) => {});
+            },
+            {
+              scheduled: false,
+            }
+          );
+          fertilise = cron.schedule(
+            `0 0 ${fertiliseDate} * *`,
+            () => {
+              notification
+                .updateOne(
                   { userId: id },
                   {
                     $set: {
                       message: fertilemesg,
                     },
                   }
-                );
-              },
-              {
-                scheduled: false,
-              }
-            );
+                )
+                .then((data) => {});
+            },
+            {
+              scheduled: false,
+            }
+          );
+        } else {
+          notification.create({
+            userId: id,
+          });
+
+          watering = cron.schedule(
+            `${wateringTime.minute} ${wateringTime.hour} 1-31 1-12 *`,
+            () => {
+              notification
+                .updateOne(
+                  { userId: id },
+                  {
+                    $set: {
+                      message: watermesg,
+                    },
+                  }
+                )
+                .then((res) => {});
+            },
+            {
+              scheduled: false,
+            }
+          );
+          fertilise = cron.schedule(
+            `0 0 ${fertiliseDate} * *`,
+            () => {
+              notification
+                .updateOne(
+                  { userId: id },
+                  {
+                    $set: {
+                      message: fertilemesg,
+                    },
+                  }
+                )
+                .then((res) => {});
+            },
+            {
+              scheduled: false,
+            }
+          );
         }
-      
-
-      })
-
-     
-        
+      });
 
       diary.findOne({ _id: diaryId }).then((data) => {
-      
         if (data.Notification) {
           diary
             .findByIdAndUpdate(
@@ -671,48 +664,40 @@ module.exports = {
     }
   },
 
-  getNotification : (req,res)=>{
-    const id = req.id 
-       
-  
+  getNotification: (req, res) => {
+    const id = req.id;
 
-    notification.findOne({userId : id}).then((data)=>{
-     
-      res.send({success:true , data })
-    })
-   
-
+    notification.findOne({ userId: id }).then((data) => {
+      res.send({ success: true, data });
+    });
   },
- 
-  deleteMessage :(req,res)=>{
-      const mesgId = req.params.id
-      const userId = req.id
-     
-      notification.updateOne(
+
+  deleteMessage: (req, res) => {
+    const mesgId = req.params.id;
+    const userId = req.id;
+
+    notification
+      .updateOne(
         {
-        userId : mongoose.Types.ObjectId(userId)
-      },
-      {
-        $pull: { message: { _id: mesgId } }
-      }
-      ).then((data)=>{
-        res.send({success:true})
-      })
-
+          userId: mongoose.Types.ObjectId(userId),
+        },
+        {
+          $pull: { message: { _id: mesgId } },
+        }
+      )
+      .then((data) => {
+        res.send({ success: true });
+      });
   },
 
- getMesgCount : (req,res) => {
-   
-  const id = req.id 
-   
-  notification.findOne({userId : id}).then((data)=>{
-      const count = data.message.length
-    res.send({success:true , count })
-  }) 
-   
+  getMesgCount: (req, res) => {
+    const id = req.id;
 
- }, 
-
+    notification.findOne({ userId: id }).then((data) => {
+      const count = data.message.length;
+      res.send({ success: true, count });
+    });
+  },
 
   getChat: (req, res) => {},
 

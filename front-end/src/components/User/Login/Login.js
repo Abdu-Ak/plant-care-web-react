@@ -35,6 +35,8 @@ function Login() {
             setErrors(res.data.err);
           } else if (res.data.logged) {
             localStorage.setItem("token", res.data.token);
+            localStorage.setItem("userId", res.data.userId);
+            window.location.reload();
             setShowlog(false);
           }
         });
@@ -55,6 +57,8 @@ function Login() {
       .then((res) => {
         if (res.data.logged) {
           localStorage.setItem("token", res.data.token);
+          localStorage.setItem("userId", res.data.userId);
+
           window.location.reload();
           setShowlog(false);
         } else if (res.data.err) {

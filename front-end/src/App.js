@@ -23,6 +23,7 @@ import SubscriptionPage from "./pages/User/SubscriptionPage";
 import SettingsPage from "./pages/User/SettingsPage";
 import ShowNotification from "./context/NotificationContext";
 import LoaderContext  from "./context/LoaderContext";
+import Error404Page from "./pages/Error/Error404Page";
 
 function App() {
   const token = localStorage.getItem("token");
@@ -151,6 +152,8 @@ function App() {
                         )
                       }
                     />
+
+                    <Route exact path="/Error-404"  element={<Error404Page/>} />
                   </Routes>
                 </BrowserRouter>
               </ShowNotification>
