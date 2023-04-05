@@ -4,7 +4,7 @@ const Chat = require("../../models/chatSchema");
 exports.joinChat =async (id) => {
   try {
     const user = {
-      userId: id,
+      userId: mongoose.Types.ObjectId(id),
     };
      Chat.find().then(async (chat) => {
       if (chat.length) {
