@@ -695,8 +695,8 @@ module.exports = {
 
     notification.findOne({ userId: id }).then((data) => {
        let count = 0
-      if (data?.message) {
-        let  count = data.message.length;
+      if (data.message) {
+       count = data.message.length;
       } 
       res.send({ success: true, count });
     });
