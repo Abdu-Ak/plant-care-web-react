@@ -19,8 +19,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // router setting
-app.use("/admin", adminRouter);
-app.use("/", userRouter);
+app.use("/backend/admin", adminRouter);
+app.use("/backend", userRouter);
 
 
 //  db
