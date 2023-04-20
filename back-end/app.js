@@ -10,20 +10,26 @@ const cors = require("cors");
 const http = require("http");
 const socketio = require("socket.io");
 const { joinChat, leaveChat, getUsers, saveMesg } = require("./controllers/chat/chat");
+const errorHandler = require("./middleware/errorHandler");
 
 // cors setting
+
 app.use(cors());
 
 // parsing the incoming data
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // router setting
-app.use("/backend/admin", adminRouter);
-app.use("/backend", userRouter);
 
+app.use("/admin", adminRouter);
+app.use("/", userRouter);
+
+app.use(errorHandler)
 
 //  db
+
 db.dbConnect();
    
 // socket server

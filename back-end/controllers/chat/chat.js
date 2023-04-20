@@ -74,9 +74,10 @@ exports.getUsers = async () => {
   } catch (error) {}
 };
 
-exports.saveMesg =(mesg)=>{
-
-    
-
-
-} 
+exports.saveMesg = async (mesg) => {
+  try {
+    Chat.find().then(async (chat) => {
+      await Chat.updateOne({ _id: chat[0].id }, { $push: { messages: mesg } });
+    });
+  } catch (error) {}
+};

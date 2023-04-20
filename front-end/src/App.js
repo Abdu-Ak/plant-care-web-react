@@ -153,7 +153,7 @@ function App() {
                       }
                     />
 
-                    <Route exact path="/Error-404"  element={<Error404Page/>} />
+                    <Route exact path="/error404"  element={<Error404Page/>} />
                   </Routes>
                 </BrowserRouter>
               </ShowNotification>

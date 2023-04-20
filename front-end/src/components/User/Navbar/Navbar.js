@@ -29,7 +29,7 @@ function Navbar() {
     <div>
       <nav
         className={`fixed  z-50 w-full  ${
-          show ? "bg-third/40" : "bg-transparent"
+          show || toggle ? "bg-third/40" : "bg-transparent"
         } `}
       >
         <div className="flex items-center h-24  justify-between ">
@@ -103,7 +103,7 @@ function Navbar() {
             )}
           </div>
 
-          <div className="hidden md:flex pr-10">
+          <div className="hidden md:flex pr-10 ">
             <form action="" className="relative mx-auto w-max ">
               <input
                 type="search"
@@ -216,6 +216,7 @@ function Navbar() {
               </li>
             )}
 
+            <Link to={"/group-chat"}>
             <li className="flex pb-3 font-sans font-semibold text-base  text-primary hover:cursor-pointer hover:text-gray-500">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -233,6 +234,7 @@ function Navbar() {
               </svg>
               Chat
             </li>
+            </Link>
             <Link to={"/profile"}>
               <li className="flex pb-3 font-sans font-semibold text-base    text-primary hover:cursor-pointer hover:text-gray-500 ">
                 <svg
